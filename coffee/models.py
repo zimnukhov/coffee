@@ -11,6 +11,7 @@ class Roaster(models.Model):
 class Coffee(models.Model):
     name = models.CharField(max_length=512)
     roaster = models.ForeignKey(Roaster)
+    roaster_comment = models.TextField()
     descriptors = models.ManyToManyField('Descriptor', blank=True)
 
     def __str__(self):
@@ -27,6 +28,11 @@ class CoffeeBag(models.Model):
     def __str__(self):
         return '{} ({})'.format(self.coffee.name, self.coffee.roaster.name)
 
+    def get_weight_display(self):
+        if self.weight is None:
+            return ''
+        return '{}g'.format(self.weight)
+
 
 class BrewingMethod(models.Model):
     name = models.CharField(max_length=512)
@@ -37,11 +43,12 @@ class BrewingMethod(models.Model):
 
 class Brew(models.Model):
     datetime = models.DateTimeField()
-    coffee = models.ForeignKey(Coffee)
+    coffee_bag = models.ForeignKey(CoffeeBag)
     grinder_setting = models.IntegerField()
     method = models.ForeignKey(BrewingMethod)
     temperature = models.IntegerField(blank=True, null=True)
     found_descriptors = models.ManyToManyField('Descriptor')
+    rating = models.SmallIntegerField()
 
     def __str__(self):
         return self.datetime.strftime('%Y-%m-%d %H:%M')
