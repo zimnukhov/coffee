@@ -47,11 +47,14 @@ class Brew(models.Model):
     grinder_setting = models.IntegerField()
     method = models.ForeignKey(BrewingMethod)
     temperature = models.IntegerField(blank=True, null=True)
-    found_descriptors = models.ManyToManyField('Descriptor')
+    found_descriptors = models.ManyToManyField('Descriptor', blank=True)
     rating = models.SmallIntegerField()
 
     def __str__(self):
         return self.datetime.strftime('%Y-%m-%d %H:%M')
+
+    def get_rating_display(self):
+        return '{}/10'.format(self.rating)
 
 
 class Descriptor(models.Model):
