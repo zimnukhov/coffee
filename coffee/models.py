@@ -51,7 +51,11 @@ class Brew(models.Model):
     rating = models.SmallIntegerField()
 
     def __str__(self):
-        return self.datetime.strftime('%Y-%m-%d %H:%M')
+        return '{} {} - {}'.format(
+            self.datetime.strftime('%Y-%m-%d %H:%M'),
+            self.coffee_bag.coffee.name,
+            self.method.name,
+        )
 
     def get_rating_display(self):
         return '{}/10'.format(self.rating)
