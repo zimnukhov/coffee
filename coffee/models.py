@@ -47,6 +47,8 @@ class Brew(models.Model):
     grinder_setting = models.IntegerField()
     method = models.ForeignKey(BrewingMethod)
     temperature = models.IntegerField(blank=True, null=True)
+    coffee_weight = models.IntegerField(blank=True, null=True)
+    water_volume = models.IntegerField(blank=True, null=True)
     found_descriptors = models.ManyToManyField('Descriptor', blank=True)
     rating = models.SmallIntegerField()
 
