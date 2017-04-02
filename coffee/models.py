@@ -23,7 +23,10 @@ class Coffee(models.Model):
     descriptors = models.ManyToManyField('Descriptor', blank=True)
 
     def __str__(self):
-        return self.name
+        result = self.name
+        if self.roast_profile:
+            result += ' ' + self.roast_profile.name
+        return result
 
 
 class CoffeeBag(models.Model):
@@ -34,7 +37,7 @@ class CoffeeBag(models.Model):
     end_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return '{} ({})'.format(self.coffee.name, self.coffee.roaster.name)
+        return '{} ({})'.format(self.coffee, self.coffee.roaster.name)
 
     def get_weight_display(self):
         if self.weight is None:
@@ -57,6 +60,12 @@ class Brew(models.Model):
     temperature = models.IntegerField(blank=True, null=True)
     coffee_weight = models.IntegerField(blank=True, null=True)
     water_volume = models.IntegerField(blank=True, null=True)
+    brew_time = models.IntegerField(blank=True, null=True)
+    bloom = models.SmallIntegerField(choices=(
+        (0, 'Unknown'),
+        (1, 'Bloom'),
+        (2, 'No bloom'),
+    ), default=0)
     found_descriptors = models.ManyToManyField('Descriptor', blank=True)
     rating = models.SmallIntegerField()
 
@@ -69,6 +78,11 @@ class Brew(models.Model):
 
     def get_rating_display(self):
         return '{}/10'.format(self.rating)
+
+    def get_coffee_weight_display(self):
+        if not self.coffee_weight:
+            return ''
+        return '{}g'.format(self.coffee_weight)
 
 
 class Descriptor(models.Model):
