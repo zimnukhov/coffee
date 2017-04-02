@@ -19,7 +19,7 @@ class Coffee(models.Model):
     name = models.CharField(max_length=512)
     roaster = models.ForeignKey(Roaster)
     roast_profile = models.ForeignKey(RoastProfile, blank=True, null=True)
-    roaster_comment = models.TextField()
+    roaster_comment = models.TextField(null=True, blank=True)
     descriptors = models.ManyToManyField('Descriptor', blank=True)
 
     def __str__(self):
