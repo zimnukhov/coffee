@@ -8,9 +8,17 @@ class Roaster(models.Model):
         return self.name
 
 
+class RoastProfile(models.Model):
+    name = models.CharField(max_length=512)
+
+    def __str__(self):
+        return self.name
+
+
 class Coffee(models.Model):
     name = models.CharField(max_length=512)
     roaster = models.ForeignKey(Roaster)
+    roast_profile = models.ForeignKey(RoastProfile)
     roaster_comment = models.TextField()
     descriptors = models.ManyToManyField('Descriptor', blank=True)
 
