@@ -72,7 +72,7 @@ class Brew(models.Model):
         (2, 'No bloom'),
     ), default=0)
     found_descriptors = models.ManyToManyField('Descriptor', blank=True)
-    rating = models.SmallIntegerField()
+    rating = models.SmallIntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{} {} - {}'.format(
