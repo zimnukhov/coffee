@@ -1,0 +1,11 @@
+{% extends "coffee/base.html" %}
+{% block content %}
+<h3>{{ brew.coffee_bag.coffee.name }}, {{ brew.datetime }}</h3>
+
+<p>Found descriptors:</p>
+<ul>
+{% for descriptor in brew.found_descriptors.all %}
+<li>{{ descriptor }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

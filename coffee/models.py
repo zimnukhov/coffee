@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Roaster(models.Model):
@@ -75,6 +76,10 @@ class Brew(models.Model):
             self.coffee_bag.coffee.name,
             self.method.name,
         )
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('brew-details', [self.id])
 
     def get_rating_display(self):
         return '{}/10'.format(self.rating)

@@ -13,8 +13,8 @@
         <tr>
             <th>Date &amp; time</th>
             <th>Coffee</th>
-            <th>Brewing method</th>
-            <th>Temperature</th>
+            <th>Method</th>
+            <th>t &deg;C</th>
             <th>Grinder</th>
             <th>Coffee weight</th>
             <th>Rating</th>
@@ -23,13 +23,13 @@
     <tbody>
         {% for brew in brews %}
         <tr>
-            <td>{{ brew.datetime }}</td>
+            <td><a href="{{ brew.get_absolute_url }}">{{ brew.datetime }}</a></td>
             <td>{{ brew.coffee_bag.coffee }}</td>
             <td>{{ brew.method }}</td>
             <td>{{ brew.temperature }}</td>
             <td>{{ brew.grinder_setting }}</td>
             <td>{{ brew.get_coffee_weight_display }}</td>
-            <td>{{ brew.get_rating_display }}</td>
+            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.get_rating_display }}</td>
         </tr>
         {% endfor %}
     </tbody>

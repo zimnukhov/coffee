@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Coffee, CoffeeBag, Brew
 
 
@@ -15,4 +15,12 @@ def index(request):
     return render(request, 'coffee/index.html', {
         'bags': bags,
         'brews': brews,
+    })
+
+
+def brew_details(request, brew_id):
+    brew = get_object_or_404(Brew, id=brew_id)
+
+    return render(request, 'coffee/brew_details.html', {
+        'brew': brew,
     })
