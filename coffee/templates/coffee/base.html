@@ -9,6 +9,11 @@
     </head>
     <body>
         <div class="container">
+        <header>
+            <nav>
+                <a href="{% url 'coffee-index' %}">Coffee log</a>
+            </nav>
+        </header>
         {% block content %}{% endblock %}
         </div>
     </body>

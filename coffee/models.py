@@ -40,6 +40,10 @@ class CoffeeBag(models.Model):
     def __str__(self):
         return '{} ({})'.format(self.coffee, self.coffee.roaster.name)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('coffee-bag', [self.id])
+
     def get_weight_display(self):
         if self.weight is None:
             return ''

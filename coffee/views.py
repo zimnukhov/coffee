@@ -24,3 +24,21 @@ def brew_details(request, brew_id):
     return render(request, 'coffee/brew_details.html', {
         'brew': brew,
     })
+
+
+def coffee_bag(request, bag_id):
+    bag = get_object_or_404(CoffeeBag, id=bag_id)
+    brews = bag.brew_set.select_related('coffee_bag', 'method').all().order_by('-datetime')
+
+    max_rating = None
+    best_brew = None
+
+    for brew in brews:
+        if max_rating is None or brew.rating > max_rating:
+            max_rating = brew.rating
+
+    return render(request, 'coffee/coffee_bag.html', {
+        'bag': bag,
+        'brews': brews,
+        'max_rating': max_rating,
+    })
