@@ -2,6 +2,44 @@
 {% block content %}
 <h3>{{ brew.coffee_bag.coffee.name }}, {{ brew.datetime }}</h3>
 
+<table>
+    <tr>
+        <td>Coffee:</td><td>{{ brew.coffee_bag.coffee.name }}</td>
+    </tr>
+    {% if brew.coffee_bag.coffee.roast_profile %}
+    <tr>
+        <td>Roast profile:</td><td>{{ brew.coffee_bag.coffee.roast_profile }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td>Roast date:</td><td>{{ brew.coffee_bag.roast_date }}</td>
+    </tr>
+    <tr>
+        <td>Grinder setting:</td><td>{{ brew.grinder_setting }}</td>
+    </tr>
+    <tr>
+        <td>Brew method</td><td>{{ brew.method }}</td>
+    </tr>
+    <tr>
+        <td>t &deg;C</td><td>{{ brew.temperature }}</td> 
+    </tr>
+    <tr>
+        <td>Coffee Weight</td><td>{{ brew.coffee_weight }}g</td> 
+    </tr>
+    <tr>
+        <td>Water Volume</td><td>{{ brew.water_volume }}</td> 
+    </tr>
+    <tr>
+        <td>Brew Time</td><td>{{ brew.brew_time }}s</td> 
+    </tr>
+    <tr>
+        <td>Bloom</td><td>{{ brew.get_bloom_display }}</td> 
+    </tr>
+    <tr>
+        <td>Rating</td><td>{{ brew.rating }}/10</td> 
+    </tr>
+</table>
+
 <p>Found descriptors:</p>
 <ul>
 {% for descriptor in brew.found_descriptors.all %}
