@@ -1,6 +1,7 @@
 import datetime
 from django.shortcuts import render, get_object_or_404
 from .models import Coffee, CoffeeBag, Brew
+from .forms import BrewForm
 
 
 def index(request):
@@ -25,6 +26,34 @@ def brew_details(request, brew_id):
         'brew': brew,
     })
 
+
+def create_brew(request):
+    form = BrewForm(initial={
+        'datetime': datetime.datetime.now(),
+        'grinder_setting': 15,
+        'temperature': 92,
+        'coffee_weight': 15,
+        'bloom': Brew.BLOOM,
+    })
+
+    if request.method == 'POST':
+        pass
+
+    return render(request, 'coffee/edit_brew.html', {
+        'form': form,
+    })
+
+
+def edit_brew(request, brew_id):
+    brew = get_object_or_404(Brew, id=brew_id)
+    form = BrewForm(instance=brew)
+
+    if request.method == 'POST':
+        pass
+
+    return render(request, 'coffee/edit_brew.html', {
+        'form': form,
+    })
 
 def coffee_bag(request, bag_id):
     bag = get_object_or_404(CoffeeBag, id=bag_id)

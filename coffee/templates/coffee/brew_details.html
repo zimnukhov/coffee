@@ -2,6 +2,8 @@
 {% block content %}
 <h3>{{ brew.coffee_bag.coffee.name }}, {{ brew.datetime }}</h3>
 
+<div class="edit-link"><a href="{% url 'brew-edit' brew.id %}">Edit</a></div>
+
 <table>
     <tr>
         <td>Coffee:</td><td>{{ brew.coffee_bag.coffee.name }}</td>
@@ -36,7 +38,7 @@
         <td>Bloom</td><td>{{ brew.get_bloom_display }}</td> 
     </tr>
     <tr>
-        <td>Rating</td><td>{{ brew.rating }}/10</td> 
+        <td>Rating</td><td>{{ brew.rating }}/{{ brew.RATING_MAX }}</td> 
     </tr>
 </table>
 

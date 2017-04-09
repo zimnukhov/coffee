@@ -58,6 +58,11 @@ class BrewingMethod(models.Model):
 
 
 class Brew(models.Model):
+    BLOOM_UNKNOWN = 0
+    BLOOM = 1
+    NO_BLOOM = 2
+    RATING_MAX = 10
+
     datetime = models.DateTimeField()
     coffee_bag = models.ForeignKey(CoffeeBag)
     grinder_setting = models.IntegerField()
@@ -67,12 +72,12 @@ class Brew(models.Model):
     water_volume = models.IntegerField(blank=True, null=True)
     brew_time = models.IntegerField(blank=True, null=True)
     bloom = models.SmallIntegerField(choices=(
-        (0, 'Unknown'),
-        (1, 'Bloom'),
-        (2, 'No bloom'),
+        (BLOOM_UNKNOWN, 'Unknown'),
+        (BLOOM, 'Bloom'),
+        (NO_BLOOM, 'No bloom'),
     ), default=0)
     found_descriptors = models.ManyToManyField('Descriptor', blank=True)
-    rating = models.SmallIntegerField(blank=True, null=True)
+    rating = models.SmallIntegerField(blank=True, null=True, choices=((i, i) for i in range(1, 11)))
 
     def __str__(self):
         return '{} {} - {}'.format(

@@ -7,7 +7,7 @@
     {% endfor %}
 </ul>
 
-<p>Recent brews:</p>
+<p><a href="{% url 'brew-create' %}">Add brew</a></p>
 <table class="u-full-width">
     <thead>
         <tr>
@@ -29,7 +29,7 @@
             <td>{{ brew.temperature }}</td>
             <td>{{ brew.grinder_setting }}</td>
             <td>{{ brew.get_coffee_weight_display }}</td>
-            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.get_rating_display }}</td>
+            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.rating }}/{{ brew.RATING_MAX }}</td>
         </tr>
         {% endfor %}
     </tbody>
