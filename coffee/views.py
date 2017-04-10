@@ -28,32 +28,33 @@ def brew_details(request, brew_id):
 
 
 def create_brew(request):
-    form = BrewForm(initial={
-        'datetime': datetime.datetime.now(),
-        'grinder_setting': 15,
-        'temperature': 92,
-        'coffee_weight': 15,
-        'bloom': Brew.BLOOM,
-    })
-
-    if request.method == 'POST':
-        pass
-
-    return render(request, 'coffee/edit_brew.html', {
-        'form': form,
-    })
+    brew = Brew(
+        datetime=datetime.datetime.now(),
+        grinder_setting=15,
+        temperature=92,
+        coffee_weight=15,
+        bloom=Brew.BLOOM,
+    )
+    return brew_form(request, brew)
 
 
 def edit_brew(request, brew_id):
     brew = get_object_or_404(Brew, id=brew_id)
-    form = BrewForm(instance=brew)
+    return brew_form(request, brew)
 
+
+def brew_form(request, brew):
     if request.method == 'POST':
-        pass
+        form = BrewForm(request.POST, instance=brew)
+        if form.is_valid():
+            brew = form.save()
+    else:
+        form = BrewForm(instance=brew)
 
     return render(request, 'coffee/edit_brew.html', {
         'form': form,
     })
+
 
 def coffee_bag(request, bag_id):
     bag = get_object_or_404(CoffeeBag, id=bag_id)

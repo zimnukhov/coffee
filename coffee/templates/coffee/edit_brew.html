@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 <form action="" method="post" id="brew-form">
+{% csrf_token %}
 {{ form.as_p }}
 <button type="submit">Save</button>
 </form>
