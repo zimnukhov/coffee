@@ -1,6 +1,36 @@
 {% extends "coffee/base.html" %}
+{% load static %}
 {% block content %}
-<form action="" method="post">
+<form action="" method="post" id="brew-form">
 {{ form.as_p }}
 <button type="submit">Save</button>
+</form>
+<script>
+var make_slider = function(input_id, min, max) {
+    var slider = $("<div>");
+	var handle = $("<div>").addClass("ui-slider-handle").addClass("custom-slider-handle");
+    handle.appendTo(slider);
+
+    $(input_id).after(slider);
+    slider.slider({
+        min: min,
+        max: max,
+        value: parseInt($(input_id).val()),
+        slide: function(event, ui) {
+            $(input_id).val(ui.value);
+		    handle.text( ui.value );
+        },
+		create: function() {
+			handle.text($(this).slider("value"));
+		}
+    });
+    $(input_id).change(function() {
+        slider.slider("value", $(this).val());
+    }).hide();
+}
+$(function(){
+    make_slider("#id_grinder_setting", 1, 40);
+    make_slider("#id_temperature", 60, 100);
+});
+</script>
 {% endblock %}
