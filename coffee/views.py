@@ -58,11 +58,13 @@ def brew_form(request, brew):
 
 def coffee_details(request, coffee_id):
     coffee = get_object_or_404(Coffee, id=coffee_id)
+    bag_count = coffee.coffeebag_set.count()
 
     brews = Brew.objects.filter(coffee_bag__coffee=coffee).order_by('-datetime')
 
     return render(request, 'coffee/coffee_details.html', {
         'coffee': coffee,
+        'bag_count': bag_count,
         'brews': brews,
     })
 
