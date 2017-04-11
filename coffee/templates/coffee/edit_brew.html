@@ -3,8 +3,72 @@
 {% block content %}
 <form action="" method="post" id="brew-form">
 {% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Save</button>
+<div class="row">
+    <div class="col-xs-4">
+        {{ form.datetime.label_tag }}
+        {{ form.datetime }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        {{ form.coffee_bag.label_tag }}
+        {{ form.coffee_bag }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        {{ form.method.label_tag }}
+        {{ form.method }}
+    </div>
+</div>
+<div class="row sliders-wrap">
+    <div class="col-xs-4">
+        {{ form.grinder_setting.label_tag }}
+        {{ form.grinder_setting }}
+    </div>
+    <div class="col-xs-4">
+        {{ form.temperature.label_tag }}
+        {{ form.temperature }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+        {{ form.coffee_weight.label_tag }}
+        {{ form.coffee_weight }}
+    </div>
+    <div class="col-xs-4">
+        {{ form.water_volume.label_tag }}
+        {{ form.water_volume }}
+    </div>
+    <div class="col-xs-4">
+        {{ form.brew_time.label_tag }}
+        {{ form.brew_time }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+        {{ form.bloom.label_tag }}
+        {{ form.bloom }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+    {{ form.found_descriptors.label_tag }}
+    {{ form.found_descriptors }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+    {{ form.rating.label_tag }}
+    {{ form.rating }}
+    </div>
+</div>
+
+<button type="submit" class="btn btn-primary">Save</button>
 </form>
 <script>
 var make_slider = function(input_id, min, max) {

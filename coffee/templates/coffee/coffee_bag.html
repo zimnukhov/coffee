@@ -2,7 +2,7 @@
 {% block content %}
 <h3>{{ bag }}</h3>
 
-<table>
+<table class="table">
     <tr>
         <td>Roast date:</td><td>{% if bag.roast_date %}{{ bag.roast_date }}{% else %}-{% endif %}</td>
     </tr>
@@ -16,7 +16,7 @@
     {% endif %}
 </table>
 
-<table class="u-full-width">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Date &amp; time</th>

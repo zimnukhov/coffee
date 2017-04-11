@@ -10,6 +10,10 @@ nav ul li {
     display: inline-block;
 }
 
+#brew-form .row {
+    padding: 1em 0;
+}
+
 #brew-form .custom-slider-handle {
     width: 3em;
     height: 1.6em;

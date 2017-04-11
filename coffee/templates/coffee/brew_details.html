@@ -4,7 +4,7 @@
 
 <div class="edit-link"><a href="{% url 'brew-edit' brew.id %}">Edit</a></div>
 
-<table>
+<table class="table">
     <tr>
         <td>Coffee:</td><td>{{ brew.coffee_bag.coffee.name }}</td>
     </tr>
@@ -29,7 +29,7 @@
         <td>Coffee Weight</td><td>{{ brew.coffee_weight }}g</td> 
     </tr>
     <tr>
-        <td>Water Volume</td><td>{{ brew.water_volume }}</td> 
+        <td>Water Volume</td><td>{{ brew.water_volume }}ml</td> 
     </tr>
     <tr>
         <td>Brew Time</td><td>{{ brew.brew_time }}s</td> 
