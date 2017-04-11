@@ -1,28 +1,21 @@
+
 {% extends "coffee/base.html" %}
 {% block content %}
-<h3>{{ bag }}</h3>
+<h3>{{ coffee.name }}</h3>
 
 <table class="table">
     <tr>
-        <td>Coffee:</td><td><a href="{{ bag.coffee.get_absolute_url }}">{{ bag.coffee }}</a></td>
+        <td>Roaster</td>
+        <td>{{ coffee.roaster }}</td>
     </tr>
-    <tr>
-        <td>Roast date:</td><td>{% if bag.roast_date %}{{ bag.roast_date }}{% else %}-{% endif %}</td>
-    </tr>
-    <tr>
-        <td>Purchase date:</td><td>{{ bag.purchase_date }}</td>
-    </tr>
-    {% if bag.end_date %}
-    <tr>
-        <td>End date:</td><td>{{ bag.end_date }}</td>
-    </tr>
-    {% endif %}
+
 </table>
 
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Date &amp; time</th>
+            <th>Bag</th>
             <th>Method</th>
             <th>t &deg;C</th>
             <th>Grinder</th>
@@ -34,12 +27,18 @@
         {% for brew in brews %}
         <tr>
             <td><a href="{{ brew.get_absolute_url }}">{{ brew.datetime }}</a></td>
+            <td><a href="{{ brew.coffee_bag.get_absolute_url }}">
+                    {% if brew.coffee_bag.roast_date %}
+                    Roasted on {{ brew.coffee_bag.roast_date }}
+                    {% else %}
+                    Purchased on {{ brew.coffee_bag.purchase_date }}
+                    {% endif %}
+            </a></td>
             <td>{{ brew.method }}</td>
             <td>{{ brew.temperature }}</td>
             <td>{{ brew.grinder_setting }}</td>
             <td>{{ brew.get_coffee_weight_display }}</td>
-            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.get_rating_display }}
-                {% if brew.rating == max_rating %}&#9734;{% endif %}</td>
+            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.rating }}/{{ brew.RATING_MAX }}</td>
         </tr>
         {% endfor %}
     </tbody>

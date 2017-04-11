@@ -56,6 +56,17 @@ def brew_form(request, brew):
     })
 
 
+def coffee_details(request, coffee_id):
+    coffee = get_object_or_404(Coffee, id=coffee_id)
+
+    brews = Brew.objects.filter(coffee_bag__coffee=coffee).order_by('-datetime')
+
+    return render(request, 'coffee/coffee_details.html', {
+        'coffee': coffee,
+        'brews': brews,
+    })
+
+
 def coffee_bag(request, bag_id):
     bag = get_object_or_404(CoffeeBag, id=bag_id)
     brews = bag.brew_set.select_related('coffee_bag', 'method').all().order_by('-datetime')

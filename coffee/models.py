@@ -23,6 +23,10 @@ class Coffee(models.Model):
     roaster_comment = models.TextField(null=True, blank=True)
     descriptors = models.ManyToManyField('Descriptor', blank=True)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('coffee-details', [self.id])
+
     def __str__(self):
         result = self.name
         if self.roast_profile:
