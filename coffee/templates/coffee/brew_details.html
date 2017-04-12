@@ -40,6 +40,11 @@
     <tr>
         <td>Rating</td><td>{{ brew.rating }}/{{ brew.RATING_MAX }}</td> 
     </tr>
+    {% if brew.comment %}
+    <tr>
+        <td>Comment</td><td>{{ brew.comment }}</td>
+    </tr>
+    {% endif %}
 </table>
 
 <p>Found descriptors:</p>

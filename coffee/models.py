@@ -82,6 +82,7 @@ class Brew(models.Model):
     ), default=0)
     found_descriptors = models.ManyToManyField('Descriptor', blank=True)
     rating = models.SmallIntegerField(blank=True, null=True, choices=((i, i) for i in range(1, 11)))
+    comment = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return '{} {} - {}'.format(
