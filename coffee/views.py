@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Coffee, CoffeeBag, Brew
 from .forms import BrewForm
 
@@ -48,6 +48,7 @@ def brew_form(request, brew):
         form = BrewForm(request.POST, instance=brew)
         if form.is_valid():
             brew = form.save()
+            return redirect(brew)
     else:
         form = BrewForm(instance=brew)
 
