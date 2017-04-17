@@ -1,19 +1,11 @@
 {% extends "coffee/base.html" %}
 {% block content %}
-<p>Available coffee:</p>
-<ul>
-    {% for bag in bags %}
-    <li><a href="{{ bag.get_absolute_url }}">{{ bag.coffee.name }} {{ bag.get_weight_display }} ({{ bag.coffee.roaster.name }})</a></li>
-    {% endfor %}
-</ul>
-
-<p><a href="{% url 'brew-create' %}">Add brew</a></p>
+<h3>{{ method.name }}</h3>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Date &amp; time</th>
             <th>Coffee</th>
-            <th>Method</th>
             <th>t &deg;C</th>
             <th>Grinder</th>
             <th>Coffee weight</th>
@@ -25,11 +17,11 @@
         <tr>
             <td><a href="{{ brew.get_absolute_url }}">{{ brew.datetime }}</a></td>
             <td><a href="{{ brew.coffee_bag.get_absolute_url }}">{{ brew.coffee_bag.coffee }}</a></td>
-            <td><a href="{{ brew.method.get_absolute_url }}">{{ brew.method }}</a></td>
             <td>{{ brew.temperature }}</td>
             <td>{{ brew.grinder_setting }}</td>
             <td>{{ brew.get_coffee_weight_display }}</td>
-            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.rating }}/{{ brew.RATING_MAX }}</td>
+            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.get_rating_display }}
+                {% if brew.rating == max_rating %}&#9734;{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>

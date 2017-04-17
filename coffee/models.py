@@ -63,6 +63,10 @@ class BrewingMethod(models.Model):
     def __str__(self):
         return self.name
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('brewing-method', [self.id])
+
 
 class Brew(models.Model):
     BLOOM_UNKNOWN = 0

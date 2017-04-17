@@ -1,6 +1,6 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Coffee, CoffeeBag, Brew
+from .models import Coffee, CoffeeBag, Brew, BrewingMethod
 from .forms import BrewForm
 
 
@@ -81,6 +81,24 @@ def coffee_bag(request, bag_id):
 
     return render(request, 'coffee/coffee_bag.html', {
         'bag': bag,
+        'brews': brews,
+        'max_rating': max_rating,
+    })
+
+
+def method_details(request, method_id):
+    method = get_object_or_404(BrewingMethod, id=method_id)
+    brews = method.brew_set.select_related('coffee_bag').all().order_by('-datetime')
+
+    max_rating = None
+    best_brew = None
+
+    for brew in brews:
+        if max_rating is None or brew.rating > max_rating:
+            max_rating = brew.rating
+
+    return render(request, 'coffee/method.html', {
+        'method': method,
         'brews': brews,
         'max_rating': max_rating,
     })
