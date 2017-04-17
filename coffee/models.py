@@ -42,7 +42,10 @@ class CoffeeBag(models.Model):
     end_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return '{} ({})'.format(self.coffee, self.coffee.roaster.name)
+        name = '{} ({})'.format(self.coffee, self.coffee.roaster.name)
+        if self.roast_date is not None:
+            name += ' ' + self.roast_date.strftime('%Y-%m-%d')
+        return name
 
     @models.permalink
     def get_absolute_url(self):
