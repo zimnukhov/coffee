@@ -9,9 +9,7 @@ def index(request):
     bags = CoffeeBag.objects.select_related('coffee__roaster').filter(end_date__isnull=True)
 
 
-    brews = Brew.objects.select_related('coffee_bag', 'method').filter(
-        datetime__gt=datetime.datetime.now() - datetime.timedelta(days=7)
-    ).order_by('-datetime')
+    brews = Brew.objects.select_related('coffee_bag', 'method').order_by('-datetime')
 
     return render(request, 'coffee/index.html', {
         'bags': bags,
