@@ -1,9 +1,12 @@
 {% extends "coffee/base.html" %}
 {% block content %}
-<p>Available coffee:</p>
-<ul>
+<ul class="coffee-bags">
     {% for bag in bags %}
-    <li><a href="{{ bag.get_absolute_url }}">{{ bag.coffee.name }} {{ bag.get_weight_display }} ({{ bag.coffee.roaster.name }})</a></li>
+    <li>
+        <div class="bag-name"><a href="{{ bag.get_absolute_url }}">{{ bag.coffee.name }}</a></div>
+        <div class="bag-weight">{{ bag.get_weight_display }}</div>
+        <div class="bag-roaster">{{ bag.coffee.roaster.name }}</div>
+    </li>
     {% endfor %}
 </ul>
 

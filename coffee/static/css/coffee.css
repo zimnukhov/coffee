@@ -20,6 +20,34 @@ header .logo-link {
 .content-wrapper {
     padding: 0 1em;
 }
+
+.coffee-bags {
+    margin: 10px auto;
+    height: 75px;
+    list-style: none;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.coffee-bags li {
+    display: inline-block;
+    height: 75px;
+    margin: 0 30px;
+}
+
+.coffee-bags li .bag-name {
+    font-weight: bold;
+    text-align: center;
+}
+
+.coffee-bags li .bag-weight {
+    text-align: center;
+}
+
+.coffee-bags li .bag-roaster {
+    text-align: center;
+}
+
 .rating_best {
     font-weight: bold;
 }
