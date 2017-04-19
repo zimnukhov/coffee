@@ -1,13 +1,12 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Coffee, CoffeeBag, Brew, BrewingMethod
+from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water
 from .forms import BrewForm
 
 
 def index(request):
     today = datetime.date.today()
     bags = CoffeeBag.objects.select_related('coffee__roaster').filter(end_date__isnull=True)
-
 
     brews = Brew.objects.select_related('coffee_bag', 'method').order_by('-datetime')
 
@@ -26,12 +25,16 @@ def brew_details(request, brew_id):
 
 
 def create_brew(request):
+    water = None
+    if Water.objects.count() > 0:
+        water = Water.objects.all()[0]
     brew = Brew(
         datetime=datetime.datetime.now(),
-        grinder_setting=15,
+        grinder_setting=14,
         temperature=92,
         coffee_weight=15,
         bloom=Brew.BLOOM,
+        water=water,
     )
     return brew_form(request, brew)
 

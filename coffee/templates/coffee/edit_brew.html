@@ -52,6 +52,10 @@
         {{ form.bloom.label_tag }}
         {{ form.bloom }}
     </div>
+    <div class="col-xs-4">
+        {{ form.water.label_tag }}
+        {{ form.water }}
+    </div>
 </div>
 
 <div class="row">
@@ -99,7 +103,8 @@ var make_slider = function(input_id, min, max) {
 }
 $(function(){
     make_slider("#id_grinder_setting", 1, 40);
-    make_slider("#id_temperature", 60, 100);
+    make_slider("#id_temperature", 70, 100);
+    make_slider("#id_coffee_weight", 10, 40);
 });
 </script>
 {% endblock %}
