@@ -16,6 +16,10 @@ header nav a:hover {
 header .logo-link {
     font-size: 3em;
 }
+
+.content-wrapper {
+    padding: 0 1em;
+}
 .rating_best {
     font-weight: bold;
 }

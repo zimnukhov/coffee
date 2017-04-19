@@ -14,9 +14,10 @@
             <th>Date &amp; time</th>
             <th>Coffee</th>
             <th>Method</th>
-            <th>t &deg;C</th>
-            <th>Grinder</th>
-            <th>Coffee weight</th>
+            <th class="hidden-xs hidden-sm">t &deg;C</th>
+            <th class="hidden-xs hidden-sm">Grinder</th>
+            <th class="hidden-xs hidden-sm hidden-md">Water</th>
+            <th class="hidden-xs hidden-sm">Coffee weight</th>
             <th>Rating</th>
         </tr>
     </thead>
@@ -26,9 +27,10 @@
             <td><a href="{{ brew.get_absolute_url }}">{{ brew.datetime }}</a></td>
             <td><a href="{{ brew.coffee_bag.get_absolute_url }}">{{ brew.coffee_bag.coffee }}</a></td>
             <td><a href="{{ brew.method.get_absolute_url }}">{{ brew.method }}</a></td>
-            <td>{{ brew.temperature }}</td>
-            <td>{{ brew.grinder_setting }}</td>
-            <td>{{ brew.get_coffee_weight_display }}</td>
+            <td class="hidden-xs hidden-sm">{{ brew.temperature }}</td>
+            <td class="hidden-xs hidden-sm">{{ brew.grinder_setting }}</td>
+            <td class="hidden-xs hidden-sm hidden-md">{{ brew.water }}</td>
+            <td class="hidden-xs hidden-sm">{{ brew.get_coffee_weight_display }}</td>
             <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.rating }}/{{ brew.RATING_MAX }}</td>
         </tr>
         {% endfor %}
