@@ -57,6 +57,13 @@ class CoffeeBag(models.Model):
         return '{}g'.format(self.weight)
 
 
+class Water(models.Model):
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
+
 class BrewingMethod(models.Model):
     name = models.CharField(max_length=512)
 
@@ -81,6 +88,7 @@ class Brew(models.Model):
     temperature = models.IntegerField(blank=True, null=True)
     coffee_weight = models.IntegerField(blank=True, null=True)
     water_volume = models.IntegerField(blank=True, null=True)
+    water = models.ForeignKey(Water, blank=True, null=True)
     brew_time = models.IntegerField(blank=True, null=True)
     bloom = models.SmallIntegerField(choices=(
         (BLOOM_UNKNOWN, 'Unknown'),
