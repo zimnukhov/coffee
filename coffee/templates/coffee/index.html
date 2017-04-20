@@ -28,7 +28,12 @@
         {% for brew in brews %}
         <tr>
             <td><a href="{{ brew.get_absolute_url }}">{{ brew.datetime }}</a></td>
-            <td><a href="{{ brew.coffee_bag.get_absolute_url }}">{{ brew.coffee_bag.coffee }}</a></td>
+            <td><a href="{{ brew.coffee_bag.get_absolute_url }}">
+                    {{ brew.coffee_bag.coffee.name }}
+                    {% if brew.show_roast_profile and brew.coffee_bag.coffee.roast_profile %}
+                    {{ brew.coffee_bag.coffee.roast_profile }}
+                    {% endif %}
+                </a></td>
             <td><a href="{{ brew.method.get_absolute_url }}">{{ brew.method }}</a></td>
             <td class="hidden-xs hidden-sm">{{ brew.temperature }}</td>
             <td class="hidden-xs hidden-sm">{{ brew.grinder_setting }}</td>

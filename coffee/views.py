@@ -8,7 +8,20 @@ def index(request):
     today = datetime.date.today()
     bags = CoffeeBag.objects.select_related('coffee__roaster').filter(end_date__isnull=True)
 
-    brews = Brew.objects.select_related('coffee_bag', 'method').order_by('-datetime')
+    brews = Brew.objects.select_related('coffee_bag', 'coffee_bag__coffee', 'method', 'water').order_by('-datetime')
+    coffee_params = {}
+    show_roast_profile = set()
+
+    for brew in brews:
+        coffee_name = brew.coffee_bag.coffee.name
+        roast_profile = brew.coffee_bag.coffee.roast_profile_id
+        if coffee_params.get(coffee_name, roast_profile) != roast_profile:
+            show_roast_profile.add(brew.coffee_bag.coffee_id)
+
+        coffee_params[coffee_name] = roast_profile
+
+    for brew in brews:
+        brew.show_roast_profile = brew.coffee_bag.coffee_id in show_roast_profile
 
     return render(request, 'coffee/index.html', {
         'bags': bags,
