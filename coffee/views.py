@@ -76,6 +76,13 @@ def edit_brew(request, brew_id):
     return brew_form(request, brew)
 
 
+def copy_brew(request, brew_id):
+    brew = get_object_or_404(Brew, id=brew_id)
+    brew.id = None
+    brew.rating = None
+    return brew_form(request, brew)
+
+
 def brew_form(request, brew):
     if request.method == 'POST':
         form = BrewForm(request.POST, instance=brew)
