@@ -2,6 +2,9 @@
 {% block content %}
 <h3>{{ bag }}</h3>
 
+<p>
+<a href="{% url 'brew-create-for-bag' bag.id %}">Add brew</a>
+</p>
 <table class="table">
     <tr>
         <td>Coffee:</td><td><a href="{{ bag.coffee.get_absolute_url }}">{{ bag.coffee }}</a></td>

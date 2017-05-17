@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.urls import reverse
 
@@ -126,6 +127,16 @@ class Brew(models.Model):
                 stars[i] = True
 
         return stars
+
+    @classmethod
+    def get_default(cls):
+        return cls(
+            datetime=datetime.datetime.now(),
+            grinder_setting=14,
+            temperature=92,
+            coffee_weight=15,
+            bloom=cls.BLOOM,
+        )
 
 
 class Descriptor(models.Model):

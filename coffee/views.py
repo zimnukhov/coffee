@@ -38,18 +38,36 @@ def brew_details(request, brew_id):
     })
 
 
+def create_brew_for_bag(request, bag_id):
+    bag = get_object_or_404(CoffeeBag, id=bag_id)
+    brews = bag.brew_set.select_related('coffee_bag', 'method').filter(rating__isnull=False).order_by('-rating')
+
+    brew = Brew.get_default()
+    brew.coffee_bag = bag
+
+    if len(brews) > 0:
+        best_brew = brews[0]
+        brew.grinder_setting = best_brew.grinder_setting
+        brew.method = best_brew.method
+        brew.temperature = best_brew.temperature
+        brew.coffee_weight = best_brew.coffee_weight
+        brew.bloom = best_brew.bloom
+        brew.water = best_brew.water
+    else:
+        brew.water = water
+
+    return brew_form(request, brew)
+
+
 def create_brew(request):
     water = None
+
     if Water.objects.count() > 0:
         water = Water.objects.all()[0]
-    brew = Brew(
-        datetime=datetime.datetime.now(),
-        grinder_setting=14,
-        temperature=92,
-        coffee_weight=15,
-        bloom=Brew.BLOOM,
-        water=water,
-    )
+
+    brew = Brew.get_default()
+    brew.water = water
+
     return brew_form(request, brew)
 
 
