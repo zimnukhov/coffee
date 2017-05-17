@@ -118,6 +118,15 @@ class Brew(models.Model):
             return ''
         return '{}g'.format(self.coffee_weight)
 
+    def get_rating_stars(self):
+        stars = [False] * self.RATING_MAX
+
+        if self.rating is not None:
+            for i in range(min(self.rating, self.RATING_MAX)):
+                stars[i] = True
+
+        return stars
+
 
 class Descriptor(models.Model):
     name = models.CharField(max_length=512)

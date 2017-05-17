@@ -17,3 +17,9 @@ class BrewForm(forms.ModelForm):
     class Meta:
         model = Brew
         exclude = ['id']
+
+
+class BrewRatingForm(forms.ModelForm):
+    class Meta:
+        model = Brew
+        fields = ['rating']

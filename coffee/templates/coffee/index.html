@@ -39,7 +39,7 @@
             <td class="hidden-xs hidden-sm">{{ brew.grinder_setting }}</td>
             <td class="hidden-xs hidden-sm hidden-md">{{ brew.water }}</td>
             <td class="hidden-xs hidden-sm">{{ brew.get_coffee_weight_display }}</td>
-            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.rating }}/{{ brew.RATING_MAX }}</td>
+            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{% if brew.rating %}{{ brew.rating }}/{{ brew.RATING_MAX }}{% else %}-{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>

@@ -38,7 +38,11 @@
         <td>Bloom</td><td>{{ brew.get_bloom_display }}</td> 
     </tr>
     <tr>
-        <td>Rating</td><td>{{ brew.rating }}/{{ brew.RATING_MAX }}</td> 
+        <td>Rating</td><td class="rating-stars">
+            {% for starred in brew.get_rating_stars %}
+            <span>{% if starred %}&#9733;{% else %}&#9734;{% endif %}</span>
+            {% endfor %}
+        </td>
     </tr>
     {% if brew.comment %}
     <tr>
@@ -53,4 +57,30 @@
 <li>{{ descriptor }}</li>
 {% endfor %}
 </ul>
+{% csrf_token %}
+<script>
+$(".rating-stars span").click(function() {
+    var rating = $(this).index() + 1;
+    var csrf_token = $("input[name=csrfmiddlewaretoken]").val();
+    $.ajax({
+        url: "{% url 'brew-rate' brew.id %}",
+        type: "POST",
+        dataType: "text",
+        data: "csrfmiddlewaretoken=" + csrf_token + "&rating="+rating,
+        success: function(response) {
+            if (response == "ok") {
+                $(".rating-stars span").each(function(index, elem) {
+                    if (index < rating) {
+                        $(elem).html("&#9733;");
+                    }
+                    else {
+                        $(elem).html("&#9734;");
+                    }
+                });
+            }
+        },
+
+    });
+});
+</script>
 {% endblock %}

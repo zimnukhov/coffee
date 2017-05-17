@@ -1,12 +1,13 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water
-from .forms import BrewForm
+from .forms import BrewForm, BrewRatingForm
 
 
 def index(request):
     today = datetime.date.today()
-    bags = CoffeeBag.objects.select_related('coffee__roaster').filter(end_date__isnull=True)
+    bags = CoffeeBag.objects.select_related('coffee__roaster').filter(end_date__isnull=True).order_by('-purchase_date')
 
     brews = Brew.objects.select_related('coffee_bag', 'coffee_bag__coffee', 'method', 'water').order_by('-datetime')
     coffee_params = {}
@@ -69,6 +70,18 @@ def brew_form(request, brew):
     return render(request, 'coffee/edit_brew.html', {
         'form': form,
     })
+
+
+def rate_brew(request, brew_id):
+    brew = get_object_or_404(Brew, id=brew_id)
+
+    form = BrewRatingForm(request.POST, instance=brew)
+
+    if not form.is_valid():
+        return HttpResponse(400)
+
+    brew = form.save()
+    return HttpResponse("ok")
 
 
 def coffee_details(request, coffee_id):
