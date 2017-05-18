@@ -119,6 +119,11 @@ class Brew(models.Model):
             return ''
         return '{}g'.format(self.coffee_weight)
 
+    def get_brew_time_display(self):
+        if self.brew_time is None:
+            return ''
+        return '%d:%02d' % (self.brew_time / 60, self.brew_time % 60)
+
     def get_rating_stars(self):
         stars = [False] * self.RATING_MAX
 

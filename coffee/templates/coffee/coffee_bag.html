@@ -30,6 +30,7 @@
             <th>t &deg;C</th>
             <th>Grinder</th>
             <th>Coffee weight</th>
+            <th>Brew time</th>
             <th>Rating</th>
         </tr>
     </thead>
@@ -41,6 +42,7 @@
             <td>{{ brew.temperature }}</td>
             <td>{{ brew.grinder_setting }}</td>
             <td>{{ brew.get_coffee_weight_display }}</td>
+            <td>{{ brew.get_brew_time_display }}</td>
             <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.get_rating_display }}
                 {% if brew.rating == max_rating %}&#9734;{% endif %}</td>
         </tr>

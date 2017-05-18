@@ -23,6 +23,7 @@
             <th class="hidden-xs hidden-sm">Grinder</th>
             <th class="hidden-xs hidden-sm hidden-md">Water</th>
             <th class="hidden-xs hidden-sm">Coffee weight</th>
+            <th class="hidden-xs hidden-sm">Brew time</th>
             <th>Rating</th>
         </tr>
     </thead>
@@ -41,6 +42,7 @@
             <td class="hidden-xs hidden-sm">{{ brew.grinder_setting }}</td>
             <td class="hidden-xs hidden-sm hidden-md">{{ brew.water }}</td>
             <td class="hidden-xs hidden-sm">{{ brew.get_coffee_weight_display }}</td>
+            <td class="hidden-xs hidden-sm">{{ brew.get_brew_time_display }}</td>
             <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{% if brew.rating %}{{ brew.rating }}/{{ brew.RATING_MAX }}{% else %}-{% endif %}</td>
         </tr>
         {% endfor %}
