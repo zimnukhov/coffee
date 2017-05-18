@@ -80,6 +80,7 @@ def copy_brew(request, brew_id):
     brew = get_object_or_404(Brew, id=brew_id)
     brew.id = None
     brew.rating = None
+    brew.datetime = datetime.datetime.now()
     return brew_form(request, brew)
 
 
