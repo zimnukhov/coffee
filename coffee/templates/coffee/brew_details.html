@@ -16,11 +16,13 @@
         <td>Roast profile:</td><td>{{ brew.coffee_bag.coffee.roast_profile }}</td>
     </tr>
     {% endif %}
+    {% if brew.coffee_bag.roast_date %}
     <tr>
         <td>Roast date:</td><td>{{ brew.coffee_bag.roast_date }}</td>
     </tr>
+    {% endif %}
     <tr>
-        <td>Grinder setting:</td><td>{{ brew.grinder_setting }}</td>
+        <td>Grinder setting:</td><td>{% if brew.grinder_setting %}{{ brew.grinder_setting }}{% endif %}</td>
     </tr>
     <tr>
         <td>Brew method</td><td>{{ brew.method }}</td>
@@ -29,13 +31,13 @@
         <td>t &deg;C</td><td>{{ brew.temperature }}</td> 
     </tr>
     <tr>
-        <td>Coffee Weight</td><td>{{ brew.coffee_weight }}g</td> 
+        <td>Coffee Weight</td><td>{% if brew.coffee_weight %}{{ brew.coffee_weight }}g{% endif %}</td>
     </tr>
     <tr>
-        <td>Water Volume</td><td>{{ brew.water_volume }}ml</td> 
+        <td>Water Volume</td><td>{% if brew.water_volume %}{{ brew.water_volume }}ml{% endif %}</td>
     </tr>
     <tr>
-        <td>Brew Time</td><td>{{ brew.brew_time }}s</td> 
+        <td>Brew Time</td><td>{% if brew.brew_time %}{{ brew.get_brew_time_display }}{% endif %}</td>
     </tr>
     <tr>
         <td>Bloom</td><td>{{ brew.get_bloom_display }}</td> 
