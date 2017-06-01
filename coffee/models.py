@@ -1,6 +1,7 @@
 import datetime
 from django.db import models
 from django.urls import reverse
+from .utils import get_time_display
 
 
 class Roaster(models.Model):
@@ -131,7 +132,7 @@ class Brew(models.Model):
     def get_brew_time_display(self):
         if self.brew_time is None:
             return ''
-        return '%d:%02d' % (self.brew_time / 60, self.brew_time % 60)
+        return get_time_display(self.brew_time)
 
     def get_rating_stars(self):
         stars = [False] * self.RATING_MAX

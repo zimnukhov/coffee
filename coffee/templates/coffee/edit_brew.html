@@ -105,10 +105,60 @@ var make_slider = function(input_id, min, max) {
         slider.slider("value", $(this).val());
     }).hide();
 }
+
+var duration_to_seconds = function(duration) {
+    var split = duration.split(":");
+    if (split.length != 2) {
+        return null;
+    }
+
+    var minutes = parseInt(split[0]);
+    var seconds = parseInt(split[1]);
+    return minutes * 60 + seconds;
+}
+
+var seconds_to_duration = function(total_seconds) {
+    var seconds = total_seconds % 60;
+
+    var leadingZero = "";
+    if (seconds < 10) {
+        leadingZero = "0";
+    }
+
+    return parseInt(total_seconds / 60) + ":" + leadingZero + seconds;
+}
+
+var add_duration_adjust = function(input_id, adjust_value, display_value) {
+    $("<div>").addClass("duration-adjust").html(display_value).appendTo($(input_id).parent().children(".duration-adjust-wrap")).click(function(){
+        var value = $(input_id).val();
+        var seconds = duration_to_seconds(value);
+        if (seconds === null) {
+            return;
+        }
+
+        var new_value = seconds + adjust_value;
+        if (new_value < 0) {
+            new_value = 0;
+        }
+
+        $(input_id).val(seconds_to_duration(new_value));
+    });
+}
+
+var make_duration_input = function(input_id) {
+    $("<div>").addClass("duration-adjust-wrap").appendTo($(input_id).parent());
+    add_duration_adjust(input_id, -60, "-1m");
+    add_duration_adjust(input_id, -10, "-10s");
+    add_duration_adjust(input_id, -1, "-1s");
+    add_duration_adjust(input_id, 1, "+1s");
+    add_duration_adjust(input_id, 10, "+10s");
+    add_duration_adjust(input_id, 60, "+1m");
+}
 $(function(){
     make_slider("#id_grinder_setting", 1, 40);
     make_slider("#id_temperature", 70, 100);
     make_slider("#id_coffee_weight", 10, 40);
+    make_duration_input("#id_brew_time");
 });
 </script>
 {% endblock %}

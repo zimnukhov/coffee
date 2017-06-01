@@ -72,3 +72,10 @@ nav ul li {
     text-align: center;
     line-height: 1.6em;
 }
+
+.duration-adjust {
+    color: #8888bb;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 9px;
+}
