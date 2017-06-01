@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (
-    Roaster, RoastProfile, Coffee, CoffeeBag, Water, BrewingMethod, Brew, Descriptor
+    Roaster, RoastProfile, Coffee, CoffeeBag, Water, BrewingMethod, Brew,
+    Descriptor, Filter
 )
 
 
@@ -12,3 +13,4 @@ admin.site.register(Water)
 admin.site.register(BrewingMethod)
 admin.site.register(Brew)
 admin.site.register(Descriptor)
+admin.site.register(Filter)

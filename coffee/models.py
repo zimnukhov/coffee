@@ -67,6 +67,7 @@ class Water(models.Model):
 
 class BrewingMethod(models.Model):
     name = models.CharField(max_length=512)
+    default_filter = models.ForeignKey('Filter', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -74,6 +75,13 @@ class BrewingMethod(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('brewing-method', [self.id])
+
+
+class Filter(models.Model):
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
 
 
 class Brew(models.Model):
@@ -96,6 +104,7 @@ class Brew(models.Model):
         (BLOOM, 'Bloom'),
         (NO_BLOOM, 'No bloom'),
     ), default=0)
+    filter = models.ForeignKey(Filter, blank=True, null=True)
     found_descriptors = models.ManyToManyField('Descriptor', blank=True)
     rating = models.SmallIntegerField(blank=True, null=True, choices=((i, i) for i in range(1, 11)))
     comment = models.TextField(blank=True, null=True)

@@ -27,6 +27,11 @@
     <tr>
         <td>Brew method</td><td>{{ brew.method }}</td>
     </tr>
+    {% if brew.filter %}
+    <tr>
+        <td>Filter</td><td>{{ brew.filter }}</td>
+    </tr>
+    {% endif %}
     <tr>
         <td>t &deg;C</td><td>{{ brew.temperature }}</td> 
     </tr>
