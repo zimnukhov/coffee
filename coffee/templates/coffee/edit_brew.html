@@ -131,6 +131,9 @@ var seconds_to_duration = function(total_seconds) {
 var add_duration_adjust = function(input_id, adjust_value, display_value) {
     $("<div>").addClass("duration-adjust").html(display_value).appendTo($(input_id).parent().children(".duration-adjust-wrap")).click(function(){
         var value = $(input_id).val();
+        if (value == "") {
+            value = "0:00";
+        }
         var seconds = duration_to_seconds(value);
         if (seconds === null) {
             return;
