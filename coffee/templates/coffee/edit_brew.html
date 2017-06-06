@@ -5,32 +5,38 @@
 {% csrf_token %}
 <div class="row">
     <div class="col-xs-4">
+        {{ form.datetime.errors }}
         {{ form.datetime.label_tag }}
         {{ form.datetime }}
     </div>
 </div>
 <div class="row">
     <div class="col-xs-4">
+        {{ form.coffee_bag.errors }}
         {{ form.coffee_bag.label_tag }}
         {{ form.coffee_bag }}
     </div>
 </div>
 <div class="row">
     <div class="col-xs-4">
+        {{ form.method.errors }}
         {{ form.method.label_tag }}
         {{ form.method }}
     </div>
     <div class="col-xs-4">
+        {{ form.filter.errors }}
         {{ form.filter.label_tag }}
         {{ form.filter }}
     </div>
 </div>
 <div class="row sliders-wrap">
     <div class="col-xs-4">
+        {{ form.grinder_setting.errors }}
         {{ form.grinder_setting.label_tag }}
         {{ form.grinder_setting }}
     </div>
     <div class="col-xs-4">
+        {{ form.temperature.errors }}
         {{ form.temperature.label_tag }}
         {{ form.temperature }}
     </div>
@@ -38,14 +44,17 @@
 
 <div class="row">
     <div class="col-xs-4">
+        {{ form.coffee_weight.errors }}
         {{ form.coffee_weight.label_tag }}
         {{ form.coffee_weight }}
     </div>
     <div class="col-xs-4">
+        {{ form.water_volume.errors }}
         {{ form.water_volume.label_tag }}
         {{ form.water_volume }}
     </div>
     <div class="col-xs-4">
+        {{ form.brew_time.errors }}
         {{ form.brew_time.label_tag }}
         {{ form.brew_time }}
     </div>
@@ -53,10 +62,12 @@
 
 <div class="row">
     <div class="col-xs-4">
+        {{ form.bloom.errors }}
         {{ form.bloom.label_tag }}
         {{ form.bloom }}
     </div>
     <div class="col-xs-4">
+        {{ form.water.errors }}
         {{ form.water.label_tag }}
         {{ form.water }}
     </div>
@@ -64,17 +75,34 @@
 
 <div class="row">
     <div class="col-xs-4">
+    {{ form.found_descriptors.errors }}
     {{ form.found_descriptors.label_tag }}
     {{ form.found_descriptors }}
     </div>
     <div class="col-xs-4">
+        {{ form.comment.errors }}
         {{ form.comment.label_tag }}
         {{ form.comment }}
+    </div>
+    <div class="col-xs-4">
+        {{ pouring_formset.management_form }}
+        <ul id="pouring_formset_wrap">
+            {% for pouring_form in pouring_formset %}
+            <li id="pouring-{{ pouring_form.prefix }}">
+                {{ pouring_form.id }}
+                {{ pouring_form.volume }}
+                {{ pouring_form.wait_time }}
+                <span class="remove-pouring">remove</span>
+            </li>
+            {% endfor %}
+        </ul>
+        </div>
     </div>
 </div>
 
 <div class="row">
     <div class="col-xs-4">
+    {{ form.rating.errors }}
     {{ form.rating.label_tag }}
     {{ form.rating }}
     </div>
@@ -157,11 +185,49 @@ var make_duration_input = function(input_id) {
     add_duration_adjust(input_id, 10, "+10s");
     add_duration_adjust(input_id, 60, "+1m");
 }
+
+var add_pouring_form = function() {
+    var total_forms = parseInt($("#id_form-TOTAL_FORMS").val()) || 0;
+    var next_form_id = total_forms;
+    var field_prefix = "form-" + next_form_id + "-";
+    var id_prefix = "id_" + field_prefix;
+    var wrap = $("#pouring_formset_wrap");
+    var new_li = $("<li>").attr("id", "pouring-form-" + next_form_id);
+    $("<input type='number' id='" + id_prefix + "volume' name='" + field_prefix + "volume'>").appendTo(new_li);
+    $("<input type='number' id='" + id_prefix + "wait_time' name='" + field_prefix + "wait_time'>").appendTo(new_li);
+    $("<span>").addClass("remove-pouring").text("remove").appendTo(new_li).click(remove_pouring);
+    new_li.appendTo(wrap);
+    $("#id_form-TOTAL_FORMS").val(total_forms + 1);
+}
+
+var remove_pouring = function() {
+    var parent = $(this).parent();
+    var form_id = parent.attr("id").match(/[0-9]+/)[0];
+    console.log(form_id);
+    var has_id = false;
+    if (parent.find("[name=form-" + form_id + "-id]").val()) {
+        $("<input name='form-" + form_id + "-DELETE' type='hidden' value='on'>").appendTo(parent);
+        parent.hide();
+    }
+    else {
+        parent.remove();
+        var total_forms = parseInt($("#id_form-TOTAL_FORMS").val()) || 0;
+        if (total_forms > 0) {
+            $("#id_form-TOTAL_FORMS").val(total_forms - 1);
+        }
+    }
+}
+
 $(function(){
     make_slider("#id_grinder_setting", 1, 40);
     make_slider("#id_temperature", 70, 100);
     make_slider("#id_coffee_weight", 10, 40);
+    //make_slider("#id_water_volume", 100, 300);
     make_duration_input("#id_brew_time");
+    $("<div>").addClass("pouring-form-button").text("add").insertAfter($("#pouring_formset_wrap")).click(function() {
+        add_pouring_form();
+    });
+    $(".remove-pouring").click(remove_pouring);
 });
 </script>
 {% endblock %}

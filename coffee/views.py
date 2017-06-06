@@ -1,7 +1,8 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water
+from django.forms import modelformset_factory
+from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring
 from .forms import BrewForm, BrewRatingForm
 
 
@@ -53,8 +54,6 @@ def create_brew_for_bag(request, bag_id):
         brew.coffee_weight = best_brew.coffee_weight
         brew.bloom = best_brew.bloom
         brew.water = best_brew.water
-    else:
-        brew.water = water
 
     return brew_form(request, brew)
 
@@ -85,16 +84,40 @@ def copy_brew(request, brew_id):
 
 
 def brew_form(request, brew):
+    PouringFormset = modelformset_factory(Pouring, extra=0, fields=('volume', 'wait_time'), can_delete=True)
+
+    if brew.id:
+        pouring_set = brew.pouring_set.all()
+    else:
+        pouring_set = Pouring.objects.none()
+
     if request.method == 'POST':
         form = BrewForm(request.POST, instance=brew)
-        if form.is_valid():
+        formset = PouringFormset(request.POST, queryset=pouring_set)
+
+        if form.is_valid() and formset.is_valid():
             brew = form.save()
+            next_order = 0
+            for form in formset:
+                if form.cleaned_data.get('DELETE') and form.instance.pk:
+                    form.instance.delete()
+                else:
+                    if not form.cleaned_data.get('volume'):
+                        continue
+                    pouring = form.save(commit=False)
+                    pouring.brew = brew
+                    pouring.order = next_order
+                    next_order += 1
+                    pouring.save()
+
             return redirect(brew)
     else:
         form = BrewForm(instance=brew)
+        formset = PouringFormset(queryset=pouring_set)
 
     return render(request, 'coffee/edit_brew.html', {
         'form': form,
+        'pouring_formset': formset,
     })
 
 

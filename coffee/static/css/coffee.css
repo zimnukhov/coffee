@@ -79,3 +79,21 @@ nav ul li {
     display: inline-block;
     margin-right: 9px;
 }
+
+.pouring-form-button {
+    color: #8888bb;
+    cursor: pointer;
+}
+
+.pouring-form-button:hover {
+    color: #9999cc;
+}
+
+.remove-pouring {
+    color: #8888bb;
+    cursor: pointer;
+}
+
+#pouring_formset_wrap {
+    list-style: none;
+}

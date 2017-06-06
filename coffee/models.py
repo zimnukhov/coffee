@@ -154,6 +154,19 @@ class Brew(models.Model):
         )
 
 
+class Pouring(models.Model):
+    brew = models.ForeignKey(Brew)
+    volume = models.IntegerField()
+    order = models.IntegerField(default=0)
+    wait_time = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '%sml' % self.volume
+
+    class Meta:
+        ordering = ['order']
+
+
 class Descriptor(models.Model):
     name = models.CharField(max_length=512)
 

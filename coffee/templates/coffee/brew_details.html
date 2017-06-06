@@ -47,6 +47,11 @@
     <tr>
         <td>Bloom</td><td>{{ brew.get_bloom_display }}</td> 
     </tr>
+    {% for pouring in brew.pouring_set.all %}
+    <tr>
+        <td>Pouring #{{ pouring.order }}</td><td>{{ pouring.volume }}ml{% if pouring.wait_time %} (wait {{ pouring.wait_time }} sec){% endif %}</td>
+    </tr>
+    {% endfor %}
     <tr>
         <td>Rating</td><td class="rating-stars">
             {% for starred in brew.get_rating_stars %}
