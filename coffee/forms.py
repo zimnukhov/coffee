@@ -15,6 +15,9 @@ class DurationWidget(forms.TextInput):
 
 class DurationField(forms.CharField):
     def to_python(self, value):
+        if not value:
+            return None
+
         if ':' not in value:
             raise forms.ValidationError('Incorrect format for duration')
 
@@ -37,7 +40,7 @@ class DurationField(forms.CharField):
 
 class BrewForm(forms.ModelForm):
     coffee_bag = forms.ModelChoiceField(queryset=CoffeeBag.objects.filter(end_date__isnull=True))
-    brew_time = DurationField(widget=DurationWidget)
+    brew_time = DurationField(widget=DurationWidget, required=False)
 
     def __init__(self, *args, **kwargs):
         super(BrewForm, self).__init__(*args, **kwargs)
