@@ -143,6 +143,7 @@ def coffee_details(request, coffee_id):
         'coffee': coffee,
         'bag_count': bag_count,
         'brews': brews,
+        'show_date_only_name': True,
     })
 
 
@@ -161,6 +162,7 @@ def coffee_bag(request, bag_id):
         'bag': bag,
         'brews': brews,
         'max_rating': max_rating,
+        'hide_coffee': True,
     })
 
 
@@ -179,4 +181,5 @@ def method_details(request, method_id):
         'method': method,
         'brews': brews,
         'max_rating': max_rating,
+        'hide_method': True,
     })

@@ -1,31 +1,5 @@
 {% extends "coffee/base.html" %}
 {% block content %}
 <h3>{{ method.name }}</h3>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Date &amp; time</th>
-            <th>Coffee</th>
-            <th>t &deg;C</th>
-            <th>Grinder</th>
-            <th>Coffee weight</th>
-            <th class="hidden-xs">Brew time</th>
-            <th>Rating</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for brew in brews %}
-        <tr>
-            <td><a href="{{ brew.get_absolute_url }}">{{ brew.datetime }}</a></td>
-            <td><a href="{{ brew.coffee_bag.get_absolute_url }}">{{ brew.coffee_bag.coffee }}</a></td>
-            <td>{{ brew.temperature }}</td>
-            <td>{{ brew.grinder_setting }}</td>
-            <td>{{ brew.get_coffee_weight_display }}</td>
-            <td class="hidden-xs">{{ brew.get_brew_time_display }}</td>
-            <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>{{ brew.get_rating_display }}
-                {% if brew.rating == max_rating %}&#9734;{% endif %}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% include "coffee/brew_list.html" %}
 {% endblock %}

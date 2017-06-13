@@ -58,6 +58,12 @@ class CoffeeBag(models.Model):
             return ''
         return '{}g'.format(self.weight)
 
+    def get_date_only_name(self):
+        if self.roast_date is None:
+            return 'Purchased on ' + self.purchase_date.strftime('%Y-%m-%d')
+        else:
+            return 'Roasted on ' + self.roast_date.strftime('%Y-%m-%d')
+
 
 class Water(models.Model):
     name = models.CharField(max_length=256)
