@@ -85,6 +85,14 @@ class Filter(models.Model):
         return self.name
 
 
+class Person(models.Model):
+    name = models.CharField(max_length=256)
+    default_barista = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
 class Brew(models.Model):
     BLOOM_UNKNOWN = 0
     BLOOM = 1
@@ -93,6 +101,7 @@ class Brew(models.Model):
 
     datetime = models.DateTimeField()
     coffee_bag = models.ForeignKey(CoffeeBag)
+    barista = models.ForeignKey(Person, blank=True, null=True)
     grinder_setting = models.IntegerField()
     method = models.ForeignKey(BrewingMethod)
     temperature = models.IntegerField(blank=True, null=True)
@@ -145,12 +154,19 @@ class Brew(models.Model):
 
     @classmethod
     def get_default(cls):
+        barista = None
+
+        default_baristas = Person.objects.filter(default_barista=True)
+        if len(default_baristas) > 0:
+            barista = default_baristas[0]
+
         return cls(
             datetime=datetime.datetime.now(),
             grinder_setting=14,
             temperature=92,
             coffee_weight=15,
             bloom=cls.BLOOM,
+            barista=barista,
         )
 
 

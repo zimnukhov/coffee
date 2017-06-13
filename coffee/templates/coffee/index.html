@@ -17,6 +17,7 @@
     <thead>
         <tr>
             <th>Date &amp; time</th>
+            <th class="hidden-xs hidden-sm">Barista</th>
             <th>Coffee</th>
             <th>Method</th>
             <th class="hidden-xs hidden-sm">t &deg;C</th>
@@ -31,6 +32,7 @@
         {% for brew in brews %}
         <tr>
             <td><a href="{{ brew.get_absolute_url }}">{{ brew.datetime }}</a></td>
+            <td class="hidden-xs hidden-sm">{{ brew.barista }}</td>
             <td><a href="{{ brew.coffee_bag.get_absolute_url }}">
                     {{ brew.coffee_bag.coffee.name }}
                     {% if brew.show_roast_profile and brew.coffee_bag.coffee.roast_profile %}

@@ -10,7 +10,7 @@ def index(request):
     today = datetime.date.today()
     bags = CoffeeBag.objects.select_related('coffee__roaster').filter(end_date__isnull=True).order_by('-purchase_date')
 
-    brews = Brew.objects.select_related('coffee_bag', 'coffee_bag__coffee', 'method', 'water').order_by('-datetime')
+    brews = Brew.objects.select_related('coffee_bag', 'coffee_bag__coffee', 'method', 'water', 'filter', 'barista').order_by('-datetime')
     coffee_params = {}
     show_roast_profile = set()
 
