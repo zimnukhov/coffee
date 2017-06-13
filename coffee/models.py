@@ -99,11 +99,44 @@ class Person(models.Model):
         return self.name
 
 
+class BrewQuerySet(models.QuerySet):
+
+    _aggregation_data_loaded = False
+    max_rating = None
+    total_weight = None
+    def _calc_aggregation_data(self):
+        max_rating = None
+        total_weight = 0
+
+        for brew in self:
+            total_weight += brew.coffee_weight
+            if max_rating is None or brew.rating > max_rating:
+                max_rating = brew.rating
+
+        self._aggregation_data_loaded = True
+        self.max_rating = max_rating
+        self.total_weight = total_weight
+
+    def get_total_weight(self):
+        if not self._aggregation_data_loaded:
+            self._calc_aggregation_data()
+
+        return self.total_weight
+
+    def get_max_rating(self):
+        if not self._aggregation_data_loaded:
+            self._calc_aggregation_data()
+
+        return self.max_rating
+
+
 class Brew(models.Model):
     BLOOM_UNKNOWN = 0
     BLOOM = 1
     NO_BLOOM = 2
     RATING_MAX = 10
+
+    objects = BrewQuerySet.as_manager()
 
     datetime = models.DateTimeField()
     coffee_bag = models.ForeignKey(CoffeeBag)
