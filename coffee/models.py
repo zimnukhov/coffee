@@ -110,7 +110,7 @@ class BrewQuerySet(models.QuerySet):
 
         for brew in self:
             total_weight += brew.coffee_weight
-            if max_rating is None or brew.rating > max_rating:
+            if brew.rating is not None and (max_rating is None or brew.rating > max_rating):
                 max_rating = brew.rating
 
         self._aggregation_data_loaded = True
