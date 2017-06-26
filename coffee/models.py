@@ -1,6 +1,10 @@
+import os
 import datetime
+from io import BytesIO
+from PIL import Image
 from django.db import models
 from django.urls import reverse
+from django.core.files.base import ContentFile
 from .utils import get_time_display
 
 
@@ -42,6 +46,14 @@ class CoffeeBag(models.Model):
     roast_date = models.DateField(blank=True, null=True)
     purchase_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
+    image = models.ImageField(upload_to='bags/full/', blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='bags/thumbs/', blank=True, null=True)
+
+    _original_image = None
+
+    def __init__(self, *args, **kwargs):
+        super(CoffeeBag, self).__init__(*args, **kwargs)
+        self._original_image = self.image
 
     def __str__(self):
         name = '{} ({})'.format(self.coffee, self.coffee.roaster.name)
@@ -63,6 +75,53 @@ class CoffeeBag(models.Model):
             return 'Purchased on ' + self.purchase_date.strftime('%Y-%m-%d')
         else:
             return 'Roasted on ' + self.roast_date.strftime('%Y-%m-%d')
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            image_changed = False
+            if self._original_image:
+                if self._original_image.size != self.image.size:
+                    image_changed = True
+                else:
+                    data1 = self._original_image.file.read()
+                    self.image.file.seek(0)
+                    data2 = self.image.file.read()
+                    self._original_image.file.seek(0)
+                    if data1 != data2:
+                        image_changed = True
+            else:
+                image_changed = True
+
+            if image_changed:
+                thumb_size = (130, 170)
+                image = Image.open(BytesIO(self.image.read()))
+                image.thumbnail(thumb_size, Image.ANTIALIAS)
+
+                thumb_stream = BytesIO()
+                image.save(thumb_stream, 'jpeg', quality=95)
+
+                thumb_stream.seek(0)
+
+                uploaded_file = ContentFile(thumb_stream.read())
+
+                self.thumbnail.save(
+                    os.path.basename(self.image.name),
+                    uploaded_file,
+                    save=False,
+                )
+        super(CoffeeBag, self).save(*args, **kwargs)
+
+
+class BagPicture(models.Model):
+    bag = models.ForeignKey(CoffeeBag)
+    comment = models.CharField(max_length=512, blank=True, null=True)
+    image = models.ImageField(upload_to='bags/full/')
+
+    def __str__(self):
+        name = str(self.bag)
+        if self.comment:
+            name += ' ' + self.comment
+        return name
 
 
 class Water(models.Model):

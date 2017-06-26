@@ -23,7 +23,7 @@ header .logo-link {
 
 .coffee-bags {
     margin: 10px auto;
-    height: 75px;
+    height: 240px;
     list-style: none;
     overflow-x: scroll;
     white-space: nowrap;
@@ -31,8 +31,17 @@ header .logo-link {
 
 .coffee-bags li {
     display: inline-block;
-    height: 75px;
+    height: 240px;
     margin: 0 30px;
+}
+
+.coffee-bags li .bag-image {
+    height: 170px;
+    text-align: center;
+}
+
+.coffee-bags li .bag-image img {
+    height: 170px;
 }
 
 .coffee-bags li .bag-name {
