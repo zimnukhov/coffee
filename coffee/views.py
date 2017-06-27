@@ -183,3 +183,73 @@ def method_details(request, method_id):
         'max_rating': max_rating,
         'hide_method': True,
     })
+
+
+def stats(request):
+    total_brews = 0
+    consumed_coffee_weight = 0
+    consumed_water = 0
+    avg_rating = 0.0
+
+    expire_day = datetime.date.today() - datetime.timedelta(days=60)
+
+    bag_weight = {}
+
+    for bag in CoffeeBag.objects.filter(weight__isnull=False):
+
+        if bag.roast_date is not None:
+            expired = bag.roast_date < expire_day
+        else:
+            expired = bag.purchase_date < expire_day
+
+        if not expired:
+            bag_weight[bag.id] = bag.weight
+
+    rated_brews = 0
+    ratings = []
+    coffee_weight_by_day = {}
+
+    for brew in Brew.objects.all():
+        total_brews += 1
+
+        if brew.coffee_weight:
+            consumed_coffee_weight += brew.coffee_weight
+
+            if brew.coffee_bag_id in bag_weight:
+                bag_weight[brew.coffee_bag_id] -= brew.coffee_weight
+
+            coffee_weight_by_day.setdefault(brew.datetime.date(), 0)
+            coffee_weight_by_day[brew.datetime.date()] += brew.coffee_weight
+
+        if brew.rating is not None:
+            rated_brews += 1
+            avg_rating += brew.rating
+            ratings.append(brew.rating)
+
+        if brew.water_volume is not None:
+            consumed_water += brew.water_volume
+
+    avg_rating /= rated_brews
+    ratings.sort()
+    median_rating = ratings[len(ratings) // 2]
+
+    unexpired_coffee_weight = sum(bag_weight.values())
+
+    french_presses = unexpired_coffee_weight // 25
+    harios = unexpired_coffee_weight // 14
+    aeropresses = unexpired_coffee_weight // 15
+
+    consumption_rate = sum(coffee_weight_by_day.values()) / len(coffee_weight_by_day)
+
+    return render(request, 'coffee/stats.html', {
+        'total_brews': total_brews,
+        'consumed_coffee_weight': consumed_coffee_weight,
+        'unexpired_coffee_weight': unexpired_coffee_weight,
+        'french_presses_remaining': french_presses,
+        'harios_remaining': harios,
+        'aeropresses_remaining': aeropresses,
+        'avg_rating': avg_rating,
+        'median_rating': median_rating,
+        'consumed_water': consumed_water,
+        'consumption_rate': consumption_rate,
+    })

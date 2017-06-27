@@ -1,0 +1,35 @@
+{% extends "coffee/base.html" %}
+{% block content %}
+<h1>Statistics</h1>
+<table class="table">
+    <tr>
+        <td>Total brews</td><td>{{ total_brews }}</td>
+    </tr>
+    <tr>
+        <td>Consumed coffee</td><td>{{ consumed_coffee_weight }}g</td>
+    </tr>
+    <tr>
+        <td>Unexpired coffee remaining</td><td>{{ unexpired_coffee_weight }}g
+            {% if unexpired_coffee_weight > 0 %}(
+            {{ french_presses_remaining }} french press brews, {{ harios_remaining }} hario brews, {{ aeropresses_remaining }} aeropress brews
+            ){% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>Average rating</td>
+        <td>{{ avg_rating }}</td>
+    </tr>
+    <tr>
+        <td>Median rating</td>
+        <td>{{ median_rating }}</td>
+    </tr>
+    <tr>
+        <td>Water used for brewing</td>
+        <td>{{ consumed_water }}ml</td>
+    </tr>
+    <tr>
+        <td>Average coffee consumption</td>
+        <td>{{ consumption_rate }}g / day</td>
+    </tr>
+</table>
+{% endblock %}

@@ -13,6 +13,14 @@ header nav a:hover {
     text-decoration: none;
 }
 
+header nav ul {
+    list-style: none;
+}
+
+header nav ul li {
+    display: inline-block;
+}
+
 header .logo-link {
     font-size: 3em;
 }
