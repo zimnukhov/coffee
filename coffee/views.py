@@ -2,7 +2,7 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.forms import modelformset_factory
-from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring
+from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring, Roaster
 from .forms import BrewForm, BrewRatingForm
 
 
@@ -163,6 +163,16 @@ def coffee_bag(request, bag_id):
         'brews': brews,
         'max_rating': max_rating,
         'hide_coffee': True,
+    })
+
+
+def roaster(request, roaster_id):
+    roaster = get_object_or_404(Roaster, id=roaster_id)
+    brews = Brew.objects.filter(coffee_bag__coffee__roaster=roaster).order_by('-datetime')
+
+    return render(request, 'coffee/roaster.html', {
+        'roaster': roaster,
+        'brews': brews,
     })
 
 
