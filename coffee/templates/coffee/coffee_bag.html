@@ -1,26 +1,32 @@
 {% extends "coffee/base.html" %}
 {% block content %}
-<h3>{{ bag }}</h3>
+<div class="bag-details-subheader">
+    {% if bag.thumbnail %}
+    <div class="bag-thumb">
+        <img src="{{ bag.thumbnail.url }}">
+    </div>
+    {% endif %}
+    <div class="bag-name-block">
+        <h3>{{ bag.coffee.name }}</h3>
+        <ul class="bag-details">
+            <li><span class="param-name">Обжарщик:</span> {{ bag.coffee.roaster }}</li>
+            <li><span class="param-name">Обжарка:</span> {% if bag.coffee.roast_profile %}{{ bag.coffee.roast_profile }}{% else %}-{% endif %}</li>
+            <li><span class="param-name">Вес:</span> {{ bag.get_weight_display }}</li>
+            <li><span class="param-name">Дата обжарки:</span> {% if bag.roast_date %}{{ bag.roast_date }}{% else %}-{% endif %}</li>
+            <li><span class="param-name">Дата приобретения:</span> {{ bag.purchase_date }}</li>
+            {% if bag.end_date %}
+            <li><span class="param-name">Дата окончания:</span> {{ bag.end_data }}</li>
+            {% endif %}
+            {% if bag.coffee.roaster_comment %}
+            <li><span class="param-name">Комментарий обжарщика:</span>{{ bag.coffee.roaster_comment }}</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
 
 <p>
 <a href="{% url 'brew-create-for-bag' bag.id %}">Add brew</a>
 </p>
-<table class="table">
-    <tr>
-        <td>Coffee:</td><td><a href="{{ bag.coffee.get_absolute_url }}">{{ bag.coffee }}</a></td>
-    </tr>
-    <tr>
-        <td>Roast date:</td><td>{% if bag.roast_date %}{{ bag.roast_date }}{% else %}-{% endif %}</td>
-    </tr>
-    <tr>
-        <td>Purchase date:</td><td>{{ bag.purchase_date }}</td>
-    </tr>
-    {% if bag.end_date %}
-    <tr>
-        <td>End date:</td><td>{{ bag.end_date }}</td>
-    </tr>
-    {% endif %}
-</table>
-
 {% include "coffee/brew_list.html" %}
 {% endblock %}

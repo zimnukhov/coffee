@@ -31,6 +31,7 @@ header .logo-link {
 
 .coffee-bags {
     margin: 10px auto;
+    padding: 0;
     height: 240px;
     list-style: none;
     overflow-x: scroll;
@@ -113,4 +114,51 @@ nav ul li {
 
 #pouring_formset_wrap {
     list-style: none;
+}
+
+.bag-details {
+    display: inline-block;
+}
+
+.bag-image-full {
+    display: inline-block;
+}
+
+.bag-details-subheader {
+    margin: 10px auto 0;
+}
+
+.bag-thumb {
+    display: inline-block;
+    vertical-align: top;
+}
+.bag-details-subheader .bag-weight {
+}
+
+.bag-name-block {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 0 0 20px;
+}
+
+.bag-name-block h3 {
+    margin-top: 0;
+}
+.bag-name-block p {
+    padding: 0 0 0 10px;
+}
+
+ul.bag-details {
+    list-style: none;
+    padding: 0 0 0 10px;
+}
+
+ul.bag-details li {
+    margin: 0.2em 0;
+}
+
+ul.bag-details span.param-name {
+    color: #23527c;
+    display: inline-block;
+    width: 14em;
 }
