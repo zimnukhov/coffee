@@ -9,7 +9,7 @@
     <div class="bag-name-block">
         <h3>{{ bag.coffee.name }}</h3>
         <ul class="bag-details">
-            <li><span class="param-name">Обжарщик:</span> <a href="{% url 'roaster-details' bag.coffee.roaster_id %}">{{ bag.coffee.roaster }}</a></li>
+            <li><span class="param-name">Обжарщик:</span> <a href="{{ bag.coffee.roaster.get_absolute_url }}">{{ bag.coffee.roaster }}</a></li>
             <li><span class="param-name">Обжарка:</span> {% if bag.coffee.roast_profile %}{{ bag.coffee.roast_profile }}{% else %}-{% endif %}</li>
             <li><span class="param-name">Вес:</span> {{ bag.get_weight_display }}</li>
             <li><span class="param-name">Дата обжарки:</span> {% if bag.roast_date %}{{ bag.roast_date }}{% else %}-{% endif %}</li>
