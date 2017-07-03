@@ -12,9 +12,40 @@
     </li>
     {% endfor %}
 </ul>
+<div class="show-more-coffee">Развернуть</div>
 
 <p>
 <a href="{% url 'brew-create' %}">Add brew</a>
 </p>
 {% include "coffee/brew_list.html" %}
+<script>
+$(function() {
+    var expanded = false;
+    $(".show-more-coffee").click(function() {
+        if (expanded) {
+            $(".coffee-bags").animate({
+                height: "240"
+            },
+            {
+                complete: function() {
+                    expanded = false;
+                    $(".show-more-coffee").text("Развернуть");
+                }
+            });
+        }
+        else {
+            $(".coffee-bags").animate({
+                height: "+=240"
+            },
+            {
+                complete: function() {
+                    expanded = true;
+                    $(".show-more-coffee").text("Свернуть");
+                }
+            });
+        }
+
+    });
+});
+</script>
 {% endblock %}

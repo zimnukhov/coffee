@@ -34,8 +34,7 @@ header .logo-link {
     padding: 0;
     height: 240px;
     list-style: none;
-    overflow-x: scroll;
-    white-space: nowrap;
+    overflow: hidden;
 }
 
 .coffee-bags li {
@@ -64,6 +63,16 @@ header .logo-link {
 
 .coffee-bags li .bag-roaster {
     text-align: center;
+}
+
+.show-more-coffee {
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.show-more-coffee:hover {
+    background-color: #bbbbbb;
 }
 
 .rating_best {
