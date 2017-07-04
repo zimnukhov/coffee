@@ -24,7 +24,7 @@ $(function() {
     $(".show-more-coffee").click(function() {
         if (expanded) {
             $(".coffee-bags").animate({
-                height: "240"
+                height: 240
             },
             {
                 complete: function() {
@@ -34,8 +34,9 @@ $(function() {
             });
         }
         else {
+            var full_height = $(".coffee-bags")[0].scrollHeight;
             $(".coffee-bags").animate({
-                height: "+=240"
+                height: full_height
             },
             {
                 complete: function() {
