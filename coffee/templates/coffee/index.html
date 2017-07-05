@@ -3,9 +3,13 @@
 <ul class="coffee-bags">
     {% for bag in bags %}
     <li>
+        <div class="bag-image">
         {% if bag.thumbnail %}
-        <div class="bag-image"><a href="{{ bag.get_absolute_url }}"><img src="{{ bag.thumbnail.url }}"></a></div>
+            <a href="{{ bag.get_absolute_url }}"><img src="{{ bag.thumbnail.url }}"></a>
+        {% else %}
+            <div class="no-image"></div>
         {% endif %}
+        </div>
         <div class="bag-name"><a href="{{ bag.get_absolute_url }}">{{ bag.coffee.name }}</a></div>
         <div class="bag-weight">{{ bag.get_weight_display }}</div>
         <div class="bag-roaster"><a href="{{ bag.coffee.roaster.get_absolute_url }}">{{ bag.coffee.roaster.name }}</a></div>
