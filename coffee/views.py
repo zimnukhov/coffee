@@ -31,6 +31,21 @@ def index(request):
     })
 
 
+def search(request):
+    query = request.GET.get('query', '')
+    query = query.strip()
+
+    if query:
+        bags = CoffeeBag.objects.select_related('coffee__roaster').filter(coffee__name__icontains=query).order_by('-purchase_date')
+    else:
+        bags = []
+
+    return render(request, 'coffee/search.html', {
+        'bags': bags,
+        'query': query,
+    })
+
+
 def brew_details(request, brew_id):
     brew = get_object_or_404(Brew, id=brew_id)
 

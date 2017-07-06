@@ -1,8 +1,13 @@
 header {
     background: url(/static/images/coffee-pattern.jpg) repeat;
     height: 100px;
-
+    position: relative;
 }
+
+header nav {
+    position: relative;
+}
+
 header nav a {
     color: white;
     font-weight: bold;
@@ -25,6 +30,13 @@ header .logo-link {
     font-size: 3em;
 }
 
+header #search {
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+    width: 8em;
+}
+
 .content-wrapper {
     padding: 0 1em;
 }
@@ -32,11 +44,14 @@ header .logo-link {
 .coffee-bags {
     margin: 10px auto;
     padding: 0;
-    height: 240px;
     list-style: none;
     overflow: hidden;
     display: flex;
     flex-wrap: wrap;
+}
+
+.index-list {
+    height: 240px;
 }
 
 .coffee-bags li {
