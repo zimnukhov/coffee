@@ -2,6 +2,7 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.forms import modelformset_factory
+from django.contrib.auth.decorators import login_required
 from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring, Roaster
 from .forms import BrewForm, BrewRatingForm
 
@@ -54,6 +55,7 @@ def brew_details(request, brew_id):
     })
 
 
+@login_required
 def create_brew_for_bag(request, bag_id):
     bag = get_object_or_404(CoffeeBag, id=bag_id)
     brews = bag.brew_set.select_related('coffee_bag', 'method').filter(rating__isnull=False).order_by('-rating')
@@ -73,6 +75,7 @@ def create_brew_for_bag(request, bag_id):
     return brew_form(request, brew)
 
 
+@login_required
 def create_brew(request):
     water = None
 
@@ -85,11 +88,13 @@ def create_brew(request):
     return brew_form(request, brew)
 
 
+@login_required
 def edit_brew(request, brew_id):
     brew = get_object_or_404(Brew, id=brew_id)
     return brew_form(request, brew)
 
 
+@login_required
 def copy_brew(request, brew_id):
     brew = get_object_or_404(Brew, id=brew_id)
     brew.id = None
@@ -136,6 +141,7 @@ def brew_form(request, brew):
     })
 
 
+@login_required
 def rate_brew(request, brew_id):
     brew = get_object_or_404(Brew, id=brew_id)
 

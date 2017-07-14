@@ -2,10 +2,12 @@
 {% block content %}
 <h3>{{ brew.coffee_bag.coffee.name }}, {{ brew.datetime }}</h3>
 
+{% if request.user.is_authenticated %}
 <div class="edit-link">
     <a href="{% url 'brew-edit' brew.id %}">Edit</a> |
     <a href="{% url 'brew-copy' brew.id %}">Copy</a>
 </div>
+{% endif %}
 
 <table class="table">
     <tr>
@@ -78,6 +80,7 @@
 </ul>
 {% endif %}
 {% csrf_token %}
+{% if request.user.is_authenticated %}
 <script>
 $(".rating-stars span").click(function() {
     var rating = $(this).index() + 1;
@@ -103,4 +106,5 @@ $(".rating-stars span").click(function() {
     });
 });
 </script>
+{% endif %}
 {% endblock %}

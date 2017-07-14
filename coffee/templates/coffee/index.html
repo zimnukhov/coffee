@@ -18,9 +18,11 @@
 </ul>
 <div class="show-more-coffee">Развернуть</div>
 
+{% if request.user.is_authenticated %}
 <p>
 <a href="{% url 'brew-create' %}">Add brew</a>
 </p>
+{% endif %}
 {% include "coffee/brew_list.html" %}
 <script>
 $(function() {
