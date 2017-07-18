@@ -16,7 +16,7 @@ class Roaster(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('roaster-details', [self.id])
+        return ('coffee:roaster-details', [self.id])
 
 
 class RoastProfile(models.Model):
@@ -35,7 +35,7 @@ class Coffee(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('coffee-details', [self.id])
+        return ('coffee:coffee-details', [self.id])
 
     def __str__(self):
         result = self.name
@@ -67,7 +67,7 @@ class CoffeeBag(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('coffee-bag', [self.id])
+        return ('coffee:bag-details', [self.id])
 
     def get_weight_display(self):
         if self.weight is None:
@@ -144,7 +144,7 @@ class BrewingMethod(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('brewing-method', [self.id])
+        return ('coffee:brewing-method', [self.id])
 
 
 class Filter(models.Model):
@@ -230,7 +230,7 @@ class Brew(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('brew-details', [self.id])
+        return ('coffee:brew-details', [self.id])
 
     def get_rating_display(self):
         return '{}/10'.format(self.rating)

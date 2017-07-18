@@ -20,7 +20,7 @@
 
 {% if request.user.is_authenticated %}
 <p>
-<a href="{% url 'brew-create' %}">Add brew</a>
+<a href="{% url 'coffee:brew-create' %}">Add brew</a>
 </p>
 {% endif %}
 {% include "coffee/brew_list.html" %}

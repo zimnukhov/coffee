@@ -4,8 +4,8 @@
 
 {% if request.user.is_authenticated %}
 <div class="edit-link">
-    <a href="{% url 'brew-edit' brew.id %}">Edit</a> |
-    <a href="{% url 'brew-copy' brew.id %}">Copy</a>
+    <a href="{% url 'coffee:brew-edit' brew.id %}">Edit</a> |
+    <a href="{% url 'coffee:brew-copy' brew.id %}">Copy</a>
 </div>
 {% endif %}
 
@@ -86,7 +86,7 @@ $(".rating-stars span").click(function() {
     var rating = $(this).index() + 1;
     var csrf_token = $("input[name=csrfmiddlewaretoken]").val();
     $.ajax({
-        url: "{% url 'brew-rate' brew.id %}",
+        url: "{% url 'coffee:brew-rate' brew.id %}",
         type: "POST",
         dataType: "text",
         data: "csrfmiddlewaretoken=" + csrf_token + "&rating="+rating,
