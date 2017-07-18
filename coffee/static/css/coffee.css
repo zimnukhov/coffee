@@ -1,5 +1,5 @@
 header {
-    background: url(/static/images/coffee-pattern.jpg) repeat;
+    background: url(../images/coffee-pattern.jpg) repeat;
     height: 100px;
     position: relative;
 }
