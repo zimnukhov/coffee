@@ -6,7 +6,7 @@
         <td>Всего заварено чашек</td><td>{{ total_brews }}</td>
     </tr>
     <tr>
-        <td>Всего потрачено кофе</td><td>{{ consumed_coffee_weight }}г</td>
+        <td>Всего потрачено кофе</td><td>{{ consumed_coffee_weight|floatformat:3 }}кг</td>
     </tr>
     <tr>
         <td>Осталось свежего кофе</td><td>{{ unexpired_coffee_weight }}г
@@ -17,7 +17,7 @@
     </tr>
     <tr>
         <td>Средний рейтинг</td>
-        <td>{{ avg_rating }}</td>
+        <td>{{ avg_rating|floatformat:1 }}</td>
     </tr>
     <tr>
         <td>Медианный рейтинг</td>
@@ -25,11 +25,11 @@
     </tr>
     <tr>
         <td>Воды потрачено для заваривания кофе</td>
-        <td>{{ consumed_water }}ml</td>
+        <td>{{ consumed_water|floatformat:3 }}л</td>
     </tr>
     <tr>
         <td>Средняя скорость потребления кофе</td>
-        <td>{{ consumption_rate }} г/день</td>
+        <td>{{ consumption_rate|floatformat:1 }} г/день</td>
     </tr>
 </table>
 {% endblock %}

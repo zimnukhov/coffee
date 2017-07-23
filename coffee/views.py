@@ -274,13 +274,13 @@ def stats(request):
 
     return render(request, 'coffee/stats.html', {
         'total_brews': total_brews,
-        'consumed_coffee_weight': consumed_coffee_weight,
+        'consumed_coffee_weight': consumed_coffee_weight / 1000,
         'unexpired_coffee_weight': unexpired_coffee_weight,
         'french_presses_remaining': french_presses,
         'harios_remaining': harios,
         'aeropresses_remaining': aeropresses,
         'avg_rating': avg_rating,
         'median_rating': median_rating,
-        'consumed_water': consumed_water,
+        'consumed_water': consumed_water / 1000,
         'consumption_rate': consumption_rate,
     })
