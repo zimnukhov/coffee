@@ -262,7 +262,6 @@ def stats(request):
 
     avg_rating /= rated_brews
     ratings.sort()
-    median_rating = ratings[len(ratings) // 2]
 
     unexpired_coffee_weight = sum(bag_weight.values())
 
@@ -280,7 +279,6 @@ def stats(request):
         'harios_remaining': harios,
         'aeropresses_remaining': aeropresses,
         'avg_rating': avg_rating,
-        'median_rating': median_rating,
         'consumed_water': consumed_water / 1000,
         'consumption_rate': consumption_rate,
     })
