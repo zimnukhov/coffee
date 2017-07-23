@@ -25,8 +25,10 @@
 </div>
 
 
+{% if request.user.is_authenticated %}
 <p>
 <a href="{% url 'coffee:brew-create-for-bag' bag.id %}">Add brew</a>
 </p>
+{% endif %}
 {% include "coffee/brew_list.html" %}
 {% endblock %}
