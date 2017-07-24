@@ -27,7 +27,17 @@ class RoastProfile(models.Model):
 
 
 class Coffee(models.Model):
+    WASHED = 1
+    DRY = 2
+    HONEY = 3
+
     name = models.CharField(max_length=512)
+    short_name = models.CharField(max_length=32, blank=True, null=True)
+    processing = models.IntegerField(choices=(
+        (WASHED, "Washed"),
+        (DRY, "Dry"),
+        (HONEY, "Honey"),
+    ), blank=True, null=True)
     roaster = models.ForeignKey(Roaster)
     roast_profile = models.ForeignKey(RoastProfile, blank=True, null=True)
     roaster_comment = models.TextField(null=True, blank=True)
