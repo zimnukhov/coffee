@@ -32,6 +32,14 @@ def index(request):
     })
 
 
+def all_bags(request):
+    bags = CoffeeBag.objects.select_related('coffee__roaster').order_by('-purchase_date')
+
+    return render(request, 'coffee/all_coffee.html', {
+        'bags': bags,
+    })
+
+
 def search(request):
     query = request.GET.get('query', '')
     query = query.strip()

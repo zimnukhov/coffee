@@ -15,8 +15,9 @@
         <header>
             <nav class="container">
                 <a href="{% url 'coffee:index' %}" class="logo-link">Coffee log</a>
-                <ul>
-                    <li><a href="{% url 'coffee:stats' %}">Stats</a></li>
+                <ul id="header-links">
+                    <li><a href="{% url 'coffee:all-bags' %}">Кофе</a></li>
+                    <li><a href="{% url 'coffee:stats' %}">Статистика</a></li>
                 </ul>
                 <div id="search">
                     <form action="{% url 'coffee:search' %}">

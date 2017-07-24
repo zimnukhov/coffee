@@ -33,8 +33,21 @@ header .logo-link {
 header #search {
     position: absolute;
     right: 1em;
-    bottom: 1em;
-    width: 8em;
+    top: 1em;
+    width: 6em;
+}
+
+header #header-links {
+    padding-left: 0.5em;
+}
+
+header #header-links li {
+    margin-right: 1em;
+}
+
+header #header-links li a {
+    font-size: 1.2em;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
 }
 
 .content-wrapper {
