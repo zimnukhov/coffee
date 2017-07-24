@@ -1,6 +1,6 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Count
+from django.db.models import Count, Avg
 from django.http import HttpResponse
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
@@ -203,6 +203,16 @@ def roaster(request, roaster_id):
     return render(request, 'coffee/roaster.html', {
         'roaster': roaster,
         'brews': brews,
+    })
+
+
+def method_list(request):
+    methods = BrewingMethod.objects.all().annotate(
+        count=Count('brew'), avg_rating=Avg('brew__rating')
+    ).order_by('-count')
+
+    return render(request, 'coffee/method_list.html', {
+        'methods': methods,
     })
 
 

@@ -1,0 +1,22 @@
+{% extends "coffee/base.html" %}
+{% block content %}
+<h2>Способы заваривания кофе</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Способ</th>
+            <th>Чашек заварено</th>
+            <th>Средний рейтинг</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for method in methods %}
+        <tr>
+            <td><a href="{{ method.get_absolute_url }}">{{ method.name }}</a></td>
+            <td>{{ method.count }}</td>
+            <td>{{ method.avg_rating|floatformat:1 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
