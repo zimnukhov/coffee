@@ -10,7 +10,7 @@
             <div class="no-image"></div>
         {% endif %}
         </div>
-        <div class="bag-name"><a href="{{ bag.get_absolute_url }}">{{ bag.coffee.name }}</a></div>
+        <div class="bag-name"><a href="{{ bag.get_absolute_url }}">{% if bag.coffee.short_name %}{{ bag.coffee.short_name }}{% else %}{{ bag.coffee.name }}{% endif %}</a></div>
         <div class="bag-weight">{{ bag.get_weight_display }}</div>
         <div class="bag-roaster"><a href="{{ bag.coffee.roaster.get_absolute_url }}">{{ bag.coffee.roaster.name }}</a></div>
     </li>
