@@ -233,6 +233,16 @@ def descriptor_list(request):
     })
 
 
+def descriptor(request, descriptor_id):
+    descriptor = get_object_or_404(Descriptor, id=descriptor_id)
+    brews = descriptor.brew_set.all().order_by('-datetime')
+
+    return render(request, 'coffee/descriptor.html', {
+        'descriptor': descriptor,
+        'brews': brews,
+    })
+
+
 def stats(request):
     total_brews = 0
     consumed_coffee_weight = 0

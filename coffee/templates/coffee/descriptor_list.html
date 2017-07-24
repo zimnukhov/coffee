@@ -1,6 +1,6 @@
 {% extends "coffee/base.html" %}
 {% block content %}
-<h2>Дескрипторы</h2>
+<h2>Ноты (дескрипторы)</h2>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -11,7 +11,7 @@
     <tbody>
         {% for descriptor in descriptors %}
         <tr>
-            <td>{{ descriptor.name }}</td>
+            <td><a href="{{ descriptor.get_absolute_url }}">{{ descriptor.name }}</a></td>
             <td>{{ descriptor.count }}</td>
         </tr>
         {% endfor %}

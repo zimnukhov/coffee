@@ -300,3 +300,7 @@ class Descriptor(models.Model):
 
     def __str__(self):
         return self.name
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('coffee:note-details', [self.id])
