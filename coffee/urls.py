@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^method/(\d+)/?$', views.method_details, name='brewing-method'),
     url(r'^coffee/(\d+)/?$', views.coffee_details, name='coffee-details'),
     url(r'^roaster/(\d+)/?$', views.roaster, name='roaster-details'),
+    url(r'^notes/?$', views.descriptor_list, name='notes'),
     url(r'^stats/?$', views.stats, name='stats'),
 ]

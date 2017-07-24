@@ -1,0 +1,20 @@
+{% extends "coffee/base.html" %}
+{% block content %}
+<h2>Дескрипторы</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Сколько раз найден</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for descriptor in descriptors %}
+        <tr>
+            <td>{{ descriptor.name }}</td>
+            <td>{{ descriptor.count }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

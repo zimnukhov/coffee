@@ -1,9 +1,10 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Count
 from django.http import HttpResponse
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
-from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring, Roaster
+from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring, Roaster, Descriptor
 from .forms import BrewForm, BrewRatingForm
 
 
@@ -221,6 +222,14 @@ def method_details(request, method_id):
         'brews': brews,
         'max_rating': max_rating,
         'hide_method': True,
+    })
+
+
+def descriptor_list(request):
+    descriptors = Descriptor.objects.annotate(count=Count('brew'))
+
+    return render(request, 'coffee/descriptor_list.html', {
+        'descriptors': descriptors,
     })
 
 
