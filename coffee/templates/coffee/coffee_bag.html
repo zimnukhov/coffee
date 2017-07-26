@@ -1,7 +1,7 @@
 {% extends "coffee/base.html" %}
 {% load static %}
 {% block content %}
-<div id="blueimp-gallery" class="blueimp-gallery">
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
     <div class="slides"></div>
     <h3 class="title"></h3>
     <a class="prev">‹</a>
@@ -33,6 +33,16 @@
         </ul>
     </div>
 </div>
+
+{% if bag.extra_pictures.count %}
+<div class="bag-extra-pictures">
+    {% for pic in bag.extra_pictures.all %}
+    <div class="bag-thumb">
+        <a href="{{ pic.image.url }}" data-gallery><img src="{{ pic.thumbnail.url }}"></a>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 
 
 {% if request.user.is_authenticated %}

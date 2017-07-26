@@ -8,6 +8,11 @@ from .models import (
 class CoffeeBagAdmin(admin.ModelAdmin):
     exclude = ['thumbnail']
 
+
+class BagPictureAdmin(admin.ModelAdmin):
+    exclude = ['thumbnail']
+
+
 admin.site.register(Roaster)
 admin.site.register(RoastProfile)
 admin.site.register(Coffee)
@@ -18,4 +23,4 @@ admin.site.register(Brew)
 admin.site.register(Descriptor)
 admin.site.register(Filter)
 admin.site.register(Person)
-admin.site.register(BagPicture)
+admin.site.register(BagPicture, BagPictureAdmin)

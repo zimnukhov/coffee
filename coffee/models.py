@@ -127,15 +127,35 @@ class CoffeeBag(models.Model):
 
 
 class BagPicture(models.Model):
-    bag = models.ForeignKey(CoffeeBag)
+    bag = models.ForeignKey(CoffeeBag, related_name='extra_pictures')
     comment = models.CharField(max_length=512, blank=True, null=True)
     image = models.ImageField(upload_to='bags/full/')
+    thumbnail = models.ImageField(upload_to='bags/thumbs/', blank=True, null=True)
 
     def __str__(self):
         name = str(self.bag)
         if self.comment:
             name += ' ' + self.comment
         return name
+
+    def save(self, *args, **kwargs):
+        thumb_size = (100, 100)
+        image = Image.open(BytesIO(self.image.read()))
+        image.thumbnail(thumb_size, Image.ANTIALIAS)
+
+        thumb_stream = BytesIO()
+        image.save(thumb_stream, 'jpeg', quality=95)
+
+        thumb_stream.seek(0)
+
+        uploaded_file = ContentFile(thumb_stream.read())
+
+        self.thumbnail.save(
+            os.path.basename(self.image.name),
+            uploaded_file,
+            save=False,
+        )
+        super(BagPicture, self).save(*args, **kwargs)
 
 
 class Water(models.Model):

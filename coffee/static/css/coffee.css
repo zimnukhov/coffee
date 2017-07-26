@@ -204,3 +204,7 @@ ul.bag-details span.param-name {
     display: inline-block;
     width: 14em;
 }
+
+.bag-extra-pictures {
+    margin: 1em 0;
+}
