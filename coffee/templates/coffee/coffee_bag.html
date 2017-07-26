@@ -1,9 +1,19 @@
 {% extends "coffee/base.html" %}
+{% load static %}
 {% block content %}
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
 <div class="bag-details-subheader">
     {% if bag.thumbnail %}
-    <div class="bag-thumb">
-        <img src="{{ bag.thumbnail.url }}">
+    <div class="bag-thumb" id="bag-thumb">
+        <a href="{{ bag.image.url }}" data-gallery><img src="{{ bag.thumbnail.url }}"></a>
     </div>
     {% endif %}
     <div class="bag-name-block">
@@ -31,4 +41,9 @@
 </p>
 {% endif %}
 {% include "coffee/brew_list.html" %}
+        <script type="text/javascript" src="{% static "js/blueimp-gallery.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/jquery.blueimp-gallery.js" %}"></script>
+{% endblock %}
+{% block extra_css %}
+        <link rel="stylesheet" href="{% static "css/blueimp-gallery.css" %}">
 {% endblock %}
