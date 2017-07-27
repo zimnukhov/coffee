@@ -23,7 +23,6 @@
 <a href="{% url 'coffee:brew-create' %}">Add brew</a>
 </p>
 {% endif %}
-{% include "coffee/brew_list.html" %}
 <script>
 $(function() {
     var expanded = false;
@@ -55,4 +54,7 @@ $(function() {
     });
 });
 </script>
+{% endblock %}
+{% block brew_list %}
+{% include "coffee/brew_list.html" %}
 {% endblock %}

@@ -50,10 +50,14 @@
 <a href="{% url 'coffee:brew-create-for-bag' bag.id %}">Add brew</a>
 </p>
 {% endif %}
-{% include "coffee/brew_list.html" %}
         <script type="text/javascript" src="{% static "js/blueimp-gallery.js" %}"></script>
         <script type="text/javascript" src="{% static "js/jquery.blueimp-gallery.js" %}"></script>
 {% endblock %}
+
+{% block brew_list %}
+{% include "coffee/brew_list.html" %}
+{% endblock %}
+
 {% block extra_css %}
         <link rel="stylesheet" href="{% static "css/blueimp-gallery.css" %}">
 {% endblock %}

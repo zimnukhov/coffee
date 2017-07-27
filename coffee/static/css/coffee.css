@@ -174,13 +174,17 @@ nav ul li {
     display: inline-block;
     vertical-align: top;
 }
+
+#bag-thumb {
+    margin-right: 20px;
+}
+
 .bag-details-subheader .bag-weight {
 }
 
 .bag-name-block {
     display: inline-block;
     vertical-align: top;
-    padding: 0 0 0 20px;
 }
 
 .bag-name-block h3 {

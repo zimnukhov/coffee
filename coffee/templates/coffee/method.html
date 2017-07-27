@@ -1,5 +1,7 @@
 {% extends "coffee/base.html" %}
 {% block content %}
 <h3>{{ method.name }}</h3>
+{% endblock %}
+{% block brew_list %}
 {% include "coffee/brew_list.html" %}
 {% endblock %}
