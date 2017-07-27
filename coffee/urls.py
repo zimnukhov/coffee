@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^methods/?$', views.method_list, name='methods'),
     url(r'^notes/?$', views.descriptor_list, name='notes'),
     url(r'^notes/(\d+)/?$', views.descriptor, name='note-details'),
+    url(r'^rating/(\d+)/?$', views.brews_by_rating_value, name='brews-by-rating-value'),
     url(r'^stats/?$', views.stats, name='stats'),
 ]

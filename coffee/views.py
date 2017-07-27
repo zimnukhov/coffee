@@ -1,7 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Avg
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring, Roaster, Descriptor
@@ -15,11 +15,9 @@ def index(request):
     ).filter(end_date__isnull=True).order_by('-purchase_date')
 
     brews = Brew.objects.select_related(
-        'coffee_bag',
         'coffee_bag__coffee__roast_profile',
         'method',
         'water',
-        'filter',
         'barista',
     ).order_by('-datetime')
     coffee_params = {}
@@ -262,6 +260,24 @@ def descriptor(request, descriptor_id):
     })
 
 
+def brews_by_rating_value(request, rating_value):
+    rating_value = int(rating_value)
+    if rating_value < 1 or rating_value > 10:
+        raise Http404
+
+    brews = Brew.objects.select_related(
+        'coffee_bag__coffee__roast_profile',
+        'method',
+        'water',
+        'barista',
+    ).filter(rating=rating_value).order_by('-datetime')
+
+    return render(request, 'coffee/brews_by_rating_value.html', {
+        'rating_value': rating_value,
+        'brews': brews,
+    })
+
+
 def stats(request):
     total_brews = 0
     consumed_coffee_weight = 0
@@ -285,6 +301,7 @@ def stats(request):
     rated_brews = 0
     ratings = []
     coffee_weight_by_day = {}
+    brews_by_rating = dict((_x, 0) for _x in range(1, 11))
 
     for brew in Brew.objects.all():
         total_brews += 1
@@ -302,6 +319,8 @@ def stats(request):
             rated_brews += 1
             avg_rating += brew.rating
             ratings.append(brew.rating)
+            if brew.rating in brews_by_rating:
+                brews_by_rating[brew.rating] += 1
 
         if brew.water_volume is not None:
             consumed_water += brew.water_volume
@@ -327,4 +346,9 @@ def stats(request):
         'avg_rating': avg_rating,
         'consumed_water': consumed_water / 1000,
         'consumption_rate': consumption_rate,
+        'brews_by_rating': sorted(
+            brews_by_rating.items(),
+            key=lambda item: item[0],
+            reverse=True
+        ),
     })

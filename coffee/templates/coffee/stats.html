@@ -27,5 +27,11 @@
         <td>Средняя скорость потребления кофе</td>
         <td>{{ consumption_rate|floatformat:1 }} г/день</td>
     </tr>
+    {% for rating, brew_count in brews_by_rating %}
+    <tr>
+        <td>Оценок {{ rating }}/10</td>
+        <td>{% if brew_count > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count }}</a>{% else %}0{% endif %}</td>
+    </tr>
+    {% endfor %}
 </table>
 {% endblock %}
