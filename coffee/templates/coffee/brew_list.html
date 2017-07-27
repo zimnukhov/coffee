@@ -46,7 +46,7 @@
             <td class="hidden-xs hidden-sm">{{ brew.temperature }}</td>
             <td class="hidden-xs hidden-sm">{{ brew.grinder_setting }}</td>
             {% if not hide_water %}
-            <td class="hidden-xs hidden-sm hidden-md">{{ brew.water }}</td>
+            <td class="hidden-xs hidden-sm hidden-md"><a href="{{ brew.water.get_absolute_url }}">{{ brew.water }}</a></td>
             {% endif %}
             <td class="hidden-xs hidden-sm">{{ brew.get_coffee_weight_display }}</td>
             <td class="hidden-xs hidden-sm">{{ brew.get_brew_time_display }}</td>

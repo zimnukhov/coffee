@@ -164,6 +164,10 @@ class Water(models.Model):
     def __str__(self):
         return self.name
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('coffee:water', [self.id])
+
 
 class BrewingMethod(models.Model):
     name = models.CharField(max_length=512)

@@ -1,0 +1,22 @@
+{% extends "coffee/base.html" %}
+{% block content %}
+<h2>Вода</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Марка воды</th>
+            <th>Чашек заварено</th>
+            <th>Средний рейтинг</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for water in waters %}
+        <tr>
+            <td><a href="{{ water.get_absolute_url }}">{{ water.name }}</a></td>
+            <td>{{ water.count }}</td>
+            <td>{{ water.avg_rating|floatformat:1 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

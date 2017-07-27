@@ -186,7 +186,12 @@ def coffee_details(request, coffee_id):
 
 def coffee_bag(request, bag_id):
     bag = get_object_or_404(CoffeeBag, id=bag_id)
-    brews = bag.brew_set.select_related('coffee_bag', 'method').all().order_by('-datetime')
+    brews = bag.brew_set.select_related(
+        'coffee_bag__coffee__roast_profile',
+        'method',
+        'water',
+        'barista',
+    ).all().order_by('-datetime')
 
     max_rating = None
     best_brew = None
@@ -205,10 +210,15 @@ def coffee_bag(request, bag_id):
 
 def roaster(request, roaster_id):
     roaster = get_object_or_404(Roaster, id=roaster_id)
-    brews = Brew.objects.filter(coffee_bag__coffee__roaster=roaster).order_by('-datetime')
+    brews = Brew.objects.select_related(
+        'coffee_bag__coffee__roast_profile',
+        'method',
+        'water',
+        'barista',
+    ).filter(coffee_bag__coffee__roaster=roaster).order_by('-datetime')
 
-    return render(request, 'coffee/roaster.html', {
-        'roaster': roaster,
+    return render(request, 'coffee/object_related_brews.html', {
+        'heading': roaster.name,
         'brews': brews,
     })
 
@@ -234,8 +244,8 @@ def method_details(request, method_id):
         if max_rating is None or brew.rating > max_rating:
             max_rating = brew.rating
 
-    return render(request, 'coffee/method.html', {
-        'method': method,
+    return render(request, 'coffee/object_related_brews.html', {
+        'heading': method.name,
         'brews': brews,
         'max_rating': max_rating,
         'hide_method': True,
@@ -254,9 +264,43 @@ def descriptor(request, descriptor_id):
     descriptor = get_object_or_404(Descriptor, id=descriptor_id)
     brews = descriptor.brew_set.all().order_by('-datetime')
 
-    return render(request, 'coffee/descriptor.html', {
-        'descriptor': descriptor,
+    return render(request, 'coffee/object_related_brews.html', {
+        'heading': descriptor.name,
         'brews': brews,
+    })
+
+
+def water_list(request):
+    waters = Water.objects.all().annotate(
+        count=Count('brew'), avg_rating=Avg('brew__rating')
+    ).order_by('-avg_rating')
+
+    return render(request, 'coffee/water_list.html', {
+        'waters': waters,
+    })
+
+
+def water_details(request, water_id):
+    water = get_object_or_404(Water, id=water_id)
+    brews = water.brew_set.select_related(
+        'coffee_bag__coffee__roast_profile',
+        'method',
+        'water',
+        'barista',
+    ).all().order_by('-datetime')
+
+    max_rating = None
+    best_brew = None
+
+    for brew in brews:
+        if max_rating is None or brew.rating > max_rating:
+            max_rating = brew.rating
+
+    return render(request, 'coffee/object_related_brews.html', {
+        'heading': water.name,
+        'hide_water': True,
+        'brews': brews,
+        'max_rating': max_rating,
     })
 
 
@@ -272,8 +316,8 @@ def brews_by_rating_value(request, rating_value):
         'barista',
     ).filter(rating=rating_value).order_by('-datetime')
 
-    return render(request, 'coffee/brews_by_rating_value.html', {
-        'rating_value': rating_value,
+    return render(request, 'coffee/object_related_brews.html', {
+        'heading': 'Оценка {}/10'.format(rating_value),
         'brews': brews,
     })
 
