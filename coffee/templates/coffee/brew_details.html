@@ -36,13 +36,16 @@
         <td>Помол</td><td>{% if brew.grinder_setting %}{{ brew.grinder_setting }}{% endif %}</td>
     </tr>
     <tr>
-        <td>Способ заваривания</td><td>{{ brew.method }}</td>
+        <td>Способ заваривания</td><td><a href="{{ brew.method.get_absolute_url }}">{{ brew.method }}</a></td>
     </tr>
     {% if brew.filter %}
     <tr>
         <td>Фильтр</td><td>{{ brew.filter }}</td>
     </tr>
     {% endif %}
+    <tr>
+        <td>Вода</td><td><a href="{{ brew.water.get_absolute_url }}">{{ brew.water }}</a></td>
+    </tr>
     <tr>
         <td>t &deg;C</td><td>{{ brew.temperature }}</td> 
     </tr>
@@ -81,7 +84,7 @@
 <p>Дескрипторы:</p>
 <ul>
 {% for descriptor in brew.found_descriptors.all %}
-<li>{{ descriptor }}</li>
+<li><a href="{{ descriptor.get_absolute_url }}">{{ descriptor }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}
