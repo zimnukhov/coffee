@@ -234,6 +234,16 @@ def object_related_brews(request, heading, brews, extra_context=None):
     return render(request, 'coffee/object_related_brews.html', context)
 
 
+def roaster_list(request):
+    roasters = Roaster.objects.all().annotate(
+        count=Count('coffee__coffeebag__brew'), avg_rating=Avg('coffee__coffeebag__brew__rating')
+    ).order_by('-count')
+
+    return render(request, 'coffee/roaster_list.html', {
+        'roasters': roasters,
+    })
+
+
 def roaster(request, roaster_id):
     roaster = get_object_or_404(Roaster, id=roaster_id)
     brews = Brew.objects.filter(coffee_bag__coffee__roaster=roaster)

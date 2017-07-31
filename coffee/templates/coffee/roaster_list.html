@@ -1,0 +1,22 @@
+{% extends "coffee/base.html" %}
+{% block content %}
+<h2>Обжарщики</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Обжарщик</th>
+            <th>Чашек заварено</th>
+            <th>Средний рейтинг</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for roaster in roasters %}
+        <tr>
+            <td><a href="{{ roaster.get_absolute_url }}">{{ roaster.name }}</a></td>
+            <td>{{ roaster.count }}</td>
+            <td>{{ roaster.avg_rating|floatformat:1 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
