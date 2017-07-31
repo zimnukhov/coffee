@@ -1,5 +1,11 @@
 {% extends "coffee/base.html" %}
 {% block content %}
+<ul class="breadcrumbs">
+    <li><a href="{% url 'coffee:index' %}">Главная</a></li><li>&rarr;</li>
+    <li><a href="{% url 'coffee:all-bags' %}">Кофе</a></li><li>&rarr;</li>
+    <li><a href="{{ brew.coffee_bag.get_absolute_url }}">{{ brew.coffee_bag.coffee.get_short_name }}</a></li><li>&rarr;</li>
+    <li><a href="{{ brew.get_absolute_url }}">{{ brew.datetime }}</a></li>
+</ul>
 <h3>{{ brew.coffee_bag.coffee.name }}, {{ brew.datetime }}</h3>
 
 {% if request.user.is_authenticated %}

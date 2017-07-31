@@ -1,5 +1,10 @@
 {% extends "coffee/base.html" %}
 {% block content %}
+<ul class="breadcrumbs">
+    <li><a href="{% url 'coffee:index' %}">Главная</a></li><li>&rarr;</li>
+    <li><a href="{{ object_list_url }}">{{ object_list_name }}</a></li><li>&rarr;</li>
+    <li><a href="{{ object_url }}">{{ heading }}</a></li>
+</ul>
 <h3>{{ heading }}</h3>
 {% endblock %}
 {% block brew_list %}

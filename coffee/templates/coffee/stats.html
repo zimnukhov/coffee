@@ -1,5 +1,9 @@
 {% extends "coffee/base.html" %}
 {% block content %}
+<ul class="breadcrumbs">
+    <li><a href="{% url 'coffee:index' %}">Главная</a></li><li>&rarr;</li>
+    <li><a href="{% url 'coffee:roasters' %}">Статистика</a></li>
+</ul>
 <h1>Статистика</h1>
 <table class="table">
     <tr>

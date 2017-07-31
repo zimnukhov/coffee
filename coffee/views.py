@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Avg
 from django.http import HttpResponse, Http404
 from django.forms import modelformset_factory
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring, Roaster, Descriptor
 from .forms import BrewForm, BrewRatingForm
@@ -248,7 +249,11 @@ def roaster(request, roaster_id):
     roaster = get_object_or_404(Roaster, id=roaster_id)
     brews = Brew.objects.filter(coffee_bag__coffee__roaster=roaster)
 
-    return object_related_brews(request, roaster.name, brews)
+    return object_related_brews(request, roaster.name, brews, {
+        'object_list_name': 'Обжарщики',
+        'object_list_url': reverse('coffee:roasters'),
+        'object_url': roaster.get_absolute_url(),
+    })
 
 
 def method_list(request):
@@ -264,6 +269,9 @@ def method_list(request):
 def method_details(request, method_id):
     method = get_object_or_404(BrewingMethod, id=method_id)
     return object_related_brews(request, method.name, method.brew_set.all(), {
+        'object_list_name': 'Способы заваривания',
+        'object_list_url': reverse('coffee:methods'),
+        'object_url': method.get_absolute_url(),
         'hide_method': True,
     })
 
@@ -278,7 +286,11 @@ def descriptor_list(request):
 
 def descriptor(request, descriptor_id):
     descriptor = get_object_or_404(Descriptor, id=descriptor_id)
-    return object_related_brews(request, descriptor.name, descriptor.brew_set.all())
+    return object_related_brews(request, descriptor.name, descriptor.brew_set.all(), {
+        'object_list_name': 'Ноты',
+        'object_list_url': reverse('coffee:notes'),
+        'object_url': descriptor.get_absolute_url(),
+    })
 
 
 def water_list(request):
@@ -294,6 +306,9 @@ def water_list(request):
 def water_details(request, water_id):
     water = get_object_or_404(Water, id=water_id)
     return object_related_brews(request, water.name, water.brew_set.all(), {
+        'object_list_name': 'Вода',
+        'object_list_url': reverse('coffee:waters'),
+        'object_url': water.get_absolute_url(),
         'hide_water': True
     })
 
@@ -308,6 +323,11 @@ def brews_by_rating_value(request, rating_value):
         request,
         'Оценка {}/10'.format(rating_value),
         brews,
+        {
+            'object_list_name': 'Статистика',
+            'object_list_url': reverse('coffee:stats'),
+            'object_url': '',
+        }
     )
 
 

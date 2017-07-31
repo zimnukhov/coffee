@@ -1,2 +1,6 @@
 {% extends "coffee/bag_list.html" %}
+{% block breadcrumbs %}
+<li>&rarr;</li>
+<li>Поиск</li>
+{% endblock %}
 {% block heading %}Результаты поиска по запросу: {{ query }}{% endblock %}

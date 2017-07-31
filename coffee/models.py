@@ -53,6 +53,11 @@ class Coffee(models.Model):
             result += ' ' + self.roast_profile.name
         return result
 
+    def get_short_name(self):
+        if self.short_name:
+            return self.short_name
+        return self.name
+
 
 class CoffeeBag(models.Model):
     coffee = models.ForeignKey(Coffee)

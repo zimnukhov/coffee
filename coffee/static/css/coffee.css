@@ -54,6 +54,16 @@ header #header-links li a {
     padding: 0 1em;
 }
 
+.breadcrumbs {
+    list-style: none;
+    padding: 1em 0 0;
+}
+
+.breadcrumbs li {
+    display: inline-block;
+    margin: 0 0.1em;
+}
+
 .coffee-bags {
     margin: 10px auto;
     padding: 0;
