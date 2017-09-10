@@ -60,11 +60,23 @@ class Coffee(models.Model):
 
 
 class CoffeeBag(models.Model):
+    NOT_FINISHED = 0
+    FINISHED = 1
+    THROWN_AWAY = 2
+    GIVEN_AWAY = 3
+
     coffee = models.ForeignKey(Coffee)
     weight = models.IntegerField(blank=True, null=True)
     roast_date = models.DateField(blank=True, null=True)
     purchase_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
+    status = models.IntegerField(choices=(
+        (NOT_FINISHED, 'Not finished'),
+        (FINISHED, 'Finished'),
+        (THROWN_AWAY, 'Thrown away'),
+        (GIVEN_AWAY, 'Given away'),
+    ), default=NOT_FINISHED)
+    roaster_comment = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='bags/full/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='bags/thumbs/', blank=True, null=True)
 
@@ -248,6 +260,7 @@ class Brew(models.Model):
     temperature = models.IntegerField(blank=True, null=True)
     coffee_weight = models.IntegerField(blank=True, null=True)
     water_volume = models.IntegerField(blank=True, null=True)
+    result_volume = models.IntegerField(blank=True, null=True)
     water = models.ForeignKey(Water, blank=True, null=True)
     brew_time = models.IntegerField(blank=True, null=True)
     bloom = models.SmallIntegerField(choices=(
