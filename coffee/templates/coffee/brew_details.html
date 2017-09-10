@@ -55,6 +55,11 @@
     <tr>
         <td>Объём воды</td><td>{% if brew.water_volume %}{{ brew.water_volume }}мл{% endif %}</td>
     </tr>
+    {% if brew.result_volume %}
+    <tr>
+        <td>Объём напитка</td><td>{{ brew.result_volume }}мл</td>
+    </tr>
+    {% endif %}
     <tr>
         <td>Время</td><td>{% if brew.brew_time %}{{ brew.get_brew_time_display }}{% endif %}</td>
     </tr>
