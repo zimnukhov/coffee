@@ -35,6 +35,20 @@
             {% if bag.coffee.roaster_comment %}
             <li><span class="param-name">Комментарий обжарщика:</span>{{ bag.coffee.roaster_comment }}</li>
             {% endif %}
+            {% if all_descriptors %}
+            <li><span class="param-name">Дескрипторы:</span>
+                {% for descriptor in all_descriptors %}
+                <a href="{{ descriptor.get_absolute_url }}">{{ descriptor }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </li>
+            {% endif %}
+            {% if bag_descriptors %}
+            <li><span class="param-name">В этой пачке:</span>
+                {% for descriptor in bag_descriptors %}
+                <a href="{{ descriptor.get_absolute_url }}">{{ descriptor }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </li>
+            {% endif %}
         </ul>
     </div>
 </div>
@@ -63,6 +77,14 @@
 {% include "coffee/brew_list.html" %}
 {% endblock %}
 
+{% block after_brew_list_content %}
+<div class="content-wrapper">
+    {% if other_bags %}
+    <h4>Другие пачки кофе {{ bag.coffee.name }}</h4>
+        {% include "coffee/bag_list.html" with bags=other_bags %}
+    {% endif %}
+</div>
+{% endblock %}
 {% block extra_css %}
         <link rel="stylesheet" href="{% static "css/blueimp-gallery.css" %}">
 {% endblock %}

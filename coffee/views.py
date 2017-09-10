@@ -201,11 +201,21 @@ def coffee_bag(request, bag_id):
         if max_rating is None or brew.rating > max_rating:
             max_rating = brew.rating
 
+    other_bags = bag.coffee.coffeebag_set.exclude(id=bag_id)
+    all_descriptors = Descriptor.objects.filter(brew__coffee_bag__coffee=bag.coffee).distinct()
+    if other_bags:
+        bag_descriptors = Descriptor.objects.filter(brew__coffee_bag=bag).distinct()
+    else:
+        bag_descriptors = []
+
     return render(request, 'coffee/coffee_bag.html', {
         'bag': bag,
         'brews': brews,
         'max_rating': max_rating,
         'hide_coffee': True,
+        'all_descriptors': all_descriptors,
+        'bag_descriptors': bag_descriptors,
+        'other_bags': other_bags,
     })
 
 
