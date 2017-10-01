@@ -1,5 +1,11 @@
 {% extends "coffee/base.html" %}
 {% load static %}
+{% block extra_css %}
+        <link rel="stylesheet" href="{% static "css/jquery-ui.min.css" %}" />
+{% endblock %}
+{% block extra_js %}
+        <script type="text/javascript" src="{% static "js/jquery-ui.min.js" %}"></script>
+{% endblock %}
 {% block content %}
 <form action="" method="post" id="brew-form">
 {% csrf_token %}
