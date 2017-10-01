@@ -6,6 +6,7 @@ app_name = 'coffee'
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'brews.json$', views.brew_list_page, name='brew-list-json'),
     url(r'^search/?$', views.search, name='search'),
     url(r'^bags/?$', views.all_bags, name='all-bags'),
     url(r'^brew/(\d+)/?$', views.brew_details, name='brew-details'),

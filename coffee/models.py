@@ -327,6 +327,24 @@ class Brew(models.Model):
 
         return stars
 
+    def get_json_dict(self):
+        return {
+            'url': self.get_absolute_url(),
+            'datetime': self.datetime.strftime('%Y-%m-%d %H:%M'),
+            'barista': self.barista.name,
+            'bag': self.coffee_bag.coffee.name,
+            'bag_url': self.coffee_bag.get_absolute_url(),
+            'method': self.method.name,
+            'method_url': self.method.get_absolute_url(),
+            'temperature': self.temperature,
+            'grinder_setting': self.grinder_setting,
+            'water': self.water.name,
+            'water_url': self.water.get_absolute_url(),
+            'coffee_weight': self.coffee_weight,
+            'brew_time': self.get_brew_time_display(),
+            'rating': self.rating,
+        }
+
     @classmethod
     def get_default(cls):
         barista = None

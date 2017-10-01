@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped brew-list">
     <thead>
         <tr>
             <th><span class="hidden-xs hidden-sm">&nbsp; Дата и время</span><span class="visible-xs visible-sm">Время</span></th>
@@ -58,6 +58,7 @@
                 {% endif %}</td>
         </tr>
         {% endfor %}
+        {% if not ajax_list %}
         <tr>
             <td></td>
             {% if not hide_barista %}
@@ -72,11 +73,12 @@
             <td class="hidden-xs hidden-sm"></td>
             <td class="hidden-xs hidden-sm"></td>
             {% if not hide_water %}
-            <td class="hidden-xs hidden-sm hidden-md">{{ brew.water }}</td>
+            <td class="hidden-xs hidden-sm hidden-md"></td>
             {% endif %}
             <td class="hidden-xs hidden-sm">{{ brews.get_total_weight }}g</td>
             <td class="hidden-xs hidden-sm"></td>
             <td></td>
         </tr>
+        {% endif %}
     </tbody>
 </table>

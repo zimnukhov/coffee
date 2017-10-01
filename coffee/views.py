@@ -1,7 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Avg
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, JsonResponse, Http404
 from django.forms import modelformset_factory
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -20,7 +20,7 @@ def index(request):
         'method',
         'water',
         'barista',
-    ).order_by('-datetime')
+        ).order_by('-datetime')[:20]
     coffee_params = {}
     show_roast_profile = set()
 
@@ -38,7 +38,26 @@ def index(request):
     return render(request, 'coffee/index.html', {
         'bags': bags,
         'brews': brews,
+        'ajax_list': True,
     })
+
+
+def brew_list_page(request):
+    offset = request.GET.get('offset', '')
+    if offset.isdigit():
+        offset = int(offset)
+    else:
+        return JsonResponse({'error': 'invalid offset'})
+
+    page_size = 50
+    brews = Brew.objects.select_related(
+        'coffee_bag__coffee__roast_profile',
+        'method',
+        'water',
+        'barista',
+    ).order_by('-datetime')[offset:offset+page_size]
+
+    return JsonResponse({'brews': [brew.get_json_dict() for brew in brews]})
 
 
 def all_bags(request):
