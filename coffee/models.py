@@ -37,6 +37,15 @@ class RoastProfile(models.Model):
         return self.name
 
 
+class Grinder(models.Model):
+    name = models.CharField(max_length=512)
+    comment = models.TextField(null=True, blank=True)
+    default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
 class Coffee(models.Model):
     WASHED = 1
     DRY = 2
@@ -266,6 +275,7 @@ class Brew(models.Model):
     datetime = models.DateTimeField()
     coffee_bag = models.ForeignKey(CoffeeBag)
     barista = models.ForeignKey(Person, blank=True, null=True)
+    grinder = models.ForeignKey(Grinder, blank=True, null=True)
     grinder_setting = models.IntegerField()
     method = models.ForeignKey(BrewingMethod)
     temperature = models.IntegerField(blank=True, null=True)
@@ -325,6 +335,12 @@ class Brew(models.Model):
         if len(default_baristas) > 0:
             barista = default_baristas[0]
 
+        grinder = None
+
+        default_grinders = Grinder.objects.filter(default=True)
+        if len(default_grinders) > 0:
+            grinder = default_grinders[0]
+
         return cls(
             datetime=datetime.datetime.now(),
             grinder_setting=14,
@@ -332,6 +348,7 @@ class Brew(models.Model):
             coffee_weight=15,
             bloom=cls.BLOOM,
             barista=barista,
+            grinder=grinder,
         )
 
 

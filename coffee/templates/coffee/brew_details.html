@@ -33,7 +33,7 @@
         <td>Бариста</td><td>{{ brew.barista }}</td>
     </tr>
     <tr>
-        <td>Помол</td><td>{% if brew.grinder_setting %}{{ brew.grinder_setting }}{% endif %}</td>
+        <td>Помол{% if brew.grinder %} ({{ brew.grinder }}){% endif %}</td><td>{% if brew.grinder_setting %}{{ brew.grinder_setting }}{% endif %}</td>
     </tr>
     <tr>
         <td>Способ заваривания</td><td><a href="{{ brew.method.get_absolute_url }}">{{ brew.method }}</a></td>

@@ -88,6 +88,8 @@ def create_brew_for_bag(request, bag_id):
         brew.coffee_weight = best_brew.coffee_weight
         brew.bloom = best_brew.bloom
         brew.water = best_brew.water
+        if best_brew.grinder is not None:
+            brew.grinder = best_brew.grinder
 
     return brew_form(request, brew)
 
