@@ -8,8 +8,19 @@ from django.core.files.base import ContentFile
 from .utils import get_time_display
 
 
+class City(models.Model):
+    name = models.CharField(max_length=512)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'cities'
+
+
 class Roaster(models.Model):
     name = models.CharField(max_length=512)
+    city = models.ForeignKey(City, blank=True, null=True)
 
     def __str__(self):
         return self.name

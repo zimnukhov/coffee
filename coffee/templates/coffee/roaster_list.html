@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th>Обжарщик</th>
+            <th>Город</th>
             <th>Чашек заварено</th>
             <th>Средний рейтинг</th>
         </tr>
@@ -17,6 +18,7 @@
         {% for roaster in roasters %}
         <tr>
             <td><a href="{{ roaster.get_absolute_url }}">{{ roaster.name }}</a></td>
+            <td>{% if roaster.city %}{{ roaster.city }}{% endif %}</td>
             <td>{{ roaster.count }}</td>
             <td>{{ roaster.avg_rating|floatformat:1 }}</td>
         </tr>

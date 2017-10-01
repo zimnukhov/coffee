@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Roaster, RoastProfile, Coffee, CoffeeBag, Water, BrewingMethod, Brew,
-    Descriptor, Filter, Person, BagPicture
+    Descriptor, Filter, Person, BagPicture, City
 )
 
 
@@ -13,6 +13,7 @@ class BagPictureAdmin(admin.ModelAdmin):
     exclude = ['thumbnail']
 
 
+admin.site.register(City)
 admin.site.register(Roaster)
 admin.site.register(RoastProfile)
 admin.site.register(Coffee)
