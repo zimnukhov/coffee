@@ -1,7 +1,9 @@
 <table class="table table-striped brew-list">
     <thead>
         <tr>
-            <th><span class="hidden-xs hidden-sm">&nbsp; Дата и время</span><span class="visible-xs visible-sm">Время</span></th>
+            <th><a href="{{ request.path }}?sort={% if order != "-datetime" %}-{% endif %}datetime">
+                    <span class="hidden-xs hidden-sm">&nbsp; Дата и время</span><span class="visible-xs visible-sm">Время</span></a>
+            </th>
             {% if not hide_barista %}
             <th class="hidden-xs hidden-sm">Бариста</th>
             {% endif %}
@@ -11,14 +13,14 @@
             {% if not hide_method %}
             <th>Метод</th>
             {% endif %}
-            <th class="hidden-xs hidden-sm">t &deg;C</th>
-            <th class="hidden-xs hidden-sm">Помол</th>
+            <th class="hidden-xs hidden-sm"><a href="{{ request.path }}?sort={% if order != "-temperature" %}-{% endif %}temperature">t &deg;C</a></th>
+            <th class="hidden-xs hidden-sm"><a href="{{ request.path }}?sort={% if order != "-grinder_setting" %}-{% endif %}grinder_setting">Помол</a></th>
             {% if not hide_water %}
             <th class="hidden-xs hidden-sm hidden-md">Вода</th>
             {% endif %}
-            <th class="hidden-xs hidden-sm">Вес</th>
-            <th class="hidden-xs hidden-sm">Время</th>
-            <th>Оценка</th>
+            <th class="hidden-xs hidden-sm"><a href="{{ request.path }}?sort={% if order != "-coffee_weight" %}-{% endif %}coffee_weight">Вес</a></th>
+            <th class="hidden-xs hidden-sm"><a href="{{ request.path }}?sort={% if order != "-brew_time" %}-{% endif %}brew_time">Время</th>
+            <th><a href="{{ request.path }}?sort={% if order != "-rating" %}-{% endif %}rating">Оценка</th>
         </tr>
     </thead>
     <tbody>

@@ -9,18 +9,37 @@ from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring, Roas
 from .forms import BrewForm, BrewRatingForm
 
 
+def get_brew_list_order(request):
+    order = request.GET.get('sort', '')
+    order_dir = ''
+    if order.startswith('-'):
+        order_dir = '-'
+        order = order[1:]
+
+    if order not in (
+        'datetime', 'barista', 'bag', 'method',
+        'temperature', 'grinder_setting', 'water',
+        'coffee_weight', 'brew_time', 'rating'
+    ):
+        return '-datetime'
+
+    return order_dir + order
+
+
 def index(request):
     today = datetime.date.today()
     bags = CoffeeBag.objects.select_related(
         'coffee__roaster'
     ).filter(status=CoffeeBag.NOT_FINISHED).order_by('-purchase_date')
 
+    order = get_brew_list_order(request)
+
     brews = Brew.objects.select_related(
         'coffee_bag__coffee__roast_profile',
         'method',
         'water',
         'barista',
-        ).order_by('-datetime')[:20]
+        ).order_by(get_brew_list_order(request))[:20]
     coffee_params = {}
     show_roast_profile = set()
 
@@ -38,6 +57,7 @@ def index(request):
     return render(request, 'coffee/index.html', {
         'bags': bags,
         'brews': brews,
+        'order': order,
         'ajax_list': True,
     })
 
@@ -55,7 +75,7 @@ def brew_list_page(request):
         'method',
         'water',
         'barista',
-    ).order_by('-datetime')[offset:offset+page_size]
+    ).order_by(get_brew_list_order(request))[offset:offset+page_size]
 
     return JsonResponse({'brews': [brew.get_json_dict() for brew in brews]})
 
@@ -208,12 +228,14 @@ def coffee_details(request, coffee_id):
 
 def coffee_bag(request, bag_id):
     bag = get_object_or_404(CoffeeBag, id=bag_id)
+    order = get_brew_list_order(request)
+
     brews = bag.brew_set.select_related(
         'coffee_bag__coffee__roast_profile',
         'method',
         'water',
         'barista',
-    ).all().order_by('-datetime')
+    ).all().order_by(order)
 
     max_rating = None
     best_brew = None
@@ -237,16 +259,19 @@ def coffee_bag(request, bag_id):
         'all_descriptors': all_descriptors,
         'bag_descriptors': bag_descriptors,
         'other_bags': other_bags,
+        'order': order,
     })
 
 
 def object_related_brews(request, heading, brews, extra_context=None):
+    order = get_brew_list_order(request)
+
     brews = brews.select_related(
         'coffee_bag__coffee__roast_profile',
         'method',
         'water',
         'barista',
-    ).order_by('-datetime')
+    ).order_by(order)
 
     max_rating = None
 
@@ -258,6 +283,7 @@ def object_related_brews(request, heading, brews, extra_context=None):
         'heading': heading,
         'brews': brews,
         'max_rating': max_rating,
+        'order': order,
     }
 
     if extra_context is not None:
