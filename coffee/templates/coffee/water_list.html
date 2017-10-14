@@ -10,7 +10,8 @@
         <tr>
             <th>Марка воды</th>
             <th>Чашек заварено</th>
-            <th>Средний рейтинг</th>
+            <th>Средний рейтинг за всё время</th>
+            <th>Средний рейтинг за последние 100 чашек</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +20,7 @@
             <td><a href="{{ water.get_absolute_url }}">{{ water.name }}</a></td>
             <td>{{ water.count }}</td>
             <td>{{ water.avg_rating|floatformat:1 }}</td>
+            <td>{% if water.recent_rating %}{{ water.recent_rating|floatformat:1 }}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>

@@ -355,6 +355,18 @@ def water_list(request):
         count=Count('brew'), avg_rating=Avg('brew__rating')
     ).order_by('-avg_rating')
 
+    recent_ratings = {}
+
+    for brew in Brew.objects.filter(rating__isnull=False).order_by("-datetime")[:100]:
+        recent_ratings.setdefault(brew.water_id, {'rating': 0, 'count': 0})
+        recent_ratings[brew.water_id]['rating'] += brew.rating
+        recent_ratings[brew.water_id]['count'] += 1
+
+    for water in waters:
+        recent = recent_ratings.get(water.id)
+        if recent:
+            water.recent_rating = recent['rating'] / recent['count']
+
     return render(request, 'coffee/water_list.html', {
         'waters': waters,
     })
