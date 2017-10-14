@@ -45,7 +45,7 @@
             {% if not hide_method %}
             <td><a href="{{ brew.method.get_absolute_url }}">{{ brew.method }}</a></td>
             {% endif %}
-            <td class="hidden-xs hidden-sm">{{ brew.temperature }}</td>
+            <td class="hidden-xs hidden-sm">{% if brew.temperature %}{{ brew.temperature }}{% endif %}</td>
             <td class="hidden-xs hidden-sm">{{ brew.grinder_setting }}</td>
             {% if not hide_water %}
             <td class="hidden-xs hidden-sm hidden-md"><a href="{{ brew.water.get_absolute_url }}">{{ brew.water }}</a></td>

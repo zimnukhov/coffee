@@ -47,7 +47,7 @@
         <td>Вода</td><td><a href="{{ brew.water.get_absolute_url }}">{{ brew.water }}</a></td>
     </tr>
     <tr>
-        <td>t &deg;C</td><td>{{ brew.temperature }}</td> 
+        <td>t &deg;C</td><td>{% if brew.temperature %}{{ brew.temperature }}{% endif %}</td>
     </tr>
     <tr>
         <td>Вес</td><td>{% if brew.coffee_weight %}{{ brew.coffee_weight }}г{% endif %}</td>

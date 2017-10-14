@@ -129,7 +129,7 @@
 <button type="submit" class="btn btn-primary">Save</button>
 </form>
 <script>
-var make_slider = function(input_id, min, max) {
+var make_slider = function(input_id, min, max, allow_none) {
     var slider = $("<div>");
 	var handle = $("<div>").addClass("ui-slider-handle").addClass("custom-slider-handle");
     handle.appendTo(slider);
@@ -147,6 +147,22 @@ var make_slider = function(input_id, min, max) {
 			handle.text($(this).slider("value"));
 		}
     });
+
+    if (allow_none) {
+        var toggle = $("<input type='checkbox'>").change(function() {
+            if ($(this).is(":checked")) {
+                slider.slider("option", "disabled", true);
+                $(input_id).val("");
+            }
+            else {
+                slider.slider("option", "disabled", false);
+                $(input_id).val(slider.slider("option", "value"));
+            }
+        });
+
+        slider.after($("<label>").append(toggle).append("<span> unknown</span>"));
+    }
+
     $(input_id).change(function() {
         slider.slider("value", $(this).val());
     }).hide();
@@ -221,7 +237,6 @@ var add_pouring_form = function() {
 var remove_pouring = function() {
     var parent = $(this).parent();
     var form_id = parent.attr("id").match(/[0-9]+/)[0];
-    console.log(form_id);
     var has_id = false;
     if (parent.find("[name=form-" + form_id + "-id]").val()) {
         $("<input name='form-" + form_id + "-DELETE' type='hidden' value='on'>").appendTo(parent);
@@ -237,9 +252,9 @@ var remove_pouring = function() {
 }
 
 $(function(){
-    make_slider("#id_grinder_setting", 1, 40);
-    make_slider("#id_temperature", 70, 100);
-    make_slider("#id_coffee_weight", 10, 50);
+    make_slider("#id_grinder_setting", 1, 40, false);
+    make_slider("#id_temperature", 70, 100, true);
+    make_slider("#id_coffee_weight", 10, 50, true);
     //make_slider("#id_water_volume", 100, 300);
     make_duration_input("#id_brew_time");
     $("<div>").addClass("pouring-form-button").text("add").insertAfter($("#pouring_formset_wrap")).click(function() {
