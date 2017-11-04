@@ -133,12 +133,14 @@ var make_slider = function(input_id, min, max, allow_none) {
     var slider = $("<div>");
 	var handle = $("<div>").addClass("ui-slider-handle").addClass("custom-slider-handle");
     handle.appendTo(slider);
+    var init_value = $(input_id).val();
+    var is_unknown = !init_value;
 
     $(input_id).after(slider);
     slider.slider({
         min: min,
         max: max,
-        value: parseInt($(input_id).val()),
+        value: is_unknown ? "" : parseInt(init_value),
         slide: function(event, ui) {
             $(input_id).val(ui.value);
 		    handle.text( ui.value );
@@ -161,6 +163,10 @@ var make_slider = function(input_id, min, max, allow_none) {
         });
 
         slider.after($("<label>").append(toggle).append("<span> unknown</span>"));
+
+        if (is_unknown) {
+            toggle.prop("checked", true).trigger("change");
+        }
     }
 
     $(input_id).change(function() {

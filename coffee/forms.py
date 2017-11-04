@@ -52,6 +52,9 @@ class BrewForm(forms.ModelForm):
     class Meta:
         model = Brew
         exclude = ['id']
+        widgets = {
+            'comment': forms.Textarea(attrs={'rows': 4, 'cols': 35}),
+        }
 
 
 class BrewRatingForm(forms.ModelForm):
