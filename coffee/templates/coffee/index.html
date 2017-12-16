@@ -100,7 +100,7 @@ $(function() {
                             "<td class='hidden-xs hidden-sm'>" + brew.barista  + "</td>" +
                             "<td><a href='" + brew.bag_url + "'>" + brew.bag + "</a></td>" +
                             "<td><a href='" + brew.method_url + "'>" + brew.method + "</a></td>" +
-                            "<td class='hidden-xs hidden-sm'>" + brew.temperature + "</td>" +
+                            "<td class='hidden-xs hidden-sm'>" + (brew.temperature?brew.temperature:"") + "</td>" +
                             "<td class='hidden-xs hidden-sm'>" + brew.grinder_setting + "</td>" +
                             "<td class='hidden-xs hidden-sm hidden-md'><a href='" + brew.water_url + "'>" +  brew.water + "</a></td>" +
                             "<td class='hidden-xs hidden-sm'>" + (brew.coffee_weight?brew.coffee_weight + "g":"") + "</td>" +
