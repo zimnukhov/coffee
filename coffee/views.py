@@ -39,6 +39,7 @@ def index(request):
         'method',
         'water',
         'barista',
+        'grinder',
         ).order_by(get_brew_list_order(request))[:20]
     coffee_params = {}
     show_roast_profile = set()
@@ -75,6 +76,7 @@ def brew_list_page(request):
         'method',
         'water',
         'barista',
+        'grinder',
     ).order_by(get_brew_list_order(request))[offset:offset+page_size]
 
     return JsonResponse({'brews': [brew.get_json_dict() for brew in brews]})

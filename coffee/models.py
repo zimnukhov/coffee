@@ -38,9 +38,22 @@ class RoastProfile(models.Model):
 
 
 class Grinder(models.Model):
+    SIMPLE = 0
+    AERGRIND = 1
+
     name = models.CharField(max_length=512)
     comment = models.TextField(null=True, blank=True)
     default = models.BooleanField(default=False)
+    adjust_type = models.IntegerField(choices=(
+        (SIMPLE, "Simple"),
+        (AERGRIND, "Aergrind"),
+    ), default=SIMPLE)
+
+    def get_setting_display(self, value):
+        if self.adjust_type == self.AERGRIND:
+            return '%d,%d' % (value / 12, value % 12)
+
+        return str(value)
 
     def __str__(self):
         return self.name
@@ -305,6 +318,15 @@ class Brew(models.Model):
     def get_absolute_url(self):
         return ('coffee:brew-details', [self.id])
 
+    def get_grinder_setting_display(self):
+        if self.grinder_setting is None:
+            return ''
+
+        if self.grinder is None:
+            return str(self.grinder_setting)
+
+        return self.grinder.get_setting_display(self.grinder_setting)
+
     def get_rating_display(self):
         return '{}/10'.format(self.rating)
 
@@ -337,7 +359,7 @@ class Brew(models.Model):
             'method': self.method.name,
             'method_url': self.method.get_absolute_url(),
             'temperature': self.temperature,
-            'grinder_setting': self.grinder_setting,
+            'grinder_setting': self.get_grinder_setting_display(),
             'water': self.water.name,
             'water_url': self.water.get_absolute_url(),
             'coffee_weight': self.coffee_weight,
