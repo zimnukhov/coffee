@@ -256,7 +256,8 @@ class BrewQuerySet(models.QuerySet):
         total_weight = 0
 
         for brew in self:
-            total_weight += brew.coffee_weight
+            if brew.coffee_weight is not None:
+                total_weight += brew.coffee_weight
             if brew.rating is not None and (max_rating is None or brew.rating > max_rating):
                 max_rating = brew.rating
 
