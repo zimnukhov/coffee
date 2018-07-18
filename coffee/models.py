@@ -20,7 +20,7 @@ class City(models.Model):
 
 class Roaster(models.Model):
     name = models.CharField(max_length=512)
-    city = models.ForeignKey(City, blank=True, null=True)
+    city = models.ForeignKey(City, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -71,8 +71,8 @@ class Coffee(models.Model):
         (DRY, "Dry"),
         (HONEY, "Honey"),
     ), blank=True, null=True)
-    roaster = models.ForeignKey(Roaster)
-    roast_profile = models.ForeignKey(RoastProfile, blank=True, null=True)
+    roaster = models.ForeignKey(Roaster, on_delete=models.CASCADE)
+    roast_profile = models.ForeignKey(RoastProfile, blank=True, null=True, on_delete=models.CASCADE)
     roaster_comment = models.TextField(null=True, blank=True)
     descriptors = models.ManyToManyField('Descriptor', blank=True)
 
@@ -98,7 +98,7 @@ class CoffeeBag(models.Model):
     THROWN_AWAY = 2
     GIVEN_AWAY = 3
 
-    coffee = models.ForeignKey(Coffee)
+    coffee = models.ForeignKey(Coffee, on_delete=models.CASCADE)
     weight = models.IntegerField(blank=True, null=True)
     roast_date = models.DateField(blank=True, null=True)
     purchase_date = models.DateField()
@@ -177,7 +177,7 @@ class CoffeeBag(models.Model):
 
 
 class BagPicture(models.Model):
-    bag = models.ForeignKey(CoffeeBag, related_name='extra_pictures')
+    bag = models.ForeignKey(CoffeeBag, related_name='extra_pictures', on_delete=models.CASCADE)
     comment = models.CharField(max_length=512, blank=True, null=True)
     image = models.ImageField(upload_to='bags/full/')
     thumbnail = models.ImageField(upload_to='bags/thumbs/', blank=True, null=True)
@@ -221,7 +221,7 @@ class Water(models.Model):
 
 class BrewingMethod(models.Model):
     name = models.CharField(max_length=512)
-    default_filter = models.ForeignKey('Filter', blank=True, null=True)
+    default_filter = models.ForeignKey('Filter', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -287,23 +287,23 @@ class Brew(models.Model):
     objects = BrewQuerySet.as_manager()
 
     datetime = models.DateTimeField()
-    coffee_bag = models.ForeignKey(CoffeeBag)
-    barista = models.ForeignKey(Person, blank=True, null=True)
-    grinder = models.ForeignKey(Grinder, blank=True, null=True)
+    coffee_bag = models.ForeignKey(CoffeeBag, on_delete=models.CASCADE)
+    barista = models.ForeignKey(Person, blank=True, null=True, on_delete=models.CASCADE)
+    grinder = models.ForeignKey(Grinder, blank=True, null=True, on_delete=models.CASCADE)
     grinder_setting = models.IntegerField()
-    method = models.ForeignKey(BrewingMethod)
+    method = models.ForeignKey(BrewingMethod, on_delete=models.CASCADE)
     temperature = models.IntegerField(blank=True, null=True)
     coffee_weight = models.IntegerField(blank=True, null=True)
     water_volume = models.IntegerField(blank=True, null=True)
     result_volume = models.IntegerField(blank=True, null=True)
-    water = models.ForeignKey(Water, blank=True, null=True)
+    water = models.ForeignKey(Water, blank=True, null=True, on_delete=models.CASCADE)
     brew_time = models.IntegerField(blank=True, null=True)
     bloom = models.SmallIntegerField(choices=(
         (BLOOM_UNKNOWN, 'Unknown'),
         (BLOOM, 'Bloom'),
         (NO_BLOOM, 'No bloom'),
     ), default=0)
-    filter = models.ForeignKey(Filter, blank=True, null=True)
+    filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.CASCADE)
     found_descriptors = models.ManyToManyField('Descriptor', blank=True)
     rating = models.SmallIntegerField(blank=True, null=True, choices=((i, i) for i in range(1, 11)))
     comment = models.TextField(blank=True, null=True)
@@ -394,7 +394,7 @@ class Brew(models.Model):
 
 
 class Pouring(models.Model):
-    brew = models.ForeignKey(Brew)
+    brew = models.ForeignKey(Brew, on_delete=models.CASCADE)
     volume = models.IntegerField()
     order = models.IntegerField(default=0)
     wait_time = models.IntegerField(blank=True, null=True)
