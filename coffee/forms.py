@@ -21,21 +21,38 @@ class DurationField(forms.CharField):
         if ':' not in value:
             raise forms.ValidationError('Incorrect format for duration')
 
-        split = value.split(':', 1)
+        split = value.split(':', 2)
 
-        if not split[0].isdigit():
+        hours = 0
+        if len(split) == 3:
+            if not split[0].isdigit():
+                raise forms.ValidationError('Incorrect hours value')
+            hours = int(split[0])
+            minutes_str = split[1]
+            seconds_str = split[2]
+        elif len(split) == 2:
+            minutes_str = split[0]
+            seconds_str = split[1]
+        else:
+            raise forms.ValidationError('Incorrect duration format')
+
+        if not minutes_str.isdigit():
             raise forms.ValidationError('Incorrect minutes value')
-        minutes = int(split[0])
 
-        if not split[1].isdigit():
+        minutes = int(minutes_str)
+
+        if hours > 0 and minutes > 59:
+            raise forms.ValidationError('Minutes value out of range')
+
+        if not seconds_str.isdigit():
             raise forms.ValidationError('Incorrect seconds value')
 
-        seconds = int(split[1])
+        seconds = int(seconds_str)
 
         if seconds > 59:
             raise forms.ValidationError('Seconds value out of range')
 
-        return minutes * 60 + seconds
+        return hours * 3600 + minutes * 60 + seconds
 
 
 class BrewForm(forms.ModelForm):

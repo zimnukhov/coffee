@@ -176,24 +176,52 @@ var make_slider = function(input_id, min, max, allow_none) {
 
 var duration_to_seconds = function(duration) {
     var split = duration.split(":");
-    if (split.length != 2) {
-        return null;
+    var hours = 0, minutes, seconds;
+    switch (split.length) {
+        case 3:
+            hours = parseInt(split[0]);
+            minutes = parseInt(split[1]);
+            seconds = parseInt(split[2]);
+            break;
+        case 2:
+            minutes = parseInt(split[0]);
+            seconds = parseInt(split[1]);
+            break;
+        default:
+            return null;
     }
 
-    var minutes = parseInt(split[0]);
-    var seconds = parseInt(split[1]);
-    return minutes * 60 + seconds;
+    return hours * 3600 + minutes * 60 + seconds;
 }
 
 var seconds_to_duration = function(total_seconds) {
+    var hours = parseInt(total_seconds / 3600);
+    var minutes = parseInt((total_seconds % 3600) / 60);
     var seconds = total_seconds % 60;
 
     var leadingZero = "";
     if (seconds < 10) {
         leadingZero = "0";
     }
+    var duration_str = "";
 
-    return parseInt(total_seconds / 60) + ":" + leadingZero + seconds;
+    if (hours > 0) {
+        duration_str += hours + ":";
+
+        if (minutes < 10) {
+            duration_str += "0";
+        }
+    }
+
+    duration_str += minutes + ":";
+
+    if (seconds < 10) {
+        duration_str += "0";
+    }
+
+    duration_str += seconds;
+
+    return duration_str;
 }
 
 var add_duration_adjust = function(input_id, adjust_value, display_value) {
@@ -218,12 +246,14 @@ var add_duration_adjust = function(input_id, adjust_value, display_value) {
 
 var make_duration_input = function(input_id) {
     $("<div>").addClass("duration-adjust-wrap").appendTo($(input_id).parent());
+    add_duration_adjust(input_id, -3600, "-1h");
     add_duration_adjust(input_id, -60, "-1m");
     add_duration_adjust(input_id, -10, "-10s");
     add_duration_adjust(input_id, -1, "-1s");
     add_duration_adjust(input_id, 1, "+1s");
     add_duration_adjust(input_id, 10, "+10s");
     add_duration_adjust(input_id, 60, "+1m");
+    add_duration_adjust(input_id, 3600, "+1h");
 }
 
 var add_pouring_form = function() {
