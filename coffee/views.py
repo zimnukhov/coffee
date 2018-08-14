@@ -278,7 +278,7 @@ def object_related_brews(request, heading, brews, extra_context=None):
     max_rating = None
 
     for brew in brews:
-        if max_rating is None or brew.rating > max_rating:
+        if max_rating is None or brew.rating and brew.rating > max_rating:
             max_rating = brew.rating
 
     context = {
