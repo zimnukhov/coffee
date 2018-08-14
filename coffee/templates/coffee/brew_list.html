@@ -84,3 +84,83 @@
         {% endif %}
     </tbody>
 </table>
+<script>
+    var brew_offset = $(".brew-list tbody>tr").length;
+    var more_brews = true;
+    var sort = (location.search.split("sort=")[1] || "").split("&")[0];
+
+    var ajax_url = {% if ajax_url %}"{{ ajax_url }}"{% else %}location.pathname{% endif %};
+    var hide_method = {% if hide_method %}true{% else %}false{% endif %};
+    var hide_barista = {% if hide_barista %}true{% else %}false{% endif %};
+    var hide_water = {% if hide_water %}true{% else %}false{% endif %};
+    var hide_coffee = {% if hide_coffee %}true{% else %}false{% endif %};
+
+    $(window).scroll(function(){
+        if($(window).scrollTop() == $(document).height() - $(window).height() && more_brews) {
+            $.ajax({
+                url: ajax_url + "?offset=" + brew_offset + "&sort=" + sort + "&json=1",
+                dataType: "json",
+                success: function(response) {
+                    if (response.error) {
+                        return;
+                    }
+
+                    if (!response.brews || response.brews.length == 0) {
+                        more_brews = false;
+                        var total_weight = 0;
+
+                        hide_flags = [hide_method, hide_water, hide_barista, hide_coffee];
+                        total_weight_cell = 7;
+                        $.each(hide_flags, function(i, flag_val) {
+                            if (flag_val) {
+                                total_weight_cell--;
+                            }
+                        });
+
+                        $(".brew-list tbody>tr").each(function(_, row) {
+                            var weight = parseInt($(row).children("td").eq(total_weight_cell).text());
+                            if (weight) {
+                                total_weight += weight;
+                            }
+                        });
+                        var total_row = $("<tr>");
+                        var i;
+
+                        for (i = 0; i < 9; i++) {
+                            var td = $("<td>");
+                            if (i == 0) {
+                                td.addClass("hidden-md");
+                            }
+                            if (i < 4) {
+                                td.addClass("hidden-xs").addClass("hidden-sm");
+                            }
+                            if (i == total_weight_cell) {
+                                td.text(total_weight + "g");
+                            }
+                            total_row.append(td);
+                        }
+
+                        $(".brew-list tbody").append(total_row);
+                        return;
+                    }
+                    var tbody = $(".brew-list tbody");
+
+                    $.each(response.brews, function(index, brew) {
+                        $("<tr>").html("<td><a href='" + brew.url + "'>" + brew.datetime + "</a></td>" +
+                            (hide_barista ? "" : "<td class='hidden-xs hidden-sm'>" + brew.barista  + "</td>") +
+                            "<td><a href='" + brew.bag_url + "'>" + brew.bag + "</a></td>" +
+                            (hide_method ? "" : "<td><a href='" + brew.method_url + "'>" + brew.method + "</a></td>") +
+                            "<td class='hidden-xs hidden-sm'>" + (brew.temperature?brew.temperature:"") + "</td>" +
+                            "<td class='hidden-xs hidden-sm'>" + brew.grinder_setting + "</td>" +
+                            (hide_water ? "" : "<td class='hidden-xs hidden-sm hidden-md'><a href='" + brew.water_url + "'>" +  brew.water + "</a></td>") +
+                            "<td class='hidden-xs hidden-sm'>" + (brew.coffee_weight?brew.coffee_weight + "g":"") + "</td>" +
+                            "<td class='hidden-xs hidden-sm'>" + (brew.brew_time?brew.brew_time:"") + "</td>" +
+                            "<td " + (brew.rating >= 8 ? "class='rating_best'" : "") + ">" + (brew.rating ? brew.rating + "/10" : "") + "</td>"
+                        ).appendTo(tbody);
+                        brew_offset += 1;
+                    });
+                }
+            });
+        }
+    });
+</script>

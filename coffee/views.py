@@ -5,8 +5,13 @@ from django.http import HttpResponse, JsonResponse, Http404
 from django.forms import modelformset_factory
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring, Roaster, Descriptor
 from .forms import BrewForm, BrewRatingForm
+
+
+MAX_BREWS_HTML = getattr(settings, 'COFFEE_MAX_BREWS_HTML', 20)
+MAX_BREWS_AJAX = getattr(settings, 'COFFEE_MAX_BREWS_AJAX', 50)
 
 
 def get_brew_list_order(request):
@@ -40,7 +45,7 @@ def index(request):
         'water',
         'barista',
         'grinder',
-        ).order_by(get_brew_list_order(request))[:20]
+        ).order_by(get_brew_list_order(request))[:MAX_BREWS_HTML]
     coffee_params = {}
     show_roast_profile = set()
 
@@ -59,6 +64,7 @@ def index(request):
         'bags': bags,
         'brews': brews,
         'order': order,
+        'ajax_url': reverse('coffee:brew-list-json'),
         'ajax_list': True,
     })
 
@@ -70,7 +76,7 @@ def brew_list_page(request):
     else:
         return JsonResponse({'error': 'invalid offset'})
 
-    page_size = 50
+    page_size = MAX_BREWS_AJAX
     brews = Brew.objects.select_related(
         'coffee_bag__coffee__roast_profile',
         'method',
@@ -275,17 +281,24 @@ def object_related_brews(request, heading, brews, extra_context=None):
         'barista',
     ).order_by(order)
 
-    max_rating = None
+    if request.GET.get('json'):
+        offset = request.GET.get('offset', 0)
+        if not offset.isdigit():
+            return JsonResponse({'error': 'invalid offset'})
 
-    for brew in brews:
-        if max_rating is None or brew.rating and brew.rating > max_rating:
-            max_rating = brew.rating
+        offset = int(offset)
+
+        brews = brews[offset:offset + MAX_BREWS_AJAX]
+
+        return JsonResponse({'brews': [brew.get_json_dict() for brew in brews]})
+    else:
+        brews = brews[:MAX_BREWS_HTML]
 
     context = {
         'heading': heading,
         'brews': brews,
-        'max_rating': max_rating,
         'order': order,
+        'ajax_list': True,
     }
 
     if extra_context is not None:
