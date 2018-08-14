@@ -312,6 +312,18 @@ def roaster_list(request):
         count=Count('coffee__coffeebag__brew'), avg_rating=Avg('coffee__coffeebag__brew__rating')
     ).order_by('-count')
 
+    recent_ratings = {}
+
+    for brew in Brew.objects.select_related('coffee_bag__coffee').filter(rating__isnull=False).order_by("-datetime")[:100]:
+        recent_ratings.setdefault(brew.coffee_bag.coffee.roaster_id, {'rating': 0, 'count': 0})
+        recent_ratings[brew.coffee_bag.coffee.roaster_id]['rating'] += brew.rating
+        recent_ratings[brew.coffee_bag.coffee.roaster_id]['count'] += 1
+
+    for roaster in roasters:
+        recent = recent_ratings.get(roaster.id)
+        if recent:
+            roaster.recent_rating = recent['rating'] / recent['count']
+
     return render(request, 'coffee/roaster_list.html', {
         'roasters': roasters,
     })

@@ -12,6 +12,7 @@
             <th>Город</th>
             <th>Чашек заварено</th>
             <th>Средний рейтинг</th>
+            <th>Средний рейтинг за последние 100 чашек</th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +22,7 @@
             <td>{% if roaster.city %}{{ roaster.city }}{% endif %}</td>
             <td>{{ roaster.count }}</td>
             <td>{{ roaster.avg_rating|floatformat:1 }}</td>
+            <td>{% if roaster.recent_rating %}{{ roaster.recent_rating|floatformat:1 }}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
