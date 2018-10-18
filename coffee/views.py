@@ -361,7 +361,7 @@ def method_details(request, method_id):
 
 
 def descriptor_list(request):
-    descriptors = Descriptor.objects.annotate(count=Count('brew'))
+    descriptors = Descriptor.objects.annotate(count=Count('brew')).order_by('-count', 'name')
 
     return render(request, 'coffee/descriptor_list.html', {
         'descriptors': descriptors,
