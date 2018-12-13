@@ -500,7 +500,7 @@ def stats(request):
             rating,
             total_stats['brews_by_rating'][rating],
             last100_stats['brews_by_rating'][rating]
-        ) for rating in range(1, 11)
+        ) for rating in range(10, 0, -1)
     ]
 
     french_presses = total_stats['unexpired_coffee_weight'] // 25
