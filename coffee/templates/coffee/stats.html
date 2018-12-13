@@ -6,36 +6,49 @@
 </ul>
 <h1>Статистика</h1>
 <table class="table">
-    <tr>
-        <td>Всего заварено чашек</td><td>{{ total_brews }}</td>
-    </tr>
-    <tr>
-        <td>Всего потрачено кофе</td><td>{{ consumed_coffee_weight|floatformat:3 }}кг</td>
-    </tr>
-    <tr>
-        <td>Осталось свежего кофе</td><td>{{ unexpired_coffee_weight }}г
-            {% if unexpired_coffee_weight > 0 %}(
-            френч прессов: {{ french_presses_remaining }}, воронок: {{ harios_remaining }}, аэропрессов: {{ aeropresses_remaining }}
-            ){% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td>Средний рейтинг</td>
-        <td>{{ avg_rating|floatformat:1 }}</td>
-    </tr>
-    <tr>
-        <td>Воды потрачено для заваривания кофе</td>
-        <td>{{ consumed_water|floatformat:3 }}л</td>
-    </tr>
-    <tr>
-        <td>Средняя скорость потребления кофе</td>
-        <td>{{ consumption_rate|floatformat:1 }} г/день</td>
-    </tr>
-    {% for rating, brew_count in brews_by_rating %}
-    <tr>
-        <td>Оценок {{ rating }}/10</td>
-        <td>{% if brew_count > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count }}</a>{% else %}0{% endif %}</td>
-    </tr>
-    {% endfor %}
+    <thead>
+        <tr>
+            <td></td>
+            <th>За всё время</th>
+            <th>За последние 100 чашек</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Всего заварено чашек</td><td>{{ total_stats.brews }}</td><td>{{ last100_stats.brews }}</td>
+        </tr>
+        <tr>
+            <td>Всего потрачено кофе</td><td>{{ total_stats.consumed_coffee_weight|floatformat:3 }}кг</td><td>{{ last100_stats.consumed_coffee_weight|floatformat:3 }}кг</td>
+        </tr>
+        <tr>
+            <td>Осталось свежего кофе</td><td colspan="2">{{ unexpired_coffee_weight }}г
+                {% if unexpired_coffee_weight > 0 %}(
+                френч прессов: {{ french_presses_remaining }}, воронок: {{ harios_remaining }}, аэропрессов: {{ aeropresses_remaining }}
+                ){% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Средний рейтинг</td>
+            <td>{{ total_stats.avg_rating|floatformat:1 }}</td>
+            <td>{{ last100_stats.avg_rating|floatformat:1 }}</td>
+        </tr>
+        <tr>
+            <td>Воды потрачено для заваривания кофе</td>
+            <td>{{ total_stats.consumed_water|floatformat:3 }}л</td>
+            <td>{{ last100_stats.consumed_water|floatformat:3 }}л</td>
+        </tr>
+        <tr>
+            <td>Средняя скорость потребления кофе</td>
+            <td>{{ total_stats.consumption_rate|floatformat:1 }} г/день</td>
+            <td>{{ last100_stats.consumption_rate|floatformat:1 }} г/день</td>
+        </tr>
+        {% for rating, brew_count_total, brew_count_last100 in brews_by_rating %}
+        <tr>
+            <td>Оценок {{ rating }}/10</td>
+            <td>{% if brew_count_total > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count_total }}</a>{% else %}0{% endif %}</td>
+            <td>{% if brew_count_last100 > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count_last100 }}</a>{% else %}0{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock %}

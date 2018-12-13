@@ -427,32 +427,30 @@ def brews_by_rating_value(request, rating_value):
     )
 
 
-def stats(request):
+def get_stats_for_brews(brews, calc_unexpired=True):
     total_brews = 0
-    consumed_coffee_weight = 0
+    rated_brews = 0
+    avg_rating = 0
     consumed_water = 0
-    avg_rating = 0.0
+    consumed_coffee_weight = 0
+    coffee_weight_by_day = {}
+    brews_by_rating = dict((_x, 0) for _x in range(1, 11))
 
     expire_day = datetime.date.today() - datetime.timedelta(days=60)
 
     bag_weight = {}
 
-    for bag in CoffeeBag.objects.filter(weight__isnull=False):
+    if calc_unexpired:
+        for bag in CoffeeBag.objects.filter(weight__isnull=False):
+            if bag.roast_date is not None:
+                expired = bag.roast_date < expire_day
+            else:
+                expired = bag.purchase_date < expire_day
 
-        if bag.roast_date is not None:
-            expired = bag.roast_date < expire_day
-        else:
-            expired = bag.purchase_date < expire_day
+            if not expired:
+                bag_weight[bag.id] = bag.weight
 
-        if not expired:
-            bag_weight[bag.id] = bag.weight
-
-    rated_brews = 0
-    ratings = []
-    coffee_weight_by_day = {}
-    brews_by_rating = dict((_x, 0) for _x in range(1, 11))
-
-    for brew in Brew.objects.all():
+    for brew in brews:
         total_brews += 1
 
         if brew.coffee_weight:
@@ -467,7 +465,6 @@ def stats(request):
         if brew.rating is not None:
             rated_brews += 1
             avg_rating += brew.rating
-            ratings.append(brew.rating)
             if brew.rating in brews_by_rating:
                 brews_by_rating[brew.rating] += 1
 
@@ -475,29 +472,47 @@ def stats(request):
             consumed_water += brew.water_volume
 
     avg_rating /= rated_brews
-    ratings.sort()
-
-    unexpired_coffee_weight = sum(bag_weight.values())
-
-    french_presses = unexpired_coffee_weight // 25
-    harios = unexpired_coffee_weight // 14
-    aeropresses = unexpired_coffee_weight // 15
 
     consumption_rate = sum(coffee_weight_by_day.values()) / len(coffee_weight_by_day)
 
-    return render(request, 'coffee/stats.html', {
-        'total_brews': total_brews,
+    unexpired_coffee_weight = sum(bag_weight.values())
+
+    return {
+        'brews': total_brews,
+        'avg_rating': avg_rating,
+        'brews_by_rating': brews_by_rating,
         'consumed_coffee_weight': consumed_coffee_weight / 1000,
+        'consumed_water': consumed_water / 1000,
+        'consumption_rate': consumption_rate,
         'unexpired_coffee_weight': unexpired_coffee_weight,
+    }
+
+
+def stats(request):
+    total_stats = get_stats_for_brews(Brew.objects.all())
+    last100_stats = get_stats_for_brews(
+        Brew.objects.all().order_by('-datetime')[:100],
+        calc_unexpired=False
+    )
+
+    brews_by_rating = [
+        (
+            rating,
+            total_stats['brews_by_rating'][rating],
+            last100_stats['brews_by_rating'][rating]
+        ) for rating in range(1, 11)
+    ]
+
+    french_presses = total_stats['unexpired_coffee_weight'] // 25
+    harios = total_stats['unexpired_coffee_weight'] // 14
+    aeropresses = total_stats['unexpired_coffee_weight'] // 15
+
+    return render(request, 'coffee/stats.html', {
+        'total_stats': total_stats,
+        'last100_stats': last100_stats,
+        'brews_by_rating': brews_by_rating,
+        'unexpired_coffee_weight': total_stats['unexpired_coffee_weight'],
         'french_presses_remaining': french_presses,
         'harios_remaining': harios,
         'aeropresses_remaining': aeropresses,
-        'avg_rating': avg_rating,
-        'consumed_water': consumed_water / 1000,
-        'consumption_rate': consumption_rate,
-        'brews_by_rating': sorted(
-            brews_by_rating.items(),
-            key=lambda item: item[0],
-            reverse=True
-        ),
     })
