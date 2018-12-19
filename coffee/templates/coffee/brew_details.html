@@ -78,6 +78,10 @@
             {% endfor %}
         </td>
     </tr>
+    {% if brew.extraction_is_set %}
+    <tr>
+        <td>Экстракция</td><td>{{ brew.get_extraction_display }}</td>
+    {% endif %}
     {% if brew.comment %}
     <tr>
         <td>Комментарий</td><td>{{ brew.comment }}</td>

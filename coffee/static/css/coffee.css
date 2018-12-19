@@ -168,6 +168,26 @@ nav ul li {
     list-style: none;
 }
 
+.extraction-select-wrap label {
+    display: inline-block;
+}
+
+.extraction-select-wrap ul {
+    display: inline-block;
+}
+
+.extraction-select-wrap p {
+    font-weight: bold;
+}
+
+.extraction-select-wrap ul {
+    list-style: none;
+}
+
+.extraction-select-wrap li {
+    display: inline-block;
+}
+
 .bag-details {
     display: inline-block;
 }
@@ -187,9 +207,6 @@ nav ul li {
 
 #bag-thumb {
     margin-right: 20px;
-}
-
-.bag-details-subheader .bag-weight {
 }
 
 .bag-name-block {

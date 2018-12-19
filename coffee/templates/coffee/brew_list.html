@@ -19,7 +19,8 @@
             <th class="hidden-xs hidden-sm hidden-md">Вода</th>
             {% endif %}
             <th class="hidden-xs hidden-sm"><a href="{{ request.path }}?sort={% if order != "-coffee_weight" %}-{% endif %}coffee_weight">Вес</a></th>
-            <th class="hidden-xs hidden-sm"><a href="{{ request.path }}?sort={% if order != "-brew_time" %}-{% endif %}brew_time">Время</th>
+            <th class="hidden-xs hidden-sm"><a href="{{ request.path }}?sort={% if order != "-brew_time" %}-{% endif %}brew_time">Время<a/></th>
+            <th class="hidden-xs hidden-sm" title="Экстракция">Экс.</th>
             <th><a href="{{ request.path }}?sort={% if order != "-rating" %}-{% endif %}rating">Оценка</th>
         </tr>
     </thead>
@@ -52,6 +53,11 @@
             {% endif %}
             <td class="hidden-xs hidden-sm">{{ brew.get_coffee_weight_display }}</td>
             <td class="hidden-xs hidden-sm">{{ brew.get_brew_time_display }}</td>
+            <td class="hidden-xs hidden-sm">
+                {% if brew.extraction_is_set %}
+                <span title="{{ brew.get_extraction_display }}">{{ brew.get_extraction_symbol|safe }}</span>
+                {% endif %}
+            </td>
             <td {% if brew.rating >= 8 %}class="rating_best"{% endif %}>
                 {% if brew.rating %}
                 {{ brew.rating }}/{{ brew.RATING_MAX }}
@@ -155,6 +161,8 @@
                             (hide_water ? "" : "<td class='hidden-xs hidden-sm hidden-md'><a href='" + brew.water_url + "'>" +  brew.water + "</a></td>") +
                             "<td class='hidden-xs hidden-sm'>" + (brew.coffee_weight?brew.coffee_weight + "g":"") + "</td>" +
                             "<td class='hidden-xs hidden-sm'>" + (brew.brew_time?brew.brew_time:"") + "</td>" +
+                            "<td class='hidden-xs hidden-sm'>" + 
+                            (brew.extraction_symbol?"<span title='" + brew.extraction_display + "'>" + brew.extraction_symbol + "</span>":"") + "</td>" +
                             "<td " + (brew.rating >= 8 ? "class='rating_best'" : "") + ">" + (brew.rating ? brew.rating + "/10" : "") + "</td>"
                         ).appendTo(tbody);
                         brew_offset += 1;

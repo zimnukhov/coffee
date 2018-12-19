@@ -284,6 +284,15 @@ class Brew(models.Model):
     NO_BLOOM = 2
     RATING_MAX = 10
 
+    UNDER_EXTRACTED = -1
+    BALANCED = 0
+    OVER_EXTRACTED = 1
+    extraction_symbols = {
+        UNDER_EXTRACTED: '&darr;',
+        BALANCED: '&check;',
+        OVER_EXTRACTED: '&uarr;',
+    }
+
     objects = BrewQuerySet.as_manager()
 
     datetime = models.DateTimeField()
@@ -305,6 +314,11 @@ class Brew(models.Model):
     ), default=0)
     filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.CASCADE)
     found_descriptors = models.ManyToManyField('Descriptor', blank=True)
+    extraction = models.SmallIntegerField(blank=True, null=True, choices=(
+        (UNDER_EXTRACTED, 'Недоэкстрагирован'),
+        (BALANCED, 'Сбалансирован'),
+        (OVER_EXTRACTED, 'Переэкстрагирован'),
+    ))
     rating = models.SmallIntegerField(blank=True, null=True, choices=((i, i) for i in range(1, 11)))
     comment = models.TextField(blank=True, null=True)
 
@@ -365,6 +379,8 @@ class Brew(models.Model):
             'water_url': self.water.get_absolute_url(),
             'coffee_weight': self.coffee_weight,
             'brew_time': self.get_brew_time_display(),
+            'extraction_display': self.get_extraction_display(),
+            'extraction_symbol': self.get_extraction_symbol(),
             'rating': self.rating,
         }
 
@@ -391,6 +407,12 @@ class Brew(models.Model):
             barista=barista,
             grinder=grinder,
         )
+
+    def extraction_is_set(self):
+        return self.extraction is not None
+
+    def get_extraction_symbol(self):
+        return self.extraction_symbols.get(self.extraction, '')
 
 
 class Pouring(models.Model):

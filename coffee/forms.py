@@ -71,6 +71,7 @@ class BrewForm(forms.ModelForm):
         exclude = ['id']
         widgets = {
             'comment': forms.Textarea(attrs={'rows': 4, 'cols': 35}),
+            'extraction': forms.RadioSelect(),
         }
 
 
