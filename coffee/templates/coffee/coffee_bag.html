@@ -16,11 +16,13 @@
     <li><a href="{{ bag.get_absolute_url }}">{{ bag.coffee.get_short_name }}</a></li>
 </ul>
 <div class="bag-details-subheader">
-    {% if bag.thumbnail %}
     <div class="bag-thumb" id="bag-thumb">
+    {% if bag.thumbnail %}
         <a href="{{ bag.image.url }}" data-gallery><img src="{{ bag.thumbnail.url }}"></a>
-    </div>
+    {% else %}
+        <a><img src="{% static "images/generic-bag-small.png" %}"></a>
     {% endif %}
+    </div>
     <div class="bag-name-block">
         <h3>{{ bag.coffee.name }}</h3>
         <ul class="bag-details">

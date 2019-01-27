@@ -1,12 +1,15 @@
+{% load static %}
 <ul class="coffee-bags">
     {% for bag in bags %}
     <li>
         <div class="bag-image">
-        {% if bag.thumbnail %}
-            <a href="{{ bag.get_absolute_url }}"><img src="{{ bag.thumbnail.url }}"></a>
-        {% else %}
-            <div class="no-image"></div>
-        {% endif %}
+        <a href="{{ bag.get_absolute_url }}">
+            {% if bag.thumbnail %}
+            <img src="{{ bag.thumbnail.url }}">
+            {% else %}
+            <img src="{% static "images/generic-bag-small.png" %}">
+            {% endif %}
+        </a>
         </div>
         <div class="bag-name"><a href="{{ bag.get_absolute_url }}">{% if bag.coffee.short_name %}{{ bag.coffee.short_name }}{% else %}{{ bag.coffee.name }}{% endif %}</a></div>
         <div class="bag-weight">{{ bag.get_weight_display }}</div>
