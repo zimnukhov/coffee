@@ -85,6 +85,7 @@
             {% endif %}
             <td class="hidden-xs hidden-sm">{{ brews.get_total_weight }}g</td>
             <td class="hidden-xs hidden-sm"></td>
+            <td class="hidden-xs hidden-sm"></td>
             <td></td>
         </tr>
         {% endif %}
@@ -117,9 +118,11 @@
 
                         hide_flags = [hide_method, hide_water, hide_barista, hide_coffee];
                         total_weight_cell = 7;
+                        var total_cells = 11;
                         $.each(hide_flags, function(i, flag_val) {
                             if (flag_val) {
                                 total_weight_cell--;
+                                total_cells--;
                             }
                         });
 
@@ -132,12 +135,12 @@
                         var total_row = $("<tr>");
                         var i;
 
-                        for (i = 0; i < 9; i++) {
+                        for (i = 0; i < total_cells; i++) {
                             var td = $("<td>");
                             if (i == 0) {
                                 td.addClass("hidden-md");
                             }
-                            if (i < 4) {
+                            if (i < 4 || (i >= total_weight_cell && i < total_cells - 1) ) {
                                 td.addClass("hidden-xs").addClass("hidden-sm");
                             }
                             if (i == total_weight_cell) {
