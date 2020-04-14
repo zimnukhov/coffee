@@ -56,7 +56,7 @@ class DurationField(forms.CharField):
 
 
 class BrewForm(forms.ModelForm):
-    coffee_bag = forms.ModelChoiceField(queryset=CoffeeBag.objects.filter(end_date__isnull=True))
+    coffee_bag = forms.ModelChoiceField(queryset=CoffeeBag.objects.filter(status=CoffeeBag.NOT_FINISHED))
     brew_time = DurationField(widget=DurationWidget, required=False)
 
     def __init__(self, *args, **kwargs):
