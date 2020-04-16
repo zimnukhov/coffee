@@ -503,16 +503,12 @@ def stats(request):
         ) for rating in range(10, 0, -1)
     ]
 
-    french_presses = total_stats['unexpired_coffee_weight'] // 25
-    harios = total_stats['unexpired_coffee_weight'] // 14
-    aeropresses = total_stats['unexpired_coffee_weight'] // 15
+    days_left = int(total_stats['unexpired_coffee_weight'] / last100_stats['consumption_rate'])
 
     return render(request, 'coffee/stats.html', {
         'total_stats': total_stats,
         'last100_stats': last100_stats,
         'brews_by_rating': brews_by_rating,
         'unexpired_coffee_weight': total_stats['unexpired_coffee_weight'],
-        'french_presses_remaining': french_presses,
-        'harios_remaining': harios,
-        'aeropresses_remaining': aeropresses,
+        'days_left': days_left,
     })
