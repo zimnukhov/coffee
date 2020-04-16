@@ -25,9 +25,8 @@ class Roaster(models.Model):
     def __str__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('coffee:roaster-details', [self.id])
+        return reverse('coffee:roaster-details', args=[self.id])
 
 
 class RoastProfile(models.Model):
@@ -76,9 +75,8 @@ class Coffee(models.Model):
     roaster_comment = models.TextField(null=True, blank=True)
     descriptors = models.ManyToManyField('Descriptor', blank=True)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('coffee:coffee-details', [self.id])
+        return reverse('coffee:coffee-details', args=[self.id])
 
     def __str__(self):
         result = self.name
@@ -125,9 +123,8 @@ class CoffeeBag(models.Model):
             name += ' ' + self.roast_date.strftime('%Y-%m-%d')
         return name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('coffee:bag-details', [self.id])
+        return reverse('coffee:bag-details', args=[self.id])
 
     def get_weight_display(self):
         if self.weight is None:
@@ -214,9 +211,8 @@ class Water(models.Model):
     def __str__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('coffee:water', [self.id])
+        return reverse('coffee:water', args=[self.id])
 
 
 class BrewingMethod(models.Model):
@@ -226,9 +222,8 @@ class BrewingMethod(models.Model):
     def __str__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('coffee:brewing-method', [self.id])
+        return reverse('coffee:brewing-method', args=[self.id])
 
 
 class Filter(models.Model):
@@ -329,9 +324,8 @@ class Brew(models.Model):
             self.method.name,
         )
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('coffee:brew-details', [self.id])
+        return reverse('coffee:brew-details', args=[self.id])
 
     def get_grinder_setting_display(self):
         if self.grinder_setting is None:
@@ -434,9 +428,8 @@ class Descriptor(models.Model):
     def __str__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('coffee:note-details', [self.id])
+        return reverse('coffee:note-details', args=[self.id])
 
     class Meta:
         ordering = ['name']
