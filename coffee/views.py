@@ -441,7 +441,7 @@ def get_stats_for_brews(brews, calc_unexpired=True):
     bag_weight = {}
 
     if calc_unexpired:
-        for bag in CoffeeBag.objects.filter(weight__isnull=False):
+        for bag in CoffeeBag.objects.filter(weight__isnull=False, status=CoffeeBag.NOT_FINISHED):
             if bag.roast_date is not None:
                 expired = bag.roast_date < expire_day
             else:
