@@ -57,7 +57,7 @@
             <td>Оценок {{ rating }}/10</td>
             <td>{% if brew_count_total > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count_total }}</a>{% else %}0{% endif %}</td>
             <td>{% if brew_count_last100 > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count_last100 }}</a>{% else %}0{% endif %}</td>
-            <td>{% if brew_count_last_week > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count_last100 }}</a>{% else %}0{% endif %}</td>
+            <td>{% if brew_count_last_week > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count_last_week }}</a>{% else %}0{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
