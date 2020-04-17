@@ -68,7 +68,9 @@
 
 {% if request.user.is_authenticated %}
 <p>
-<a href="{% url 'coffee:brew-create-for-bag' bag.id %}">Add brew</a>
+    <a href="{% url 'coffee:brew-create-for-bag' bag.id %}">Add brew</a> |
+    <a href="{% url 'coffee:bag-edit' bag.id %}">Edit</a> |
+    <a href="{% url 'coffee:bag-copy' bag.id %}">Copy</a>
 </p>
 {% endif %}
         <script type="text/javascript" src="{% static "js/blueimp-gallery.js" %}"></script>

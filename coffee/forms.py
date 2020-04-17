@@ -79,3 +79,12 @@ class BrewRatingForm(forms.ModelForm):
     class Meta:
         model = Brew
         fields = ['rating']
+
+
+class CoffeeBagForm(forms.ModelForm):
+    class Meta:
+        model = CoffeeBag
+        exclude = ['id', 'thumbnail']
+        widgets = {
+            'roaster_comment': forms.TextInput(),
+        }

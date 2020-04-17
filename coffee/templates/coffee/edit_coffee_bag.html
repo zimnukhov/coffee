@@ -1,0 +1,82 @@
+{% extends "coffee/base.html" %}
+{% load static %}
+{% block extra_css %}
+        <link rel="stylesheet" href="{% static "css/jquery-ui.min.css" %}" />
+{% endblock %}
+{% block extra_js %}
+        <script type="text/javascript" src="{% static "js/jquery-ui.min.js" %}"></script>
+{% endblock %}
+{% block content %}
+<h1>
+{% if bag %}
+{{ bag }} -
+{% endif %}
+{{ action }}
+</h1>
+<form action="" method="post" id="bag-form" enctype="multipart/form-data">
+{% csrf_token %}
+
+{{ form.non_field_errors }}
+
+<div class="row">
+    <div class="col-xs-4">
+        {{ form.coffee.errors }}
+        {{ form.coffee.label_tag }}
+        {{ form.coffee }}
+    </div>
+    <div class="col-xs-4">
+        {{ form.weight.errors }}
+        {{ form.weight.label_tag }}
+        {{ form.weight }}
+    </div>
+</div>
+
+<div class="row" id="date_row">
+    <div class="col-xs-4">
+        {{ form.roast_date.errors }}
+        {{ form.roast_date.label_tag }}
+        {{ form.roast_date }}
+    </div>
+    <div class="col-xs-4">
+        {{ form.purchase_date.errors }}
+        {{ form.purchase_date.label_tag }}
+        {{ form.purchase_date }}
+    </div>
+    <div class="col-xs-4">
+        {{ form.end_date.errors }}
+        {{ form.end_date.label_tag }}
+        {{ form.end_date }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+        {{ form.status.errors }}
+        {{ form.status.label_tag }}
+        {{ form.status }}
+    </div>
+    <div class="col-xs-4">
+        {{ form.roaster_comment.errors }}
+        {{ form.roaster_comment.label_tag }}
+        {{ form.roaster_comment }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+        {{ form.image.errors }}
+        {{ form.image.label_tag }}
+        {{ form.image }}
+    </div>
+</div>
+
+<button type="submit" class="btn btn-primary">Save</button>
+</form>
+<script>
+$(function(){
+    $("#date_row input").datepicker({
+        "dateFormat": "yy-mm-dd"
+    });
+});
+</script>
+{% endblock %}

@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import Coffee, CoffeeBag, Brew, BrewingMethod, Water, Pouring, Roaster, Descriptor
-from .forms import BrewForm, BrewRatingForm
+from .forms import BrewForm, BrewRatingForm, CoffeeBagForm
 
 
 MAX_BREWS_HTML = getattr(settings, 'COFFEE_MAX_BREWS_HTML', 20)
@@ -218,6 +218,43 @@ def rate_brew(request, brew_id):
 
     brew = form.save()
     return HttpResponse("ok")
+
+
+def coffee_bag_form(request, bag, action):
+    if request.method == 'POST':
+        form = CoffeeBagForm(request.POST, request.FILES, instance=bag)
+
+        if form.is_valid():
+            bag = form.save()
+
+            return redirect(bag)
+    else:
+        form = CoffeeBagForm(instance=bag)
+
+    return render(request, 'coffee/edit_coffee_bag.html', {
+        'form': form,
+        'bag': bag,
+        'action': action,
+    })
+
+
+@login_required
+def edit_coffee_bag(request, bag_id):
+    bag = get_object_or_404(CoffeeBag, id=bag_id)
+
+    return coffee_bag_form(request, bag, 'edit')
+
+
+@login_required
+def copy_coffee_bag(request, bag_id):
+    bag = get_object_or_404(CoffeeBag, id=bag_id)
+    new_bag = CoffeeBag()
+    new_bag.coffee = bag.coffee
+    new_bag.weight = bag.weight
+    new_bag.status = CoffeeBag.NOT_FINISHED
+    new_bag.purchase_date = datetime.date.today()
+
+    return coffee_bag_form(request, new_bag, 'copy')
 
 
 def coffee_details(request, coffee_id):

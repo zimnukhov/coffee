@@ -170,6 +170,8 @@ class CoffeeBag(models.Model):
                     uploaded_file,
                     save=False,
                 )
+        else:
+            self.thumbnail = None
         super(CoffeeBag, self).save(*args, **kwargs)
 
 
