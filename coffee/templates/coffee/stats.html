@@ -42,15 +42,15 @@
         </tr>
         <tr>
             <td>Воды потрачено для заваривания кофе</td>
-            <td>{{ total_stats.consumed_water|floatformat:3 }}л</td>
-            <td>{{ last100_stats.consumed_water|floatformat:3 }}л</td>
-            <td>{{ last_week_stats.consumed_water|floatformat:1 }}</td>
+            <td>{{ total_stats.consumed_water|floatformat:3 }} л</td>
+            <td>{{ last100_stats.consumed_water|floatformat:3 }} л</td>
+            <td>{{ last_week_stats.consumed_water|floatformat:1 }} л</td>
         </tr>
         <tr>
             <td>Средняя скорость потребления кофе</td>
             <td>{{ total_stats.consumption_rate|floatformat:1 }} г/день</td>
             <td>{{ last100_stats.consumption_rate|floatformat:1 }} г/день</td>
-            <td>{{ last_week_stats.consumption_rate|floatformat:1 }}</td>
+            <td>{{ last_week_stats.consumption_rate|floatformat:1 }} г/день</td>
         </tr>
         {% for rating, brew_count_total, brew_count_last100, brew_count_last_week in brews_by_rating %}
         <tr>
