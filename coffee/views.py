@@ -508,9 +508,15 @@ def get_stats_for_brews(brews, calc_unexpired=True):
         if brew.water_volume is not None:
             consumed_water += brew.water_volume
 
-    avg_rating /= rated_brews
+    if rated_brews > 0:
+        avg_rating /= rated_brews
+    else:
+        avg_rating = 0.0
 
-    consumption_rate = sum(coffee_weight_by_day.values()) / len(coffee_weight_by_day)
+    if len(coffee_weight_by_day) > 0:
+        consumption_rate = sum(coffee_weight_by_day.values()) / len(coffee_weight_by_day)
+    else:
+        consumption_rate = 0.0
 
     unexpired_coffee_weight = sum(bag_weight.values())
 
@@ -531,12 +537,17 @@ def stats(request):
         Brew.objects.all().order_by('-datetime')[:100],
         calc_unexpired=False
     )
+    last_week_stats = get_stats_for_brews(
+        Brew.objects.filter(datetime__gt=datetime.date.today() - datetime.timedelta(days=6)),
+        calc_unexpired=False
+    )
 
     brews_by_rating = [
         (
             rating,
             total_stats['brews_by_rating'][rating],
-            last100_stats['brews_by_rating'][rating]
+            last100_stats['brews_by_rating'][rating],
+            last_week_stats['brews_by_rating'][rating],
         ) for rating in range(10, 0, -1)
     ]
 
@@ -545,6 +556,7 @@ def stats(request):
     return render(request, 'coffee/stats.html', {
         'total_stats': total_stats,
         'last100_stats': last100_stats,
+        'last_week_stats': last_week_stats,
         'brews_by_rating': brews_by_rating,
         'unexpired_coffee_weight': total_stats['unexpired_coffee_weight'],
         'days_left': days_left,

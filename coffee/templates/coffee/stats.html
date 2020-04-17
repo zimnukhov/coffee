@@ -11,17 +11,24 @@
             <td></td>
             <th>За всё время</th>
             <th>За последние 100 чашек</th>
+            <th>За последние 7 дней</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>Всего заварено чашек</td><td>{{ total_stats.brews }}</td><td>{{ last100_stats.brews }}</td>
+            <td>Всего заварено чашек</td>
+            <td>{{ total_stats.brews }}</td>
+            <td>{{ last100_stats.brews }}</td>
+            <td>{{ last_week_stats.brews }}</td>
         </tr>
         <tr>
-            <td>Всего потрачено кофе</td><td>{{ total_stats.consumed_coffee_weight|floatformat:3 }}кг</td><td>{{ last100_stats.consumed_coffee_weight|floatformat:3 }}кг</td>
+            <td>Всего потрачено кофе</td>
+            <td>{{ total_stats.consumed_coffee_weight|floatformat:3 }}кг</td>
+            <td>{{ last100_stats.consumed_coffee_weight|floatformat:3 }}кг</td>
+            <td>{{ last_week_stats.consumed_coffee_weight|floatformat:3 }}кг</td>
         </tr>
         <tr>
-            <td>Осталось свежего кофе</td><td colspan="2">{{ unexpired_coffee_weight }}г
+            <td>Осталось свежего кофе</td><td colspan="3">{{ unexpired_coffee_weight }}г
                 {% if unexpired_coffee_weight > 0 %}(
                 хватит на {{ days_left }} д
                 ){% endif %}
@@ -31,22 +38,26 @@
             <td>Средний рейтинг</td>
             <td>{{ total_stats.avg_rating|floatformat:1 }}</td>
             <td>{{ last100_stats.avg_rating|floatformat:1 }}</td>
+            <td>{{ last_week_stats.avg_rating|floatformat:1 }}</td>
         </tr>
         <tr>
             <td>Воды потрачено для заваривания кофе</td>
             <td>{{ total_stats.consumed_water|floatformat:3 }}л</td>
             <td>{{ last100_stats.consumed_water|floatformat:3 }}л</td>
+            <td>{{ last_week_stats.consumed_water|floatformat:1 }}</td>
         </tr>
         <tr>
             <td>Средняя скорость потребления кофе</td>
             <td>{{ total_stats.consumption_rate|floatformat:1 }} г/день</td>
             <td>{{ last100_stats.consumption_rate|floatformat:1 }} г/день</td>
+            <td>{{ last_week_stats.consumption_rate|floatformat:1 }}</td>
         </tr>
-        {% for rating, brew_count_total, brew_count_last100 in brews_by_rating %}
+        {% for rating, brew_count_total, brew_count_last100, brew_count_last_week in brews_by_rating %}
         <tr>
             <td>Оценок {{ rating }}/10</td>
             <td>{% if brew_count_total > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count_total }}</a>{% else %}0{% endif %}</td>
             <td>{% if brew_count_last100 > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count_last100 }}</a>{% else %}0{% endif %}</td>
+            <td>{% if brew_count_last_week > 0 %}<a href="{% url 'coffee:brews-by-rating-value' rating %}">{{ brew_count_last100 }}</a>{% else %}0{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
