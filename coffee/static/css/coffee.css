@@ -150,6 +150,12 @@ nav ul li {
     margin-right: 9px;
 }
 
+.now-button {
+    color: #8888bb;
+    cursor: pointer;
+    display: inline-block;
+}
+
 .pouring-form-button {
     color: #8888bb;
     cursor: pointer;
