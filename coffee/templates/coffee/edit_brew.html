@@ -24,32 +24,34 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.method.errors }}
         {{ form.method.label_tag }}
         {{ form.method }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-2">
         {{ form.filter.errors }}
         {{ form.filter.label_tag }}
         {{ form.filter }}
+    </div>
+    <div class="col-sm-2">
         {{ form.grinder.errors }}
         {{ form.grinder.label_tag }}
         {{ form.grinder }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.barista.errors }}
         {{ form.barista.label_tag }}
         {{ form.barista }}
     </div>
 </div>
 <div class="row sliders-wrap">
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.grinder_setting.errors }}
         {{ form.grinder_setting.label_tag }}
         {{ form.grinder_setting }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.temperature.errors }}
         {{ form.temperature.label_tag }}
         {{ form.temperature }}
@@ -57,12 +59,12 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.coffee_weight.errors }}
         {{ form.coffee_weight.label_tag }}
         {{ form.coffee_weight }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.water_volume.errors }}
         {{ form.water_volume.label_tag }}
         {{ form.water_volume }}
@@ -71,7 +73,7 @@
         {{ form.result_volume.label_tag }}
         {{ form.result_volume }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.brew_time.errors }}
         {{ form.brew_time.label_tag }}
         {{ form.brew_time }}
@@ -79,12 +81,12 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.bloom.errors }}
         {{ form.bloom.label_tag }}
         {{ form.bloom }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.water.errors }}
         {{ form.water.label_tag }}
         {{ form.water }}
@@ -92,17 +94,17 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-sm-4">
     {{ form.found_descriptors.errors }}
     {{ form.found_descriptors.label_tag }}
     {{ form.found_descriptors }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ form.comment.errors }}
         {{ form.comment.label_tag }}
         {{ form.comment }}
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         {{ pouring_formset.management_form }}
         <ul id="pouring_formset_wrap">
             {% for pouring_form in pouring_formset %}
@@ -119,19 +121,24 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-sm-4">
     {{ form.rating.errors }}
     {{ form.rating.label_tag }}
     {{ form.rating }}
     </div>
-    <div class="col-xs-6 extraction-select-wrap">
+    <div class="col-sm-6 extraction-select-wrap">
     {{ form.extraction.errors }}
     {{ form.extraction.label_tag }}
     {{ form.extraction }}
     </div>
 </div>
 
-<button type="submit" class="btn btn-primary">Save</button>
+<div class="row">
+    <div class="col-sm-4">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</div>
+
 </form>
 <script>
 var make_slider = function(input_id, min, max, allow_none) {
