@@ -80,6 +80,8 @@ header #header-links li a {
 .coffee-bags li {
     height: 240px;
     margin: 0 30px;
+    margin: 0;
+    padding: 10px 30px;
 }
 
 .coffee-bags li .bag-image {
@@ -142,6 +144,30 @@ nav ul li {
     text-align: center;
     line-height: 1.6em;
 }
+
+ul.coffee-bag-selection {
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+}
+
+.coffee-bag-selection li {
+    cursor: pointer;
+}
+
+.coffee-bag-selection li:hover {
+    background-color: #dedede;
+}
+
+.coffee-bag-selection li.selected {
+    background-color: #aeaeae;
+}
+
+.coffee-bag-selection a.bag-link {
+    display: none;
+}
+
+
 
 .duration-adjust {
     color: #8888bb;

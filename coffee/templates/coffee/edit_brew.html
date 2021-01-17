@@ -22,6 +22,26 @@
         {{ form.coffee_bag.label_tag }}
         {{ form.coffee_bag }}
     </div>
+
+</div>
+<div class="row">
+    <ul class="coffee-bags coffee-bag-selection">
+        {% for bag in bags %}
+        <li bag_id="{{ bag.id }}" title="{{ bag. }}">
+            <div class="bag-image">
+                {% if bag.thumbnail %}
+                <img src="{{ bag.thumbnail.url }}">
+                {% else %}
+                <img src="{% static "images/generic-bag-small.png" %}">
+                {% endif %}
+            </div>
+            <div class="bag-name">{% if bag.coffee.short_name %}{{ bag.coffee.short_name }}{% else %}{{ bag.coffee.name }}{% endif %}</div>
+            <div class="bag-weight">{{ bag.get_weight_display }}</div>
+            <div class="bag-roaster">{{ bag.coffee.roaster.name }}</div>
+            <a class="bag-link" href="{{ bag.get_absolute_url }}">{{ bag.coffee.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 <div class="row">
     <div class="col-sm-4">
@@ -319,12 +339,8 @@ var add_datetime_adjust = function(input_id, adjust_value, display_value) {
         else {
             datetime = new Date(Date.parse(value));
         }
-        console.log(datetime)
 
         datetime.setSeconds(datetime.getSeconds() + adjust_value);
-        console.log(datetime);
-        console.log(datetime.toString());
-        console.log(datetime.toISOString());
 
         $(input_id).val(format_datetime(datetime));
     }).mousedown(function(e) {
@@ -381,6 +397,52 @@ var remove_pouring = function() {
     }
 }
 
+var select_bag = function(bag_item, input_id) {
+    var bag_id = $(bag_item).attr("bag_id");
+
+    $(".coffee-bag-selection li").removeClass("selected");
+    $(bag_item).addClass("selected");
+    $(input_id).val(bag_id).change();
+
+    var bag_link_tag = $(bag_item).find(".bag-link");
+    var bag_link = bag_link_tag.attr("href");
+    var bag_name = bag_link_tag.text();
+
+    $(input_id).parent()
+        .find(".selected-bag-link")
+        .attr("href", bag_link)
+        .text(bag_name);
+}
+
+var upgrade_coffee_bag_widget = function(input_id) {
+    $("<a>").addClass("selected-bag-link").appendTo($(input_id).parent());
+    $(input_id).hide();
+    var initial_val = $(input_id).val();
+
+    $(".coffee-bag-selection li").each(function() {
+        var bag_id = $(this).attr("bag_id");
+        if (bag_id == initial_val) {
+            select_bag(this, input_id);
+        }
+    }).click(function() {
+        select_bag(this, input_id);
+        /*var bag_id = $(this).attr("bag_id");
+
+        $(".coffee-bag-selection li").removeClass("selected");
+        $(this).addClass("selected");
+        $(input_id).val(bag_id).change();
+
+        var bag_link_tag = $(this).find(".bag-link");
+        var bag_link = bag_link_tag.attr("href");
+        var bag_name = bag_link_tag.text();
+
+        $(input_id).parent()
+            .find(".selected-bag-link")
+            .attr("href", bag_link)
+            .text(bag_name);*/
+    })
+}
+
 $(function(){
     make_datetime_input("#id_datetime");
     make_slider("#id_grinder_setting", 1, 50, false);
@@ -392,6 +454,7 @@ $(function(){
         add_pouring_form();
     });
     $(".remove-pouring").click(remove_pouring);
+    upgrade_coffee_bag_widget("#id_coffee_bag");
 });
 </script>
 {% endblock %}

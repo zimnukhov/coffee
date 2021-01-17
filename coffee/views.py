@@ -177,6 +177,10 @@ def brew_form(request, brew):
     else:
         pouring_set = Pouring.objects.none()
 
+    bags = CoffeeBag.objects.select_related(
+        'coffee__roaster'
+    ).filter(status=CoffeeBag.NOT_FINISHED).order_by('-purchase_date')
+
     if request.method == 'POST':
         form = BrewForm(request.POST, instance=brew)
         formset = PouringFormset(request.POST, queryset=pouring_set)
@@ -204,6 +208,7 @@ def brew_form(request, brew):
     return render(request, 'coffee/edit_brew.html', {
         'form': form,
         'pouring_formset': formset,
+        'bags': bags,
     })
 
 
