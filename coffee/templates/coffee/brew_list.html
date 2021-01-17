@@ -29,7 +29,7 @@
         <tr>
             <td><a href="{{ brew.get_absolute_url }}">{{ brew.datetime }}</a></td>
             {% if not hide_barista %}
-            <td class="hidden-xs hidden-sm">{{ brew.barista }}</td>
+            <td class="hidden-xs hidden-sm">{% if brew.barista %}{{ brew.barista }}{% endif %}</td>
             {% endif %}
             {% if not hide_coffee %}
             <td><a href="{{ brew.coffee_bag.get_absolute_url }}">
