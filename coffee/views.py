@@ -166,6 +166,7 @@ def copy_brew(request, brew_id):
     brew.id = None
     brew.rating = None
     brew.datetime = datetime.datetime.now()
+    brew.extraction = None
     return brew_form(request, brew)
 
 
