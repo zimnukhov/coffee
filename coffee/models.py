@@ -95,6 +95,7 @@ class CoffeeBag(models.Model):
     FINISHED = 1
     THROWN_AWAY = 2
     GIVEN_AWAY = 3
+    LOST = 4
 
     coffee = models.ForeignKey(Coffee, on_delete=models.CASCADE)
     weight = models.IntegerField(blank=True, null=True)
@@ -106,6 +107,7 @@ class CoffeeBag(models.Model):
         (FINISHED, 'Finished'),
         (THROWN_AWAY, 'Thrown away'),
         (GIVEN_AWAY, 'Given away'),
+        (LOST, 'Lost'),
     ), default=NOT_FINISHED)
     roaster_comment = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='bags/full/', blank=True, null=True)
