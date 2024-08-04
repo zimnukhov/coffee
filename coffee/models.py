@@ -305,6 +305,7 @@ class Brew(models.Model):
     water_volume = models.IntegerField(blank=True, null=True)
     result_volume = models.IntegerField(blank=True, null=True)
     water = models.ForeignKey(Water, blank=True, null=True, on_delete=models.CASCADE)
+    water_tds = models.IntegerField(blank=True, null=True)
     brew_time = models.IntegerField(blank=True, null=True)
     bloom = models.SmallIntegerField(choices=(
         (BLOOM_UNKNOWN, 'Unknown'),

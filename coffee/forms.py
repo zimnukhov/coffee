@@ -69,6 +69,9 @@ class BrewForm(forms.ModelForm):
     class Meta:
         model = Brew
         exclude = ['id']
+        labels = {
+            'water_tds': 'TDS',
+        }
         widgets = {
             'comment': forms.Textarea(attrs={'rows': 4, 'cols': 35}),
             'extraction': forms.RadioSelect(),
