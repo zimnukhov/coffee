@@ -1,6 +1,6 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Count, Avg
+from django.db.models import Count, Avg, Sum
 from django.http import HttpResponse, JsonResponse, Http404
 from django.forms import modelformset_factory
 from django.urls import reverse
@@ -352,7 +352,9 @@ def object_related_brews(request, heading, brews, extra_context=None):
 
 def roaster_list(request):
     roasters = Roaster.objects.all().annotate(
-        count=Count('coffee__coffeebag__brew'), avg_rating=Avg('coffee__coffeebag__brew__rating')
+        count=Count('coffee__coffeebag__brew'),
+        avg_rating=Avg('coffee__coffeebag__brew__rating'),
+        coffee_consumed=Sum('coffee__coffeebag__brew__coffee_weight'),
     ).order_by('-count')
 
     recent_ratings = {}
@@ -363,6 +365,8 @@ def roaster_list(request):
         recent_ratings[brew.coffee_bag.coffee.roaster_id]['count'] += 1
 
     for roaster in roasters:
+        if roaster.coffee_consumed:
+            roaster.coffee_consumed /= 1000
         recent = recent_ratings.get(roaster.id)
         if recent:
             roaster.recent_rating = recent['rating'] / recent['count']

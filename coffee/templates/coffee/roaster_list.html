@@ -11,6 +11,7 @@
             <th>Обжарщик</th>
             <th>Город</th>
             <th>Чашек заварено</th>
+            <th>Кофе израсходовано, кг</th>
             <th>Средний рейтинг</th>
             <th>Средний рейтинг за последние 100 чашек</th>
         </tr>
@@ -21,6 +22,7 @@
             <td><a href="{{ roaster.get_absolute_url }}">{{ roaster.name }}</a></td>
             <td>{% if roaster.city %}{{ roaster.city }}{% endif %}</td>
             <td>{{ roaster.count }}</td>
+            <td>{% if roaster.coffee_consumed %}{{ roaster.coffee_consumed|floatformat:3 }}{% else %}0{% endif %}</td>
             <td>{{ roaster.avg_rating|floatformat:1 }}</td>
             <td>{% if roaster.recent_rating %}{{ roaster.recent_rating|floatformat:1 }}{% endif %}</td>
         </tr>
