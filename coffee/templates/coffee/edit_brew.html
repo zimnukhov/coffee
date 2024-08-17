@@ -359,7 +359,9 @@ var make_datetime_input = function(input_id) {
         e.preventDefault();
     });
 
+    {% if not form.instance.id %}
     $(input_id).val(format_datetime(new Date()));
+    {% endif %}
 
     $("<div>").addClass("duration-adjust-wrap").appendTo($(input_id).parent());
     add_datetime_adjust(input_id, -3600, "-1h");
