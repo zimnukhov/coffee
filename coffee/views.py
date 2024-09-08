@@ -292,7 +292,7 @@ def coffee_bag(request, bag_id):
     best_brew = None
 
     for brew in brews:
-        if max_rating is None or brew.rating > max_rating:
+        if brew.rating and (max_rating is None or brew.rating > max_rating):
             max_rating = brew.rating
 
     other_bags = bag.coffee.coffeebag_set.exclude(id=bag_id)
