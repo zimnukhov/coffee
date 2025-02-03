@@ -1,0 +1,35 @@
+<div class="multi-select-container">
+    <div class="search-box-container">
+        <input type="text" class="search-box" placeholder="Search..." onkeyup="filterOptions('{{ widget.name }}')" id="search-{{ widget.name }}">
+        <button type="button" class="clear-btn" onclick="clearSearch('{{ widget.name }}')" id="clear-search-{{ widget.name }}" style="display:none;">×</button>
+    </div>
+    <div class="options-container" id="options-{{ widget.name }}">
+        {% for option in widget.options %}
+            <div class="option">
+                <input type="checkbox" id="option-{{ option.0 }}" name="{{ widget.name }}" value="{{ option.0 }}"
+                    {% if option.0 in widget.selected_values %}checked{% endif %}>
+                <label for="option-{{ option.0 }}">{{ option.1 }}</label>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function filterOptions(name) {
+        const query = document.getElementById("search-" + name).value.toLowerCase();
+        const options = document.querySelectorAll("#options-" + name + " .option");
+        const clear_button = document.getElementById("clear-search-" + name);
+
+        options.forEach(option => {
+            const label = option.querySelector("label").textContent.toLowerCase();
+            option.style.display = label.includes(query) ? "flex" : "none";
+        });
+
+        clear_button.style.display = query ? "block" : "none";
+    }
+
+    function clearSearch(name) {
+        document.getElementById("search-" + name).value = "";
+        filterOptions(name);
+    }
+</script>

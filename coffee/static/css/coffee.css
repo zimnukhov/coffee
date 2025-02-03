@@ -271,3 +271,57 @@ ul.bag-details span.param-name {
 .bag-extra-pictures {
     margin: 1em 0;
 }
+
+.multi-select-container {
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.multi-select-container .search-box-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.multi-select-container .search-box {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.multi-select-container .clear-btn {
+    position: absolute;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #888;
+    display: none;
+}
+
+.multi-select-container .clear-btn:hover {
+    color: #000;
+}
+
+.multi-select-container .options-container {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.multi-select-container .option {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.multi-select-container .option label {
+    margin: 3px 3px 0 5px;
+    font-weight: normal;
+}

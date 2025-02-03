@@ -1,7 +1,8 @@
 from django.db.models import Q
 from django import forms
-from .models import CoffeeBag, Brew
+from .models import CoffeeBag, Brew, Descriptor
 from .utils import get_time_display
+from .widgets import MultiSelectCheckboxWidget
 
 
 class DurationWidget(forms.TextInput):
@@ -75,6 +76,7 @@ class BrewForm(forms.ModelForm):
         widgets = {
             'comment': forms.Textarea(attrs={'rows': 4, 'cols': 35}),
             'extraction': forms.RadioSelect(),
+            'found_descriptors': MultiSelectCheckboxWidget(),
         }
 
 
