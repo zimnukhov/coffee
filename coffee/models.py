@@ -376,6 +376,7 @@ class Brew(models.Model):
             'grinder_setting': self.get_grinder_setting_display(),
             'water': self.water.name,
             'water_url': self.water.get_absolute_url(),
+            'water_tds': self.water_tds,
             'coffee_weight': self.coffee_weight,
             'brew_time': self.get_brew_time_display(),
             'extraction_display': self.get_extraction_display(),

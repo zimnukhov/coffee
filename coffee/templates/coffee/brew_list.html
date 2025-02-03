@@ -158,13 +158,18 @@
                     var tbody = $(".brew-list tbody");
 
                     $.each(response.brews, function(index, brew) {
+                        const tds_display = typeof brew.water_tds == "number" ? brew.water_tds.toString() : "";
+
                         $("<tr>").html("<td><a href='" + brew.url + "'>" + brew.datetime + "</a></td>" +
                             (hide_barista ? "" : "<td class='hidden-xs hidden-sm'>" + brew.barista  + "</td>") +
                             "<td><a href='" + brew.bag_url + "'>" + brew.bag + "</a></td>" +
                             (hide_method ? "" : "<td><a href='" + brew.method_url + "'>" + brew.method + "</a></td>") +
                             "<td class='hidden-xs hidden-sm'>" + (brew.temperature?brew.temperature:"") + "</td>" +
                             "<td class='hidden-xs hidden-sm'>" + brew.grinder_setting + "</td>" +
-                            (hide_water ? "" : "<td class='hidden-xs hidden-sm hidden-md'><a href='" + brew.water_url + "'>" +  brew.water + "</a></td>") +
+                            "<td class='hidden-xs hidden-sm hidden-md'>" +
+                            (hide_water ? tds_display : "<a href='" + brew.water_url + "'>" +  brew.water + "</a>" +
+                                (tds_display ? " (" + tds_display + ")" : "")) +
+                            "</td>" +
                             "<td class='hidden-xs hidden-sm'>" + (brew.coffee_weight?brew.coffee_weight + "g":"") + "</td>" +
                             "<td class='hidden-xs hidden-sm'>" + (brew.brew_time?brew.brew_time:"") + "</td>" +
                             "<td class='hidden-xs hidden-sm'>" + 
